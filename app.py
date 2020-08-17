@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import pymongo
 from dotenv import load_dotenv
+from bson.objectid import ObjectId
 import datetime
 
 load_dotenv()
@@ -30,14 +31,15 @@ def process_create_officers():
     last_name = request.form.get("last_name")
     contact_number = request.form.get("contact_number")
     email = request.form.get("email")
-    return render_template("create_officers.template.html",
-                            first_name=first_name,
-                            last_name=last_name,
-                            contact_number=contact_number,
-                            email=email)
+    # return render_template("create_officers.template.html",
+    #                         first_name=first_name,
+    #                         last_name=last_name,
+    #                         contact_number=contact_number,
+    #                         email=email)
+    
     # create the query
     new_officer = {
-        "first_name": name,
+        "first_name": first_name,
         "last_name": last_name,
         "contact_number": contact_number,
         "email": email
