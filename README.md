@@ -10,6 +10,8 @@ To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the ter
 
 `python3 -m http.server`
 
+mongo "mongodb+srv://cluster0.uaguy.mongodb.net/" --username root
+
 A blue button should appear to click: *Make Public*,
 
 Another blue button should appear to click: *Open Browser*.

@@ -3,6 +3,7 @@ import os
 import pymongo
 import dnspython
 from dotenv import load_dotenv
+import datetime
 
 load_dotenv()
 
@@ -11,6 +12,10 @@ app = Flask(__name__)
 MONGO_URI = os.environ.get('MONGO_URI')
 DB_NAME = "safetynet"
 client = pymongo.MongoClient(MONGO_URI)
+db = client[DB_NAME]
+
+
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
