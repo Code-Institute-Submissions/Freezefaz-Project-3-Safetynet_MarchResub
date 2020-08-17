@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import pymongo
-import dnspython
 from dotenv import load_dotenv
 import datetime
 
@@ -14,7 +13,10 @@ DB_NAME = "safetynet"
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
-
+@app.route("/officers")
+def show_reports():
+    all_officers = db.safety_officers.find()
+    return render_template("show_reports.template.html", officers=all_officers)
 
 
 # "magic code" -- boilerplate

@@ -114,11 +114,21 @@ db.safety_officers.update({
 
 // Remove elements in an array
 db.safety_officers.update({
-    "_id":ObjectId("5f3a25ab2cde7c1882d3e0ad")
+    "_id":ObjectId("5f3a2f652cde7c1882d3e0b1")
 }, {
     "$pull": {
         "reports": {
-              "_id":ObjectId("5f3a34582cde7c1882d3e0b4")
+              "_id":ObjectId("5f3a38422cde7c1882d3e0b8")
         }
     }
+})
+
+// For reports
+db.reports.insert({
+            "report_type": "Accident",
+            "accident_type": "Electrical",
+            "date": ISODate("2020-08-17"),
+            "location": "Server Room",
+            "description": "Worker electrocuted during electrical checks as wire not grounded",
+            "injuries": "Hand burnt"
 })

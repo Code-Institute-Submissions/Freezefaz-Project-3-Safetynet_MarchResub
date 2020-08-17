@@ -1,0 +1,15 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+<h1>Safety Officers</h1>
+
+<ul>
+{% for each_officer in officers %}
+    <li>{{each_officer.first_name}} {{each_officer.last_name}}</li>
+    <li>{{each_officer.contact_number}}</li>
+    <li>{{each_officer.email}}</li>
+{%endfor%}
+</ul>
+
+{%endblock%}
