@@ -1,0 +1,11 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+<h3>Update Safety Officer: {{safety_officer.name}}</h3>
+
+<form methods="POST">
+    {%include 'officer_form.template.html'%}
+<input type="submit" value="Update">
+</form>
+
+{%endblock%}

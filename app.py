@@ -36,7 +36,7 @@ def process_create_officers():
     #                         last_name=last_name,
     #                         contact_number=contact_number,
     #                         email=email)
-    
+
     # create the query
     new_officer = {
         "first_name": first_name,
@@ -48,6 +48,13 @@ def process_create_officers():
     # Add the query to the database and the front page
     db.safety_officers.insert_one(new_officer)
     return redirect(url_for("show_officers"))
+
+@app.route('/officers/update/<officer_id>')
+def show_update_officer(officer_id):
+    officer = db.safety_officers.find_one({
+        '_id': ObjectId(officer_id)
+    })
+    return render_template('update_officers.template.html', officer=safety_officer)
 
 
 # "magic code" -- boilerplate

@@ -1,4 +1,5 @@
 // To test queries before inserting to mongo
+mongo "mongodb+srv://cluster0.uaguy.mongodb.net/" --username root
 
 
 // To populate safety officers
