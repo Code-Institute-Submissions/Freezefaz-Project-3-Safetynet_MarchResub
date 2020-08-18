@@ -9,6 +9,7 @@
     <li>
     <a href="{{url_for('show_update_officer', officer_id=each_officer._id)}}">
     {{each_officer.first_name}} {{each_officer.last_name}}</a>
+    <a href="{{url_for('show_delete_officer', officer_id=each_officer._id)}}" class="btn btn-danger btn-sm">Delete</a>
     </li>
     <li>{{each_officer.contact_number}}</li>
     <li>{{each_officer.email}}</li>

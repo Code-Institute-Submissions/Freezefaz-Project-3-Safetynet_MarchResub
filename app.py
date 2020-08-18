@@ -82,6 +82,21 @@ def process_update_officer(officer_id):
 
     return redirect(url_for('show_officers'))
 
+@app.route("/officers/delete/<officer_id>")
+def show_delete_officer(officer_id):
+    safety_officer = db.safety_officers.find_one({
+        "_id": ObjectId(officer_id)
+    })
+    return render_template("delete_officers.template.html",
+                            safety_officer=safety_officer)
+
+@app.route("/officers/delete/<officer_id>", methods=["POST"])
+def process_delete_officer(officer_id):
+    db.safety_officers.remove({
+        "_id": ObjectId(officer_id)
+    })
+    return redirect(url_for("show_officers"))
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
