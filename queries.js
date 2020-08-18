@@ -133,3 +133,60 @@ db.reports.insert({
             "description": "Worker electrocuted during electrical checks as wire not grounded",
             "injuries": "Hand burnt"
 })
+
+Create report types
+
+db.accident_types.insertMany([
+    {
+        "accident_type": "Cuts by object"
+    },
+    {
+        "accident_type": "Electrical"
+    },
+    {
+        "accident_type": "Fire or Explosion"
+    },
+    {
+        "accident_type": "Pinched by object"
+    },
+    {
+        "accident_type": "Slips, trips or falls"
+    },
+    {
+        "accident_type": "Struck by object"
+    },
+    {
+        "accident_type": "Vehicular"
+    },
+    {
+        "accident_type": "Others"
+    }
+])
+
+db.violation_types.insertMany([
+    {
+        "violation_type": "Electrical"
+    },
+    {
+        "violation_type": "Fall protection"
+    },
+    {
+        "violation_type": "Hazard communication"
+    },
+    {
+        "accident-type": "Housekeeping"
+    },
+    {
+        "violation_type": "Lock out/ Tag out"
+    },
+    {
+        "violation_type": "Machine guarding"
+    },
+    {
+        "violation_type": "Scaffolding"
+    },
+    {
+        "violation_type": "Others"
+    }
+])
+
