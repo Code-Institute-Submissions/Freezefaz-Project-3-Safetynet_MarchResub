@@ -14,17 +14,17 @@ DB_NAME = 'safetynet'
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
-@app.route('/officers')
+@app.route("/officers")
 def show_officers():
     all_officers = db.safety_officers.find()
     return render_template("show_officers.template.html", 
                             officers=all_officers)
 
-@app.route('/officers/create')
+@app.route("/officers/create")
 def create_officers():
     return render_template("create_officers.template.html")
 
-@app.route('/officers/create', methods=["POST"])
+@app.route("/officers/create", methods=["POST"])
 def process_create_officers():
     # process the form
     first_name = request.form.get("first_name")
@@ -49,12 +49,38 @@ def process_create_officers():
     db.safety_officers.insert_one(new_officer)
     return redirect(url_for("show_officers"))
 
-@app.route('/officers/update/<officer_id>')
+@app.route("/officers/update/<officer_id>")
 def show_update_officer(officer_id):
-    officer = db.safety_officers.find_one({
-        '_id': ObjectId(officer_id)
+    safety_officer = db.safety_officers.find_one({
+        "_id": ObjectId(officer_id)
     })
-    return render_template('update_officers.template.html', officer=safety_officer)
+    return render_template("update_officers.template.html",
+                            safety_officer=safety_officer)
+
+@app.route("/officers/update/<officer_id>", methods=["POST"])
+def process_update_officer(officer_id):
+
+    # extract out info from forms
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
+    contact_number = request.form.get("contact_number")
+    email = request.form.get("email")
+
+    # Validation?
+
+    # update safety officer
+    db.safety_officers.update_one({
+        '_id': ObjectId(officer_id)
+    }, {
+        '$set': {
+            "first_name": first_name,
+            "last_name": last_name,
+            "contact_number": contact_number,
+            "email": email
+        }
+    })
+
+    return redirect(url_for('show_officers'))
 
 
 # "magic code" -- boilerplate
