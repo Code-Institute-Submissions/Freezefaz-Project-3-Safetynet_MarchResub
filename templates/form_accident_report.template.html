@@ -9,9 +9,9 @@
 <div>
     <label>Accident type</label>
     <select name="accident_type_id" class="form-control">
-        {% for each_accident_type in accident_types %}
-            <option value="{{each_accident_type._id}}" selected {%endif%}>{{each_accident_type.accident_type}}</option>
-        {% endfor %}
+        {%for each_accident_type in accident_types%}
+            <option value="{{each_accident_type._id}}">{{each_accident_type.accident_type}}</option>
+        {%endfor%}
     </select>
 </div>
 <div>
@@ -21,4 +21,12 @@
 <div>
     <label>Injuries</label>
     <input type="text" class="form-control" name="injuries">
+</div>
+<div>
+    <label>Reported by</label>
+    <select name="safety_officer_id" class="form-control">
+        {% for each_safety_officer in safety_officers%}
+            <option value="{{each_safety_officer._id}}">{{each_safety_officer.first_name}} {{each_safety_officer.last_name}}</option>
+        {%endfor%}
+    </select>
 </div>

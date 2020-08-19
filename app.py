@@ -148,8 +148,13 @@ def show_accident_reports():
 @app.route("/accident_reports/create")
 def show_create_accident_report():
     accident_types = db.accident_types.find()
-    return render_template("create_accident_report.html", errors={},
-                           accident_types=accident_types)
+    safety_officers = db.safety_officers.find()
+    return render_template("create_accident_reports.template.html", errors={},
+                           accident_types=accident_types,
+                           safety_officers=safety_officers)
+
+# @app.route("/accident_reports/create", methods=["Post"])
+# def process_create_accident_report():
 
 
 # "magic code" -- boilerplate
