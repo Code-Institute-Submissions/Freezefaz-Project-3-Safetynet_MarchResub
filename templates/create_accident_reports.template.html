@@ -1,0 +1,14 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+    <form method="POST">
+    <!-- {%with%}
+        {%if not previous_values%}
+            {%set previous_values = {}%}
+        {%endif%} -->
+
+        {%include 'form_accident_report.template.html'%}
+        <input type="submit" value="Create" class="btn btn-primary">
+    {%endwith%}
+    </form>
+{%endblock%}
