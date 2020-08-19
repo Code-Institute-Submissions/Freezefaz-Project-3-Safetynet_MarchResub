@@ -153,8 +153,37 @@ def show_create_accident_report():
                            accident_types=accident_types,
                            safety_officers=safety_officers)
 
-# @app.route("/accident_reports/create", methods=["Post"])
-# def process_create_accident_report():
+@app.route("/accident_reports/create", methods=["Post"])
+def process_create_accident_report():
+    # extract info from forms
+    date = request.form.get("date")
+    location = request.form.get("location")
+    accident_type_id = request.form.get("accident_type_id")
+    description = request.form.get("description")
+    injuries = request.form.get("injuries")
+    safety_officer_id = request.form.get("safety_officer_id")
+
+    # get existing collection info
+    accident_type = db.accident_types.find_one({
+        '_id': ObjectId(accident_type_id)
+    })
+    safety_officer = db.safety_officers.find_one({
+        '_id': ObjectId(safety_officer_id)
+    })
+
+    # Create accident report
+    new_accident_report = {
+        "date": datetime.datetime.strptime(date, "%Y-%m-%d"),
+        "location": location,
+        "accident_type": accident_type["accident_type"],
+        "description": description,
+        "injuries": injuries,
+        "safety_officer": safety_officer["first_name", "last_name"]
+    }
+
+    # Add the query to the database and the front page
+    db.accident_reports.insert_one(new_accident_report)
+    return redirect(url_for("show_accident_reports"))
 
 
 # "magic code" -- boilerplate

@@ -6,17 +6,13 @@
 
 <ul>
 {% for each_accident_report in accident_reports %}
-    <!-- <li> -->
-    <!-- <a href="{{url_for('show_update_officer', officer_id=each_officer._id)}}"> -->
-    <!-- {{accident_report.date}} {{each_officer.last_name}} -->
-    <!-- </a> -->
-    <!-- <a href="{{url_for('show_delete_officer', officer_id=each_officer._id)}}" class="btn btn-danger btn-sm">Delete</a> -->
-    <!-- </li> -->
-    <li>{{accident_report.date}}</li>
-    <li>{{accident_report.location}}</li>
-    <li>{{accident_report.accident_type}}</li>
-    <li>{{accident_report.description}}</li>
-    <li>{{accident_report.injuries}}</li>
+    <li>{{each_accident_report.date}}</li>
+    <li>{{each_accident_report.location}}</li>
+    <li>{{each_accident_report.accident_type}}</li>
+    <li>{{each_accident_report.description}}</li>
+    <li>{{each_accident_report.injuries}}</li>
+    <li>{{each_accident_report.safety_officer}}</li>
+
 {%endfor%}
 </ul>
 
