@@ -139,7 +139,11 @@ def process_delete_officer(officer_id):
     })
     return redirect(url_for("show_officers"))
 
-
+@app.route("/accident_reports")
+def show_accident_reports():
+    all_accident_reports = db.accident_reports.find()
+    return render_template("show_accident_reports.template.html",
+                            accident_reports=all_accident_reports)
 
 
 # "magic code" -- boilerplate
