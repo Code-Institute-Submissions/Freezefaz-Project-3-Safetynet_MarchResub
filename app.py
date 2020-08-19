@@ -14,6 +14,10 @@ DB_NAME = 'safetynet'
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
+@app.route("/")
+def index():
+    return render_template("index.template.html")
+
 @app.route("/officers")
 def show_officers():
     all_officers = db.safety_officers.find()
@@ -134,6 +138,8 @@ def process_delete_officer(officer_id):
         "_id": ObjectId(officer_id)
     })
     return redirect(url_for("show_officers"))
+
+
 
 
 # "magic code" -- boilerplate
