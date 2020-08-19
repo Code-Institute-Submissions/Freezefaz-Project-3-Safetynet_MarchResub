@@ -22,7 +22,7 @@ def show_officers():
 
 @app.route("/officers/create")
 def create_officers():
-    return render_template("create_officers.template.html")
+    return render_template("create_officers.template.html", errors={})
 
 @app.route("/officers/create", methods=["POST"])
 def process_create_officers():
@@ -31,11 +31,49 @@ def process_create_officers():
     last_name = request.form.get("last_name")
     contact_number = request.form.get("contact_number")
     email = request.form.get("email")
-    # return render_template("create_officers.template.html",
-    #                         first_name=first_name,
-    #                         last_name=last_name,
-    #                         contact_number=contact_number,
-    #                         email=email)
+
+    # # Accumulator to capture errors
+    # errors = {}
+
+    # # check if information is valid
+
+    # # check if the first_name is longer 3 characters
+    # if len(first_name) < 4:
+    #     errors.update(
+    #         first_name_too_short = "First Name must be 3 letters long")
+
+    # if not first_name.isalpha():
+    #     errors.update(
+    #         first_name_not_letter = "Please enter a letter")
+
+    # # check if the last_name is longer 2 characters
+    # if len(last_name) < 3:
+    #     errors.update(
+    #         last_name_too_short = "Last Name must be 2 letters long")
+
+    # if not first_name.isalpha():
+    #     errors.update(
+    #         last_name_not_letter = "Please enter a letter")
+
+    #  # check if the contact_number is 8 characters
+    # if len(contact_number) == 8:
+    #     errors.update(
+    #         contact_number_must_be_8 = "Must be 8 numbers long")
+
+    # # contact number must be number
+    # if not contact_number.isnumeric():
+    #     errors.update(
+    #         contact_number_not_a_number = "Please enter a number")
+
+    # if "@" not in email:
+    #     errors.update(
+    #         proper_email = "Please enter a valid email")
+
+    # # if errors go back to form and try again
+    # if len(errors) > 0:
+    #     return render_template("create_officers.template.html",
+    #                             errors=errors,
+    #                             previous_values=request.form)
 
     # create the query
     new_officer = {
