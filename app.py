@@ -173,7 +173,7 @@ def process_create_accident_report():
 
     # Create accident report
     new_accident_report = {
-        "date": datetime.datetime.strptime(date, "%Y-%m-%d"),
+        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "location": location,
         # "accident_type": accident_type["accident_type"],
         "accident_type": accident_type,
