@@ -6,7 +6,10 @@
 
 <ul>
 {% for each_accident_report in accident_reports %}
-    <li>{{each_accident_report.date}}</li>
+    <li>
+    {{each_accident_report.date}}
+    <a href="{{url_for('show_update_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-primary">Edit</a>
+    </li>
     <li>{{each_accident_report.location}}</li>
     <li>{{each_accident_report.accident_type.accident_type}}</li>
     <li>{{each_accident_report.description}}</li>

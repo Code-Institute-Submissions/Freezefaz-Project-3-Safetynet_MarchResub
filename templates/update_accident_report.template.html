@@ -1,0 +1,12 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+
+<h2>Updating Accident Report by {{safety_officer.first_name}} {{accident_report.safety_officer[last_name]}} on {{accident_report.date}}</h2>
+<form method="POST">
+    {%include 'form_accident_report.template.html'%}
+    <input type="submit" value="Update" class="btn btn-primary"/>
+</form>
+
+{%endblock%}

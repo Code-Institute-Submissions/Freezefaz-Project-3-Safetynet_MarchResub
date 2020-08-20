@@ -139,6 +139,8 @@ def process_delete_officer(officer_id):
     })
     return redirect(url_for("show_officers"))
 
+   # Create accident report
+
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
@@ -189,6 +191,19 @@ def process_create_accident_report():
     # Add the query to the database and the front page
     db.accident_reports.insert_one(new_accident_report)
     return redirect(url_for("show_accident_reports"))
+
+    # Update accident report
+@app.route("/accident_reports/<accident_report_id>/update")
+def show_update_accident_report(accident_report_id):
+    accident_report = db.accident_reports.find_one({
+       "_id": ObjectId(accident_report_id)
+    })
+    accident_type = db.accident_types.find()
+    safety_officer = db.safety_officers.find()
+    return render_template("update_accident_report.template.html",
+                            accident_report=accident_report,
+                            accident_type=accident_type,
+                            safety_officer=safety_officer)
 
 
 # "magic code" -- boilerplate
