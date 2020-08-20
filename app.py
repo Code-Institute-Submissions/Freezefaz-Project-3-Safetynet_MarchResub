@@ -175,13 +175,15 @@ def process_create_accident_report():
     new_accident_report = {
         "date": datetime.datetime.strptime(date, "%Y-%m-%d"),
         "location": location,
-        "accident_type": accident_type["accident_type"],
-        "accident_type_id": ObjectId(accident_type_id),
+        # "accident_type": accident_type["accident_type"],
+        "accident_type": accident_type,
+        # "accident_type_id": ObjectId(accident_type_id),
         "description": description,
         "injuries": injuries,
-        "safety_officer": safety_officer["first_name"] + " "
-        + safety_officer["last_name"],
-        "safety_officer_id": ObjectId(safety_officer_id)
+        # "safety_officer": safety_officer["first_name"] + " "
+        # + safety_officer["last_name"],
+        "safety_officer": safety_officer
+        # "safety_officer_id": ObjectId(safety_officer_id)
     }
 
     # Add the query to the database and the front page

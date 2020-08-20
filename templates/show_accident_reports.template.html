@@ -8,10 +8,10 @@
 {% for each_accident_report in accident_reports %}
     <li>{{each_accident_report.date}}</li>
     <li>{{each_accident_report.location}}</li>
-    <li>{{each_accident_report.accident_type}}</li>
+    <li>{{each_accident_report.accident_type.accident_type}}</li>
     <li>{{each_accident_report.description}}</li>
     <li>{{each_accident_report.injuries}}</li>
-    <li>{{each_accident_report.safety_officer}}</li>
+    <li>{{each_accident_report.safety_officer.first_name}} {{each_accident_report.safety_officer.last_name}}</li>
 
 {%endfor%}
 </ul>
