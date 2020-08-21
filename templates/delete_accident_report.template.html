@@ -1,0 +1,22 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+<form method="POST">
+    <div class="alert alert-danger">
+        <h3>Are you sure you want to delete Accident Report?</h3>
+        <p>Date: {{accident_report.date}}</p>
+        <p>By: {{accident_report.safety_officer}}</p>
+        <ul>
+            <li>Location: {{accident_report.location}}</li>
+            <li>Location: {{accident_report.accident_type}}</li>
+            <li>Location: {{accident_report.description}}</li>            
+            <li>Location: {{accident_report.injuries}}</li>
+        </ul>
+    </div>
+    <input type="submit" value="Yes" class="btn btn-danger">
+    <a href="{{url_for('show_accident_reports')}}" class="btn btn-success">No</a>
+
+</form>
+
+{%endblock%}

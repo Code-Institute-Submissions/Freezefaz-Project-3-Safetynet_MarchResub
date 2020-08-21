@@ -260,8 +260,15 @@ def process_update_accident_report(accident_report_id):
     return redirect(url_for("show_accident_reports",
                             accident_report_id=accident_report_id))
 
+# Deleting accident report
+@app.route("/accident_reports/delete/<accident_report_id>")
+def show_delete_accident_report(accident_report_id):
+    accident_report = db.accident_reports.find_one({
+        "_id": ObjectId(accident_report_id)
+    })
 
-
+    return render_template("delete_accident_report.template.html",
+                            accident_report=accident_report)
 
 
 # "magic code" -- boilerplate
