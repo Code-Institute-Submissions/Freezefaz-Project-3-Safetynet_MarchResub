@@ -2,10 +2,6 @@
 
 {%block content%}
     <form method="POST">
-    {%with%}
-        {%if not previous_values%}
-            {%set previous_values = {}%}
-        {%endif%}
 
         {%include 'officer_form.template.html'%}
         <input type="submit" value="Register" class="btn btn-primary">

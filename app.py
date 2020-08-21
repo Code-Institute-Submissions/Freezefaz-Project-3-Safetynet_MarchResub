@@ -194,7 +194,7 @@ def process_create_accident_report():
     return redirect(url_for("show_accident_reports"))
 
 # Update accident report
-@app.route("/accident_reports/<accident_report_id>/update")
+@app.route("/accident_reports/update/<accident_report_id>")
 def show_update_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
        "_id": ObjectId(accident_report_id)
@@ -206,7 +206,7 @@ def show_update_accident_report(accident_report_id):
                            accident_types=accident_types,
                            safety_officers=safety_officers)
 
-@app.route("/accident_reports/<accident_report_id>/update", methods=["POST"])
+@app.route("/accident_reports/update/<accident_report_id>", methods=["POST"])
 def process_update_accident_report(accident_report_id):
     date = request.form.get("date")
     location = request.form.get("location")
@@ -215,54 +215,50 @@ def process_update_accident_report(accident_report_id):
     injuries = request.form.get("injuries")
     safety_officer_id = request.form.get("safety_officer_id")
 
-    print(type(date))
-    print(type(location))
-    print(type(accident_type_id))
-    print(type(description))
-    print(type(injuries))
-    print(type(safety_officer_id)) 
-    
-
-    # get existing collection info
-    accident_report = db.accident_reports.find_one({
+    # get existing collection info and change cursor to dict
+    accident_reports = db.accident_reports.find_one({
         "_id": ObjectId(accident_report_id)
     }, {
         "_id": 1
     })
-    accident_type = db.accident_types.find_one({
+    accident_types = db.accident_types.find_one({
         "_id": ObjectId(accident_type_id)
     }, {
         "accident_type": 1
     })
-    safety_officer = db.safety_officers.find({
+    safety_officers = db.safety_officers.find_one({
         "_id": ObjectId(safety_officer_id)
     }, {
         "first_name": 1,
         "last_name": 1
     })
-    print("")
-    print(type(accident_report))
-    print(type(accident_type))
-    print(type(safety_officer))
 
     db.accident_reports.update_one({
-        "accident_report_id": ObjectId(accident_report_id)
+        "_id": ObjectId(accident_report_id)
     }, {
         "$set": {
             "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
             "location": location,
-            "accident_type": accident_type["accident_type"],
+            "accident_type": accident_types["accident_type"],
             "accident_type_id": ObjectId(accident_type_id),
             "description": description,
             "injuries": injuries,
-            "safety_officer": safety_officer["first_name"] + " "
-            + safety_officer["last_name"],
+            "safety_officer": safety_officers["first_name"] + " "
+            + safety_officers["last_name"],
             "safety_officer_id": ObjectId(safety_officer_id)
         }
     })
+    print(date)
+    print(location)
+    print(accident_types["accident_type"])
+    print(accident_type_id)
+    print(injuries)
+    print(safety_officers["first_name"] + " "
+            + safety_officers["last_name"])
+    print(safety_officer_id)
 
     return redirect(url_for("show_accident_reports",
-                            accident_report_id=accident_report["_id"]))
+                            accident_report_id=accident_report_id))
 
 
 

@@ -3,7 +3,7 @@
 {%block content%}
 
 
-<h2>Updating Accident Report by {{accident_report.safety_officer["first_name"]}} {{accident_report.safety_officer["last_name"]}} on {{accident_report.date}}</h2>
+<h2>Updating Accident Report by {{accident_report.safety_officer}} on {{accident_report.date}}</h2>
 <form method="POST">
     {%with%}
         {%include 'form_accident_report.template.html'%}

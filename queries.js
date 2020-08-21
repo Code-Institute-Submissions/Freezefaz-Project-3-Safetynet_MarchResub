@@ -190,3 +190,46 @@ db.violation_types.insertMany([
     }
 ])
 
+
+
+<div>
+    <label>First Name</label>
+    <input type="text" class="form-control" name="first_name">
+    <!-- <input type="text" class="form-control {%if 'first_name_too_short' in errors or 'first_name_not_letter' in errors%} is-invalid {%endif%}" value="{{previous_values.first_name}}">
+    {%if 'first_name_too_short' in errors or 'first_name_not_letter' in errors%}
+    <div class="invalid-feedback">
+          {{ errors.first_name_too_short or errors.first_name_not_letter}} 
+    </div>
+    {%endif%}   -->
+</div>
+
+<div>
+    <label>Last Name</label>
+    <input type="text" class="form-control" name="last_name">
+    <!-- <input type="text" class="form-control {%if 'last_name_too_short' in errors or 'last_name_not_letter' in errors%} is-invalid {%endif%}" value="{{previous_values.last_name}}">
+    {%if 'last_name_too_short' in errors or 'last_name_not_letter' in errors%}
+    <div class="invalid-feedback">
+          {{ errors.last_name_too_short or errors.last_name_not_letter}} 
+    </div>
+    {%endif%}   -->
+</div>
+<div>
+    <label>Contact Number</label>
+    <input type="text" class="form-control" name="contact_number">
+    <!-- <input type="text" class="form-control {%if 'contact_number_must_be_8' in errors or 'contact_number_not_a_number' in errors%} is-invalid {%endif%}" value="{{previous_values.contact_number}}">
+    {%if 'contact_number_must_be_8' in errors or 'contact_number_not_a_number' in errors%}
+    <div class="invalid-feedback">
+          {{ errors.contact_number_must_be_8 or errors.contact_number_not_a_number}} 
+    </div>
+    {%endif%}  -->
+</div>
+<div>
+    <label>Email</label>
+    <input type="text" class="form-control" name="email">
+    <!-- <input type="text" class="form-control {%if 'proper_email' in errors %} is-invalid {%endif%}" value="{{previous_values.email}}">
+    {%if 'proper_email' in errors%}
+    <div class="invalid-feedback">
+          {{ errors.proper_email}} 
+    </div>
+    {%endif%}  -->
+</div>
