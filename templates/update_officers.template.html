@@ -4,8 +4,13 @@
 <h3>Update Safety Officer: {{safety_officer.first_name}} {{safety_officer.last_name}}</h3>
 
 <form method="POST">
-    {%include 'form_officer.template.html'%}
-<input type="submit" value="Update">
+    {%with%}
+        {%if not previous_values%}
+            {%set previous_values = {}%}
+        {%endif%}
+        {%include 'form_officer.template.html'%}
+        <input type="submit" value="Update" class="btn btn-primary">
+    {%endwith%}
 </form>
 
 {%endblock%}

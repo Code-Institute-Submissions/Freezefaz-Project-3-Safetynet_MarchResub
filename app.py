@@ -111,7 +111,57 @@ def process_update_officer(officer_id):
     contact_number = request.form.get("contact_number")
     email = request.form.get("email")
 
-    # Validation?
+    safety_officer = db.safety_officers.find_one({
+        "_id": ObjectId(officer_id)
+    })
+
+    # Validation
+        # Accumulator to capture errors
+    errors = {}
+
+    # check if information is valid
+    # the order of conditions matter in app and html as well
+
+    # Check if the name is made up of alphabets
+    if not first_name.isalpha():
+        errors.update(
+            first_name_not_letter = "Please enter a letter")
+
+    # check if the first_name is longer 3 characters
+    if len(first_name) < 3:
+        errors.update(
+            first_name_too_short = "Must be at least 2 letters")
+    
+    # Check if the name is made up of alphabets
+    if not last_name.isalpha():
+        errors.update(
+            last_name_not_letter = "Please enter a letter")
+
+    # check if the last_name is longer 2 characters
+    if len(last_name) < 3:
+        errors.update(
+            last_name_too_short = "Must be at least 2 letters")
+
+    # contact number must be number
+    if not contact_number.isnumeric():
+        errors.update(
+            contact_number_not_a_number = "Please enter a number")
+
+     # check if the contact_number is 8 characters
+    if not len(contact_number) == 8:
+        errors.update(
+            contact_number_must_be_8 = "Must be 8 numbers long")
+
+    if "@" not in email or "." not in email:
+        errors.update(
+            proper_email = "Please enter a valid email")
+
+    # if errors go back to form and try again
+    if len(errors) > 0:
+        return render_template("update_officers.template.html",
+                                errors=errors,
+                                previous_values=request.form,
+                                safety_officer=safety_officer)
 
     # update safety officer
     db.safety_officers.update_one({
