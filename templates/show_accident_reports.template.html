@@ -11,10 +11,10 @@
     <a href="{{url_for('show_update_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-primary">Edit</a>
     </li>
     <li>{{each_accident_report.location}}</li>
-    <li>{{each_accident_report.accident_type.accident_type}}</li>
+    <li>{{each_accident_report.accident_type}}</li>
     <li>{{each_accident_report.description}}</li>
     <li>{{each_accident_report.injuries}}</li>
-    <li>{{each_accident_report.safety_officer.first_name}} {{each_accident_report.safety_officer.last_name}}</li>
+    <li>{{each_accident_report.safety_officer}}</li>
 
 {%endfor%}
 </ul>

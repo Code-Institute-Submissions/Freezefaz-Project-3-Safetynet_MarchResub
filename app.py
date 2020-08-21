@@ -177,15 +177,16 @@ def process_create_accident_report():
     new_accident_report = {
         "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "location": location,
-        # "accident_type": accident_type["accident_type"],
-        "accident_type": accident_type,
-        # "accident_type_id": ObjectId(accident_type_id),
+        # "accident_type": accident_type,
+        "accident_type": accident_type["accident_type"],
+        "accident_type_id": ObjectId(accident_type_id),
         "description": description,
         "injuries": injuries,
-        # "safety_officer": safety_officer["first_name"] + " "
-        # + safety_officer["last_name"],
-        "safety_officer": safety_officer
-        # "safety_officer_id": ObjectId(safety_officer_id)
+        "safety_officer": safety_officer["first_name"] + " "
+        + safety_officer["last_name"],
+        "safety_officer_id": ObjectId(safety_officer_id)
+        # "safety_officer": safety_officer
+       
     }
 
     # Add the query to the database and the front page
@@ -225,14 +226,19 @@ def process_update_accident_report(accident_report_id):
     # get existing collection info
     accident_report = db.accident_reports.find_one({
         "_id": ObjectId(accident_report_id)
-    },{
+    }, {
         "_id": 1
     })
-    accident_type = db.accident_types.find({
+    accident_type = db.accident_types.find_one({
         "_id": ObjectId(accident_type_id)
+    }, {
+        "accident_type": 1
     })
     safety_officer = db.safety_officers.find({
         "_id": ObjectId(safety_officer_id)
+    }, {
+        "first_name": 1,
+        "last_name": 1
     })
     print("")
     print(type(accident_report))
@@ -245,10 +251,13 @@ def process_update_accident_report(accident_report_id):
         "$set": {
             "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
             "location": location,
-            "accident_type": accident_type,
+            "accident_type": accident_type["accident_type"],
+            "accident_type_id": ObjectId(accident_type_id),
             "description": description,
             "injuries": injuries,
-            "safety_officer": safety_officer
+            "safety_officer": safety_officer["first_name"] + " "
+            + safety_officer["last_name"],
+            "safety_officer_id": ObjectId(safety_officer_id)
         }
     })
 
