@@ -270,6 +270,12 @@ def show_delete_accident_report(accident_report_id):
     return render_template("delete_accident_report.template.html",
                             accident_report=accident_report)
 
+@app.route("/accident_reports/delete/<accident_report_id>", methods=["POST"])
+def process_delete_accident_report(accident_report_id):
+    db.accident_reports.remove({
+        "_id": ObjectId(accident_report_id)
+    })
+    return redirect(url_for("show_accident_reports"))
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
