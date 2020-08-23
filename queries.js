@@ -234,9 +234,9 @@ db.violation_types.insertMany([
     {%endif%}  -->
 </div>
 
-    <!-- <input type="text" name="date" class="form-control {%if 'date_not_number' in errors or 'date_wrong_format' in errors%} is-invalid {%endif%}" value="{{previous_values.date}}">
+    <input type="text" name="date" class="form-control {%if 'date_not_number' in errors or 'date_wrong_format' in errors%} is-invalid {%endif%}" value="{{previous_values.date}}">
     {%if 'date_not_number' in errors or 'date_wrong_format' in errors%}
     <div class="invalid-feedback">
           {{errors.date_not_number or errors.date_wrong_format}} 
     </div>
-    {%endif%}  
+    {%endif%} 

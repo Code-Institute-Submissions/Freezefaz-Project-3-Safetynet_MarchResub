@@ -1,13 +1,18 @@
 <div>
     <label>Date</label>
-    <input type="text" name="date" class="form-control">
+    <input type="text" name="date" class="form-control {%if 'date_empty' in errors %} is-invalid {%endif%}" value="{{previous_values.date}}">
+    {%if 'date_empty' in errors%}
+    <div class="invalid-feedback">
+          {{errors.date_empty}} 
+    </div>
+    {%endif%} 
 </div>
 <div>
     <label>Location</label>
-    <input type="text" name="location" class="form-control {%if 'location_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.location}}">
-    {%if 'location_too_long' in errors%}
+    <input type="text" name="location" class="form-control {%if 'location_empty' in errors or 'location_too_short' in errors or 'location_too_long' in errors%} is-invalid {%endif%}" value="{{previous_values.location}}">
+    {%if 'location_empty' in errors or 'location_too_short' in errors or 'location_too_long' in errors%}
     <div class="invalid-feedback">
-          {{errors.location_too_long}} 
+          {{errors.location_empty or errors.location_too_short or errors.location_too_long}} 
     </div>
     {%endif%}  
 </div>
@@ -21,19 +26,19 @@
 </div>
 <div>
     <label>Description</label>
-    <input type="text" name="description" class="form-control {%if 'description_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.description}}">
-    {%if 'description_too_long' in errors%}
+    <input type="text" name="description" class="form-control {%if 'description_empty' in errors or 'description_too_short' in errors or 'description_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.description}}">
+    {%if 'description_empty' in errors or 'description_too_short' in errors or 'description_too_long' in errors%}
     <div class="invalid-feedback">
-          {{errors.description_too_long}} 
+          {{errors.description_empty or errors.description_too_short or errors.description_too_long}} 
     </div>
     {%endif%}  
 </div>
 <div>
     <label>Injuries</label>
-    <input type="text" name="injuries" class="form-control {%if 'injuries_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.injuries}}">
-    {%if 'injuries_too_long' in errors%}
+    <input type="text" name="injuries" class="form-control {%if 'injuries_empty' in errors or 'injuries_too_short' in errors or 'injuries_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.injuries}}">
+    {%if 'injuries_empty' in errors or 'injuries_too_short' in errors or 'injuries_too_long' in errors%}
     <div class="invalid-feedback">
-          {{errors.injuries_too_long}} 
+          {{errors.injuries_empty or errors.injuries_too_short or errors.injuries_too_long}} 
     </div>
     {%endif%}  
 </div>

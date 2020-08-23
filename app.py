@@ -233,25 +233,49 @@ def process_create_accident_report():
     # check if information is valid
     # the order of conditions matter in app and html as well
 
-    Check if the date in numbers
-    if not date.isnumeric():
+    # Check if the date in numbers
+    if date == "" or date == " ":
         errors.update(
-            date_not_number = "Please enter a number")
+            date_empty= "Please enter a date")
 
     # check if the date in correct format
     # if not date.isnumeric():
     #     errors.update(
     #         date_wrong_format = "Please enter Date in YYYY-MM-DD")
 
+    if location == "" or location == " ":
+        errors.update(
+            location_empty= "Please enter a location")
+
+    if len(location) < 3:
+        errors.update(
+            location_too_short = "Please enter at least 3 characters")
+
     # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
             location_too_long = "Please keep to 50 characters")
+    
+    if description == "" or description == " ":
+        errors.update(
+            description_empty= "Please enter a description")
+
+    if len(description) < 3:
+        errors.update(
+            description_too_short = "Please enter at least 3 characters")
 
     # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
             description_too_long = "Please keep to 255 characters")
+
+    if injuries == "" or injuries == " ":
+        errors.update(
+            injuries_empty= "Please enter an injury")
+
+    if len(injuries) < 3:
+        errors.update(
+            injuries_too_short = "Please enter at least 3 characters")
 
     # Check if injuries no more than 50 characters
     if not len(injuries) <= 50:
