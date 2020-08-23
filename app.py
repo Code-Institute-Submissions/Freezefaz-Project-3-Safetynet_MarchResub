@@ -213,10 +213,61 @@ def process_create_accident_report():
     # extract info from forms
     date = request.form.get("date")
     location = request.form.get("location")
-    accident_type_id = request.form.get("accident_type_id")
+    accident_type_id = request.form.get("accident_type")
     description = request.form.get("description")
     injuries = request.form.get("injuries")
-    safety_officer_id = request.form.get("safety_officer_id")
+    safety_officer_id = request.form.get("safety_officer")
+
+    # # get existing collection info
+    # accident_type = db.accident_types.find_one({
+    #     "_id": ObjectId(accident_type_id)
+    # })
+    # safety_officer = db.safety_officers.find_one({
+    #     "_id": ObjectId(safety_officer_id)
+    # })
+
+    # Validation
+    # Accumulator to capture errors
+    errors = {}
+
+    # check if information is valid
+    # the order of conditions matter in app and html as well
+
+    Check if the date in numbers
+    if not date.isnumeric():
+        errors.update(
+            date_not_number = "Please enter a number")
+
+    # check if the date in correct format
+    # if not date.isnumeric():
+    #     errors.update(
+    #         date_wrong_format = "Please enter Date in YYYY-MM-DD")
+
+    # Check if location no more than 50 characters
+    if not len(location) <= 50:
+        errors.update(
+            location_too_long = "Please keep to 50 characters")
+
+    # Check if description no more than 255 characters
+    if not len(description) <= 255:
+        errors.update(
+            description_too_long = "Please keep to 255 characters")
+
+    # Check if injuries no more than 50 characters
+    if not len(injuries) <= 50:
+        errors.update(
+            injuries_too_long = "Please keep to 50 characters")
+
+    # if errors go back to form and try again
+    if len(errors) > 0:
+        # Do this so that when the select will repopulate
+        accident_types = db.accident_types.find()
+        safety_officers = db.safety_officers.find()
+        return render_template("create_accident_reports.template.html",
+                                errors=errors,
+                                previous_values=request.form,
+                                accident_types=accident_types,
+                                safety_officers=safety_officers)
 
     # get existing collection info
     accident_type = db.accident_types.find_one({
@@ -239,7 +290,7 @@ def process_create_accident_report():
         + safety_officer["last_name"],
         "safety_officer_id": ObjectId(safety_officer_id)
         # "safety_officer": safety_officer
-       
+
     }
 
     # Add the query to the database and the front page
@@ -263,10 +314,10 @@ def show_update_accident_report(accident_report_id):
 def process_update_accident_report(accident_report_id):
     date = request.form.get("date")
     location = request.form.get("location")
-    accident_type_id = request.form.get("accident_type_id")
+    accident_type_id = request.form.get("accident_type")
     description = request.form.get("description")
     injuries = request.form.get("injuries")
-    safety_officer_id = request.form.get("safety_officer_id")
+    safety_officer_id = request.form.get("safety_officer")
 
     # get existing collection info and change cursor to dict
     accident_reports = db.accident_reports.find_one({

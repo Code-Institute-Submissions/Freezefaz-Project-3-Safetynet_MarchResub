@@ -1,32 +1,47 @@
 <div>
     <label>Date</label>
-    <input type="text" class="form-control" name="date">
+    <input type="text" name="date" class="form-control">
 </div>
 <div>
     <label>Location</label>
-    <input type="text" class="form-control" name="location">
+    <input type="text" name="location" class="form-control {%if 'location_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.location}}">
+    {%if 'location_too_long' in errors%}
+    <div class="invalid-feedback">
+          {{errors.location_too_long}} 
+    </div>
+    {%endif%}  
 </div>
 <div>
     <label>Accident type</label>
-    <select name="accident_type_id" class="form-control">
+    <select name="accident_type" class="form-control">
         {%for each_accident_type in accident_types%}
-            <option value="{{each_accident_type._id}}">{{each_accident_type.accident_type}}</option>
+            <option value="{{each_accident_type._id}}" {%if previous_values and each_accident_type._id==previous_values.accident_type._id%} selected {%endif%}>{{each_accident_type.accident_type}}</option>
         {%endfor%}
     </select>
 </div>
 <div>
     <label>Description</label>
-    <textarea class="form-control" name="description"></textarea>
+    <input type="text" name="description" class="form-control {%if 'description_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.description}}">
+    {%if 'description_too_long' in errors%}
+    <div class="invalid-feedback">
+          {{errors.description_too_long}} 
+    </div>
+    {%endif%}  
 </div>
 <div>
     <label>Injuries</label>
-    <input type="text" class="form-control" name="injuries">
+    <input type="text" name="injuries" class="form-control {%if 'injuries_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.injuries}}">
+    {%if 'injuries_too_long' in errors%}
+    <div class="invalid-feedback">
+          {{errors.injuries_too_long}} 
+    </div>
+    {%endif%}  
 </div>
 <div>
     <label>Reported by</label>
-    <select name="safety_officer_id" class="form-control">
+    <select name="safety_officer" class="form-control">
         {% for each_safety_officer in safety_officers%}
-            <option value="{{each_safety_officer._id}}">{{each_safety_officer.first_name}} {{each_safety_officer.last_name}}</option>
+            <option value="{{each_safety_officer._id}}" {%if previous_values and each_safety_officer._id==previous_values.safety_officer._id%} selected {%endif%}>{{each_safety_officer.first_name}} {{each_safety_officer.last_name}}</option>
         {%endfor%}
     </select>
 </div>
