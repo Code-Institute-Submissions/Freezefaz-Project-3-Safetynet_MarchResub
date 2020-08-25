@@ -42,6 +42,10 @@ def process_create_officers():
     # check if information is valid
     # the order of conditions matter in app and html as well
 
+    if first_name == "" or first_name == " ":
+        errors.update(
+            first_name_empty= "Please enter a name")
+
     # Check if the name is made up of alphabets
     if not first_name.isalpha():
         errors.update(
@@ -51,7 +55,11 @@ def process_create_officers():
     if len(first_name) < 3:
         errors.update(
             first_name_too_short = "Must be at least 2 letters")
-    
+
+    if last_name == "" or last_name == " ":
+        errors.update(
+            last_name_empty = "Please enter a name")
+
     # Check if the name is made up of alphabets
     if not last_name.isalpha():
         errors.update(
@@ -61,6 +69,10 @@ def process_create_officers():
     if len(last_name) < 3:
         errors.update(
             last_name_too_short = "Must be at least 2 letters")
+    
+    if contact_number == "" or contact_number == " ":
+        errors.update(
+            contact_number_empty = "Please enter a contact_number")
 
     # contact number must be number
     if not contact_number.isnumeric():
@@ -71,6 +83,10 @@ def process_create_officers():
     if not len(contact_number) == 8:
         errors.update(
             contact_number_must_be_8 = "Must be 8 numbers long")
+    
+    if email == "" or email == " ":
+        errors.update(
+            email_empty = "Please enter an email")
 
     if "@" not in email or "." not in email:
         errors.update(
