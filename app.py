@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import pymongo
 from dotenv import load_dotenv
@@ -94,6 +94,7 @@ def process_create_officers():
 
     # if errors go back to form and try again
     if len(errors) > 0:
+        # flash("Unable to add Safety Officer", "danger")
         return render_template("create_officers.template.html",
                                 errors=errors,
                                 previous_values=request.form)
@@ -108,6 +109,7 @@ def process_create_officers():
 
     # Add the query to the database and the front page
     db.safety_officers.insert_one(new_officer)
+    # flash("New Safety Officer Added", "success")
     return redirect(url_for("show_officers"))
 
 @app.route("/officers/update/<officer_id>")
