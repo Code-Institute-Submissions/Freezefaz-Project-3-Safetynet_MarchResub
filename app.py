@@ -1,18 +1,47 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import os
+import flask_login
 import pymongo
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
 import datetime
+from passlib.hash import pbkdf2_sha256
 
 load_dotenv()
 
 app = Flask(__name__)
 
 MONGO_URI = os.environ.get('MONGO_URI')
+SECRET_KEY = os.environ.get('SECRET_KEY')
+# set up the secret key to flask app
+app.secret_key = SECRET_KEY
+
 DB_NAME = 'safetynet'
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
+
+# init the flask-login for app
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
+login_manager.init_view = 'login'
+
+@login_manager.user_loader
+def user_loader(email):
+    user = db.safety_officers.find_one({
+        'email': email
+    })
+
+    # if the email exists
+    if user:
+        # create a user object that represents user
+        user_object = User()
+        user_object.id = user["email"]
+        # return user_object
+        return user_object
+    else:
+    # if the email does not exist in the database. report an error
+        return None
+
 
 @app.route("/")
 def index():
@@ -35,6 +64,7 @@ def process_create_officers():
     last_name = request.form.get("last_name")
     contact_number = request.form.get("contact_number")
     email = request.form.get("email")
+    password = request.form.get("password")
 
     # Accumulator to capture errors
     errors = {}
@@ -104,13 +134,43 @@ def process_create_officers():
         "first_name": first_name,
         "last_name": last_name,
         "contact_number": contact_number,
-        "email": email
+        "email": email,
+        'password': pbkdf2_sha256.hash(password)
     }
 
     # Add the query to the database and the front page
     db.safety_officers.insert_one(new_officer)
     # flash("New Safety Officer Added", "success")
-    return redirect(url_for("show_officers"))
+    return redirect(url_for("index"))
+
+@app.route('/login')
+def login():
+    return render_template("login.template.html")
+
+@app.route('/login', methods=["POST"])
+def process_login():
+
+    # retrieve the email and the password from the form
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    # check if the user's email exist in the database
+    user = db.safety_officers.find_one({
+        'email': email
+    })
+
+    # if the user exist, check if the password matches
+    if user and pbkdf2_sha256.verify(password, user["password"]):
+        # if the password matches, authorize the user
+        user_object = User()
+        user_object.id = user["email"]
+        flask_login.login_user(user_object)
+        # redirect to the successful login page
+        return redirect(url_for("home"))
+
+    # if login failed, return back to login page
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/officers/update/<officer_id>")
 def show_update_officer(officer_id):
