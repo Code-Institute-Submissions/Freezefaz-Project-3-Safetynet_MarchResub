@@ -20,6 +20,9 @@ DB_NAME = 'safetynet'
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
+class User(flask_login.UserMixin):
+    pass
+
 # init the flask-login for app
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
@@ -135,19 +138,19 @@ def process_create_officers():
         "last_name": last_name,
         "contact_number": contact_number,
         "email": email,
-        'password': pbkdf2_sha256.hash(password)
+        'password': password
     }
 
     # Add the query to the database and the front page
     db.safety_officers.insert_one(new_officer)
     # flash("New Safety Officer Added", "success")
-    return redirect(url_for("index"))
+    return redirect(url_for("show_officers"))
 
-@app.route('/login')
+@app.route('/officers/login')
 def login():
     return render_template("login.template.html")
 
-@app.route('/login', methods=["POST"])
+@app.route('/officers/login', methods=["POST"])
 def process_login():
 
     # retrieve the email and the password from the form
@@ -158,19 +161,25 @@ def process_login():
     user = db.safety_officers.find_one({
         'email': email
     })
-
+    print(user)
     # if the user exist, check if the password matches
-    if user and pbkdf2_sha256.verify(password, user["password"]):
+    if user and user["password"] == password:
         # if the password matches, authorize the user
         user_object = User()
-        user_object.id = user["email"]
+        user_object.id = user["_id"]
+        user_object.email = user["email"]
         flask_login.login_user(user_object)
         # redirect to the successful login page
-        return redirect(url_for("home"))
+        return redirect(url_for("index"))
 
     # if login failed, return back to login page
     else:
         return redirect(url_for("login"))
+
+@app.route("/officers/logout")
+def logout():
+    flask_login.logout_user()
+    return redirect(url_for("login"))
 
 @app.route("/officers/update/<officer_id>")
 def show_update_officer(officer_id):
