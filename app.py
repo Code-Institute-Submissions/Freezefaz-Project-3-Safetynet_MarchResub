@@ -161,13 +161,12 @@ def process_login():
     user = db.safety_officers.find_one({
         'email': email
     })
-    print(user)
     # if the user exist, check if the password matches
     if user and user["password"] == password:
         # if the password matches, authorize the user
         user_object = User()
-        user_object.id = user["_id"]
-        user_object.email = user["email"]
+        user_object.id = user["email"]
+        # user_object.email = user["email"]
         flask_login.login_user(user_object)
         # redirect to the successful login page
         return redirect(url_for("index"))
@@ -304,14 +303,27 @@ def show_accident_reports():
                             accident_reports=all_accident_reports)
 
 @app.route("/accident_reports/create")
+@flask_login.login_required
 def show_create_accident_report():
     accident_types = db.accident_types.find()
     safety_officers = db.safety_officers.find()
+
+    # if flask_login.current_user.is_authenticated:
+    #     current_user = flask_login.current_user
+
+    #     if current_user:
+    #         user = db.safety_officers.find_one({'email': email})
+    #     else:
+    #         user = none
+    # else:
+    #     return redirect(url_for('index'))
+
     return render_template("create_accident_reports.template.html", errors={},
                            accident_types=accident_types,
                            safety_officers=safety_officers)
 
 @app.route("/accident_reports/create", methods=["Post"])
+# @flask_login.login_required
 def process_create_accident_report():
     # extract info from forms
     date = request.form.get("date")
