@@ -11,8 +11,22 @@
 <title>Title</title>
 </head>
 <body>
-
-    <h1>Choose Report Type</h1>
+    <h1>SafetyNet</h1>
+    <div class="row">
+        <div>
+            <a href="{{url_for('show_officers')}}" class="btn btn-primary">Safety Officers</a>
+        </div>
+        <div>
+            <a href="{{url_for('create_officers')}}" class="btn btn-primary">Register</a>
+        </div>
+        <div>
+            <a href="{{url_for('login')}}" class="btn btn-primary">Login</a>
+        </div>
+        <div>
+            <a href="{{url_for('logout')}}" class="btn btn-primary">Logout</a>
+        </div>
+    </div>
+    <h2>Choose Report Type</h2>
     <div>
         <p>
         <a href="{{url_for('show_accident_reports')}}" class="btn btn-success">Read Accident Reports</a>

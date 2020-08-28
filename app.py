@@ -438,6 +438,7 @@ def process_create_accident_report():
 
 # Update accident report
 @app.route("/accident_reports/update/<accident_report_id>")
+@flask_login.login_required
 def show_update_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
        "_id": ObjectId(accident_report_id)
@@ -549,6 +550,7 @@ def process_update_accident_report(accident_report_id):
 
 # Deleting accident report
 @app.route("/accident_reports/delete/<accident_report_id>")
+@flask_login.login_required
 def show_delete_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
         "_id": ObjectId(accident_report_id)
