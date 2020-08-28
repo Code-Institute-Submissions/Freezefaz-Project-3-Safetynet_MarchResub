@@ -178,7 +178,7 @@ def process_login():
 @app.route("/officers/logout")
 def logout():
     flask_login.logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("index"))
 
 @app.route("/officers/update/<officer_id>")
 def show_update_officer(officer_id):
