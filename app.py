@@ -624,7 +624,7 @@ def show_near_miss_reports():
 
 
 @app.route("/near_miss_reports/create")
-# @flask_login.login_required
+@flask_login.login_required
 def show_create_near_miss_report():
     safety_officers = db.safety_officers.find()
     return render_template("create_near_miss_report.template.html", errors={},
@@ -632,7 +632,6 @@ def show_create_near_miss_report():
 
 
 @app.route("/near_miss_reports/create", methods=["Post"])
-# @flask_login.login_required
 def process_create_near_miss_accident_report():
     # extract info from forms
     date = request.form.get("date")
