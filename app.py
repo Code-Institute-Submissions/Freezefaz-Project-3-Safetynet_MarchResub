@@ -726,7 +726,78 @@ def show_update_near_miss_report(near_miss_report_id):
                            near_miss_report=near_miss_report,
                            safety_officers=safety_officers)
 
+@app.route("/near_miss_reports/update/<near_miss_report_id>", methods=["POST"])
+def process_update_near_miss_report(near_miss_report_id):
+    date = request.form.get("date")
+    location = request.form.get("location")
+    description = request.form.get("description")
+    safety_officer_id = request.form.get("safety_officer")
 
+    errors = {}
+
+    if location == "" or location == " ":
+        errors.update(
+            location_empty="Please enter a location")
+
+    if len(location) < 3:
+        errors.update(
+            location_too_short="Please enter at least 3 characters")
+
+    # Check if location no more than 50 characters
+    if not len(location) <= 50:
+        errors.update(
+            location_too_long="Please keep to 50 characters")
+
+    if description == "" or description == " ":
+        errors.update(
+            description_empty="Please enter a description")
+
+    if len(description) < 3:
+        errors.update(
+            description_too_short="Please enter at least 3 characters")
+
+    # Check if description no more than 255 characters
+    if not len(description) <= 255:
+        errors.update(
+            description_too_long="Please keep to 255 characters")
+
+    # if errors go back to form and try again
+    if len(errors) > 0:
+        # Do this so that when the select will repopulate
+        safety_officers = db.safety_officers.find()
+        return render_template("create_near_miss_report.template.html",
+                               errors=errors,
+                               previous_values=request.form,
+                               safety_officers=safety_officers)
+
+    # get existing collection info and change cursor to dict
+    near_miss_reports = db.near_miss_reports.find_one({
+        "_id": ObjectId(near_miss_report_id)
+    }, {
+        "_id": 1
+    })
+    safety_officers = db.safety_officers.find_one({
+        "_id": ObjectId(safety_officer_id)
+    }, {
+        "first_name": 1,
+        "last_name": 1
+    })
+
+    db.near_miss_reports.update_one({
+        "_id": ObjectId(near_miss_report_id)
+    }, {
+        "$set": {
+            "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "location": location,
+            "description": description,
+            "safety_officer": safety_officers["first_name"] + " "
+            + safety_officers["last_name"],
+            "safety_officer_id": ObjectId(safety_officer_id)
+        }
+    })
+
+    return redirect(url_for("show_near_miss_reports",
+                            near_miss_report_id=near_miss_report_id))
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
