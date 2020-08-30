@@ -909,6 +909,18 @@ def process_create_violation_report():
     db.violation_reports.insert_one(new_violation_report)
     return redirect(url_for("show_violation_reports"))
 
+@app.route("/violation_reports/update/<violation_report_id>")
+def show_update_violation_report(violation_report_id):
+    violation_report = db.violation_reports.find_one({
+        "_id": ObjectId(violation_report_id)
+    })
+    violation_types = db.violation_types.find()
+    safety_officers = db.safety_officers.find()
+    return render_template("update_near_miss_report.template.html",
+                           violation_report=violation_report,
+                           violation_types=violation_types,
+                           safety_officers=safety_officers)
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
