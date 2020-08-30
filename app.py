@@ -916,7 +916,7 @@ def show_update_violation_report(violation_report_id):
     })
     violation_types = db.violation_types.find()
     safety_officers = db.safety_officers.find()
-    return render_template("update_near_miss_report.template.html",
+    return render_template("update_violation_report.template.html",
                            violation_report=violation_report,
                            violation_types=violation_types,
                            safety_officers=safety_officers)
