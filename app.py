@@ -337,15 +337,12 @@ def process_delete_officer(officer_id):
     })
     return redirect(url_for("show_officers"))
 
-   # Create accident report
-
-
+# ACCIDENT REPORT
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
     return render_template("show_accident_reports.template.html",
                            accident_reports=all_accident_reports)
-
 
 @app.route("/accident_reports/create")
 @flask_login.login_required
@@ -619,8 +616,6 @@ def process_delete_accident_report(accident_report_id):
     return redirect(url_for("show_accident_reports"))
 
 # NEAR MISS
-
-
 @app.route("/near_miss_reports")
 def show_near_miss_reports():
     all_near_miss_reports = db.near_miss_reports.find()
@@ -807,6 +802,21 @@ def show_delete_near_miss_report(near_miss_report_id):
 
     return render_template("delete_near_miss_report.template.html",
                            near_miss_report=near_miss_report)
+
+@app.route("/near_miss_reports/delete/<near_miss_report_id>", methods=["POST"])
+def process_delete_near_miss_report(near_miss_report_id):
+    db.near_miss_reports.remove({
+        "_id": ObjectId(near_miss_report_id)
+    })
+    return redirect(url_for("show_near_miss_reports"))
+
+# VIOLATIONS
+@app.route("/violation_reports")
+def show_violation_reports():
+    all_violation_reports = db.violation_reports.find()
+    return render_template("show_violation_reports.template.html",
+                           violation_reports=all_violation_reports)
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
