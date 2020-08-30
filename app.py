@@ -730,6 +730,11 @@ def process_update_near_miss_report(near_miss_report_id):
 
     errors = {}
 
+    # Check if the date in numbers
+    if date == "" or date == " ":
+        errors.update(
+            date_empty="Please enter a date")
+
     if location == "" or location == " ":
         errors.update(
             location_empty="Please enter a location")
@@ -920,6 +925,92 @@ def show_update_violation_report(violation_report_id):
                            violation_report=violation_report,
                            violation_types=violation_types,
                            safety_officers=safety_officers)
+
+@app.route("/violation_reports/update/<violation_report_id>", methods=["POST"])
+def process_update_violation_report(violation_report_id):
+    date = request.form.get("date")
+    location = request.form.get("location")
+    violation_type_id = request.form.get("violation_type")
+    description = request.form.get("description")
+    safety_officer_id = request.form.get("safety_officer")
+
+    errors = {}
+
+    if date == "" or date == " ":
+        errors.update(
+            date_empty="Please enter a date")
+
+    if location == "" or location == " ":
+        errors.update(
+            location_empty="Please enter a location")
+
+    if len(location) < 3:
+        errors.update(
+            location_too_short="Please enter at least 3 characters")
+
+    # Check if location no more than 50 characters
+    if not len(location) <= 50:
+        errors.update(
+            location_too_long="Please keep to 50 characters")
+
+    if description == "" or description == " ":
+        errors.update(
+            description_empty="Please enter a description")
+
+    if len(description) < 3:
+        errors.update(
+            description_too_short="Please enter at least 3 characters")
+
+    # Check if description no more than 255 characters
+    if not len(description) <= 255:
+        errors.update(
+            description_too_long="Please keep to 255 characters")
+
+    # if errors go back to form and try again
+    if len(errors) > 0:
+        # Do this so that when the select will repopulate
+        violation_types = db.violation_types.find()
+        safety_officers = db.safety_officers.find()
+        return render_template("create_violation_report.template.html",
+                               errors=errors,
+                               previous_values=request.form,
+                               violation_types=violation_types,
+                               safety_officers=safety_officers)
+
+    # get existing collection info and change cursor to dict
+    violation_reports = db.violation_reports.find_one({
+        "_id": ObjectId(violation_report_id)
+    }, {
+        "_id": 1
+    })
+    violation_types = db.violation_types.find_one({
+        "_id": ObjectId(violation_type_id)
+    }, {
+        "violation_type": 1
+    })
+    safety_officers = db.safety_officers.find_one({
+        "_id": ObjectId(safety_officer_id)
+    }, {
+        "first_name": 1,
+        "last_name": 1
+    })
+    db.violation_reports.update_one({
+        "_id": ObjectId(violation_report_id)
+    }, {
+        "$set": {
+            "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "location": location,
+            "violation_type": violation_types["violation_type"],
+            "violation_type_id": ObjectId(violation_type_id),
+            "description": description,
+            "safety_officer": safety_officers["first_name"] + " "
+            + safety_officers["last_name"],
+            "safety_officer_id": ObjectId(safety_officer_id)
+        }
+    })
+
+    return redirect(url_for("show_violation_reports",
+                            violation_report_id=violation_report_id))
 
 
 # "magic code" -- boilerplate
