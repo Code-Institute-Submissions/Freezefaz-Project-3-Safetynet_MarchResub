@@ -716,6 +716,17 @@ def process_create_near_miss_accident_report():
     db.near_miss_reports.insert_one(new_near_miss_report)
     return redirect(url_for("show_near_miss_reports"))
 
+@app.route("/near_miss_reports/update/<near_miss_report_id>")
+def show_update_near_miss_report(near_miss_report_id):
+    near_miss_report = db.near_miss_reports.find_one({
+        "_id": ObjectId(near_miss_report_id)
+    })
+    safety_officers = db.safety_officers.find()
+    return render_template("update_near_miss_report.template.html",
+                           near_miss_report=near_miss_report,
+                           safety_officers=safety_officers)
+
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':

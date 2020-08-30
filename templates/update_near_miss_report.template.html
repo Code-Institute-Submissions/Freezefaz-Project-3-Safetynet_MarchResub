@@ -1,0 +1,17 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+{%with%}
+    {%if not previous_values%}
+        {%set previous_values = {}%}
+    {%endif%}
+
+<h2>Updating Near Miss Report by {{near_miss_report.safety_officer}} on {{near_miss_report.date}}</h2>
+<form method="POST">
+        {%include 'form_near_miss_report.template.html'%}
+    {%endwith%}
+    <input type="submit" value="Update" class="btn btn-primary">
+</form>
+
+{%endblock%}

@@ -5,13 +5,14 @@
 <h1>Near Miss Reports</h1>
 
 <ul>
-{% for each_nearmiss_report in near_miss_reports %}
+{% for each_near_miss_report in near_miss_reports %}
     <li>
-    {{each_nearmiss_report.date}}
+    {{each_near_miss_report.date}}
+    <a href="{{url_for('show_update_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-primary">Edit</a>
     </li>
-    <li>{{each_nearmiss_report.location}}</li>
-    <li>{{each_nearmiss_report.description}}</li>
-    <li>{{each_nearmiss_report.safety_officer}}</li>
+    <li>{{each_near_miss_report.location}}</li>
+    <li>{{each_near_miss_report.description}}</li>
+    <li>{{each_near_miss_report.safety_officer}}</li>
 {%endfor%}
 </ul>
 
