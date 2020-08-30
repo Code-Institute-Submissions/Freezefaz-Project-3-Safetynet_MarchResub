@@ -124,6 +124,10 @@ def process_create_officers():
     if "@" not in email or "." not in email:
         errors.update(
             proper_email = "Please enter a valid email")
+    
+    if not len(password) == 6:
+        errors.update( 
+            password_too_short = "Password needs to be 6 characters")
 
     # if errors go back to form and try again
     if len(errors) > 0:
@@ -156,6 +160,20 @@ def process_login():
     # retrieve the email and the password from the form
     email = request.form.get("email")
     password = request.form.get("password")
+
+    # Accumulator to capture errors
+    errors = {}
+
+    if not len(password) == 6:
+        errors.update( 
+            password_too_short = "Password needs to be 6 characters")
+
+    # if errors go back to form and try again
+    if len(errors) > 0:
+        # flash("Unable to add Safety Officer", "danger")
+        return render_template("create_officers.template.html",
+                                errors=errors,
+                                previous_values=request.form)
 
     # check if the user's email exist in the database
     user = db.safety_officers.find_one({

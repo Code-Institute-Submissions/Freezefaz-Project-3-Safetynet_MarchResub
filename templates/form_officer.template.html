@@ -1,41 +1,46 @@
 <div>
-    <label>First Name</label>
-    <input type="text" name="first_name" class="form-control {%if 'first_name_empty' in errors or 'first_name_not_letter' in errors or 'first_name_too_short' in errors%} is-invalid {%endif%}" value="{{previous_values.first_name}}">
+	<label>First Name</label>
+	<input type="text" name="first_name" class="form-control {%if 'first_name_empty' in errors or 'first_name_not_letter' in errors or 'first_name_too_short' in errors%} is-invalid {%endif%}" value="{{previous_values.first_name}}">
     {%if 'first_name_empty' in errors or 'first_name_not_letter' in errors or 'first_name_too_short' in errors%}
-    <div class="invalid-feedback">
-          {{errors.first_name_empty or errors.first_name_not_letter or errors.first_name_too_short}} 
-    </div>
-    {%endif%}  
+	<div class="invalid-feedback">
+		{{errors.first_name_empty or errors.first_name_not_letter or errors.first_name_too_short}}
+	</div>
+	{%endif%}
 </div>
 
 <div>
-    <label>Last Name</label>
-    <input type="text" name="last_name" class="form-control {%if 'last_name_empty' in errors or 'last_name_not_letter' in errors or 'last_name_too_short' in errors%} is-invalid {%endif%}" value="{{previous_values.last_name}}">
+	<label>Last Name</label>
+	<input type="text" name="last_name" class="form-control {%if 'last_name_empty' in errors or 'last_name_not_letter' in errors or 'last_name_too_short' in errors%} is-invalid {%endif%}" value="{{previous_values.last_name}}">
     {%if 'last_name_empty' in errors or 'last_name_not_letter' in errors or 'last_name_too_short' in errors%}
-    <div class="invalid-feedback">
-          {{errors.last_name_empty or errors.last_name_not_letter or errors.last_name_too_short}} 
-    </div>
-    {%endif%}  
+	<div class="invalid-feedback">
+		{{errors.last_name_empty or errors.last_name_not_letter or errors.last_name_too_short}}
+	</div>
+	{%endif%}
 </div>
-<div>
-    <label>Contact Number</label>
-    <input type="text" name="contact_number" class="form-control {%if 'contact_number_empty' in errors or 'contact_number_not_a_number' in errors or 'contact_number_must_be_8' in errors%} is-invalid {%endif%}" value="{{previous_values.contact_number}}">
+    <div>
+	<label>Contact Number</label>
+	<input type="text" name="contact_number" class="form-control {%if 'contact_number_empty' in errors or 'contact_number_not_a_number' in errors or 'contact_number_must_be_8' in errors%} is-invalid {%endif%}" value="{{previous_values.contact_number}}">
     {%if 'contact_number_empty' in errors or 'contact_number_not_a_number' in errors or 'contact_number_must_be_8' in errors%}
-    <div class="invalid-feedback">
-          {{errors.contact_number_empty or errors.contact_number_not_a_number or errors.contact_number_must_be_8}} 
+	<div class="invalid-feedback">
+		{{errors.contact_number_empty or errors.contact_number_not_a_number or errors.contact_number_must_be_8}}
+	</div>
+	{%endif%}
     </div>
-    {%endif%} 
-</div>
-<div>
-    <label>Email</label>
-    <input type="text" name="email" class="form-control {%if 'email_empty' in errors or 'proper_email' in errors %} is-invalid {%endif%}" value="{{previous_values.email}}">
+    <div>
+	<label>Email</label>
+	<input type="text" name="email" class="form-control {%if 'email_empty' in errors or 'proper_email' in errors %} is-invalid {%endif%}" value="{{previous_values.email}}">
     {%if 'email_empty' in errors or 'proper_email' in errors%}
-    <div class="invalid-feedback">
-          {{errors.email_empty or errors.proper_email}} 
+	<div class="invalid-feedback">
+		{{errors.email_empty or errors.proper_email}}
     </div>
-    {%endif%} 
-   <div>
-        <label>Password</label>
-        <input type="password" class="form-control" name="password"/>
-    </div>
+	{%endif%}
+    <div>
+		<label>Password</label>
+		<input type="password" name="password" class="form-control {%if 'password_too_short' in errors%} is-invalid {%endif%}" value="{{previous_values.email}}">
+    {%if 'password_too_short' in errors%}
+		<div class="invalid-feedback">
+			{{errors.password_too_short}}
+		</div>
+		{%endif%}
+	</div>
 </div>
