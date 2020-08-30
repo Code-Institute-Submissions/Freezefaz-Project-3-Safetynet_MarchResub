@@ -1021,6 +1021,13 @@ def show_delete_violation_report(violation_report_id):
     return render_template("delete_violation_report.template.html",
                            violation_report=violation_report)
 
+@app.route("/violation_reports/delete/<violation_report_id>", methods=["POST"])
+def process_delete_violation_report(violation_report_id):
+    db.violation_reports.remove({
+        "_id": ObjectId(violation_report_id)
+    })
+    return redirect(url_for("show_violation_reports"))
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
