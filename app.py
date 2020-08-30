@@ -799,6 +799,15 @@ def process_update_near_miss_report(near_miss_report_id):
     return redirect(url_for("show_near_miss_reports",
                             near_miss_report_id=near_miss_report_id))
 
+@app.route("/near_miss_reports/delete/<near_miss_report_id>")
+def show_delete_near_miss_report(near_miss_report_id):
+    near_miss_report = db.near_miss_reports.find_one({
+        "_id": ObjectId(near_miss_report_id)
+    })
+
+    return render_template("delete_near_miss_report.template.html",
+                           near_miss_report=near_miss_report)
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

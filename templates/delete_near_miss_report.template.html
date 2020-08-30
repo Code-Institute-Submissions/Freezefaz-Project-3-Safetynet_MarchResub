@@ -1,0 +1,20 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+<form method="POST">
+    <div class="alert alert-danger">
+        <h3>Are you sure you want to delete Near Miss Report?</h3>
+        <p>Date: {{near_miss_report.date}}</p>
+        <p>By: {{near_miss_report.safety_officer}}</p>
+        <ul>
+            <li>Location: {{near_miss_report.location}}</li>
+            <li>Location: {{near_miss_report.description}}</li>          
+        </ul>
+    </div>
+    <input type="submit" value="Yes" class="btn btn-danger">
+    <a href="{{url_for('show_near_miss_reports')}}" class="btn btn-success">No</a>
+
+</form>
+
+{%endblock%}
