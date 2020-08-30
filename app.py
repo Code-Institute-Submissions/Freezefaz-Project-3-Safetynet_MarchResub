@@ -824,8 +824,8 @@ def show_create_violation_report():
     violation_types = db.violation_types.find()
     safety_officers = db.safety_officers.find()
 
-    return render_template("create_violation_reports.template.html", errors={},
-                           violation_types=accident_types,
+    return render_template("create_violation_report.template.html", errors={},
+                           violation_types=violation_types,
                            safety_officers=safety_officers)
 
 
