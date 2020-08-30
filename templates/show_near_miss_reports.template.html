@@ -1,0 +1,18 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+<h1>Near Miss Reports</h1>
+
+<ul>
+{% for each_nearmiss_report in accident_reports %}
+    <li>
+    {{each_nearmiss_report.date}}
+    </li>
+    <li>{{each_nearmiss_report.location}}</li>
+    <li>{{each_nearmiss_report.description}}</li>
+    <li>{{each_accident_report.safety_officer}}</li>
+{%endfor%}
+</ul>
+
+{%endblock%}

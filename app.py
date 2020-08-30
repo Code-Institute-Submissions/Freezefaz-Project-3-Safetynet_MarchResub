@@ -265,7 +265,7 @@ def process_update_officer(officer_id):
     if len(last_name) < 3:
         errors.update(
             last_name_too_short = "Must be at least 2 letters")
-    
+
     if contact_number == "" or contact_number == " ":
         errors.update(
             contact_number_empty = "Please enter a contact_number")
@@ -279,7 +279,7 @@ def process_update_officer(officer_id):
     if not len(contact_number) == 8:
         errors.update(
             contact_number_must_be_8 = "Must be 8 numbers long")
-    
+
     if email == "" or email == " ":
         errors.update(
             email_empty = "Please enter an email")
@@ -468,7 +468,7 @@ def process_create_accident_report():
 
 # Update accident report
 @app.route("/accident_reports/update/<accident_report_id>")
-@flask_login.login_required
+# @flask_login.login_required
 def show_update_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
        "_id": ObjectId(accident_report_id)
@@ -580,7 +580,7 @@ def process_update_accident_report(accident_report_id):
 
 # Deleting accident report
 @app.route("/accident_reports/delete/<accident_report_id>")
-@flask_login.login_required
+# @flask_login.login_required
 def show_delete_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
         "_id": ObjectId(accident_report_id)
@@ -595,6 +595,12 @@ def process_delete_accident_report(accident_report_id):
         "_id": ObjectId(accident_report_id)
     })
     return redirect(url_for("show_accident_reports"))
+
+@app.route("/near_miss_reports")
+def show_near_miss_reports():
+    all_near_miss_reports = db.near_miss_reports.find()
+    return render_template("show_near_miss_reports.template.html",
+                            near_miss_reports=all_near_miss_reports)
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
