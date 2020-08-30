@@ -1012,6 +1012,15 @@ def process_update_violation_report(violation_report_id):
     return redirect(url_for("show_violation_reports",
                             violation_report_id=violation_report_id))
 
+@app.route("/violation_reports/delete/<violation_report_id>")
+def show_delete_violation_report(violation_report_id):
+    violation_report = db.violation_reports.find_one({
+        "_id": ObjectId(violation_report_id)
+    })
+
+    return render_template("delete_violation_report.template.html",
+                           violation_report=violation_report)
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
