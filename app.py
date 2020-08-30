@@ -828,6 +828,87 @@ def show_create_violation_report():
                            violation_types=violation_types,
                            safety_officers=safety_officers)
 
+@app.route("/violation_reports/create", methods=["Post"])
+def process_create_violation_report():
+    # extract info from forms
+    date = request.form.get("date")
+    location = request.form.get("location")
+    violation_type_id = request.form.get("violation_type")
+    description = request.form.get("description")
+    safety_officer_id = request.form.get("safety_officer")
+
+    # Validation
+    # Accumulator to capture errors
+    # errors = {}
+
+    # # check if information is valid
+    # # the order of conditions matter in app and html as well
+
+    # # Check if the date in numbers
+    # if date == "" or date == " ":
+    #     errors.update(
+    #         date_empty="Please enter a date")
+
+    # if location == "" or location == " ":
+    #     errors.update(
+    #         location_empty="Please enter a location")
+
+    # if len(location) < 3:
+    #     errors.update(
+    #         location_too_short="Please enter at least 3 characters")
+
+    # # Check if location no more than 50 characters
+    # if not len(location) <= 50:
+    #     errors.update(
+    #         location_too_long="Please keep to 50 characters")
+
+    # if description == "" or description == " ":
+    #     errors.update(
+    #         description_empty="Please enter a description")
+
+    # if len(description) < 3:
+    #     errors.update(
+    #         description_too_short="Please enter at least 3 characters")
+
+    # # Check if description no more than 255 characters
+    # if not len(description) <= 255:
+    #     errors.update(
+    #         description_too_long="Please keep to 255 characters")
+
+    # # if errors go back to form and try again
+    # if len(errors) > 0:
+    #     # Do this so that when the select will repopulate
+    #     violation_types = db.violation_types.find()
+    #     safety_officers = db.safety_officers.find()
+    #     return render_template("create_accident_reports.template.html",
+    #                            errors=errors,
+    #                            previous_values=request.form,
+    #                            violation_types=violation_types,
+    #                            safety_officers=safety_officers)
+
+    # get existing collection info
+    violation_type = db.violation_types.find_one({
+        "_id": ObjectId(violation_type_id)
+    })
+    safety_officer = db.safety_officers.find_one({
+        "_id": ObjectId(safety_officer_id)
+    })
+
+    # Create violation report
+    new_violation_report = {
+        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "location": location,
+        "violation_type": violation_type["violation_type"],
+        "violation_type_id": ObjectId(violation_type_id),
+        "description": description,
+        "safety_officer": safety_officer["first_name"] + " "
+        + safety_officer["last_name"],
+        "safety_officer_id": ObjectId(safety_officer_id)
+    }
+    # Add the query to the database and the front page
+    db.violation_reports.insert_one(new_violation_report)
+    return redirect(url_for("show_violation_reports"))
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
