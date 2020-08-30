@@ -818,6 +818,17 @@ def show_violation_reports():
                            violation_reports=all_violation_reports)
 
 
+@app.route("/violation_reports/create")
+@flask_login.login_required
+def show_create_violation_report():
+    violation_types = db.violation_types.find()
+    safety_officers = db.safety_officers.find()
+
+    return render_template("create_violation_reports.template.html", errors={},
+                           violation_types=accident_types,
+                           safety_officers=safety_officers)
+
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

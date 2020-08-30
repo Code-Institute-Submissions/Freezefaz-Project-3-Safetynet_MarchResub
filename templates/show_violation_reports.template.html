@@ -1,0 +1,20 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+<h1>Violation Reports</h1>
+
+<ul>
+{% for each_violation_report in violation_reports %}
+    <li>
+    {{each_violation_report.date}}
+    </li>
+    <li>{{each_violation_report.location}}</li>
+    <li>{{each_violation_report.violation_type}}</li>
+    <li>{{each_violation_report.description}}</li>
+    <li>{{each_violation_report.safety_officer}}</li>
+
+{%endfor%}
+</ul>
+
+{%endblock%}
