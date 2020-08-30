@@ -36,7 +36,7 @@
 	{%endif%}
     <div>
 		<label>Password</label>
-		<input type="password" name="password" class="form-control {%if 'password_too_short' in errors%} is-invalid {%endif%}" value="{{previous_values.email}}">
+		<input type="text" name="password" class="form-control {%if 'password_too_short' in errors%} is-invalid {%endif%}" value="{{previous_values.password}}">
     {%if 'password_too_short' in errors%}
 		<div class="invalid-feedback">
 			{{errors.password_too_short}}
