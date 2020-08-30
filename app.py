@@ -164,14 +164,26 @@ def process_login():
     # Accumulator to capture errors
     errors = {}
 
+    if email == "" or email == " ":
+        errors.update(
+            email_empty = "Please enter an email")
+
+    if "@" not in email or "." not in email:
+        errors.update(
+            proper_email = "Please enter a valid email")
+
+    if password == "" or password == " ":
+        errors.update(
+            password_empty = "Please enter an email")
+
     if not len(password) == 6:
-        errors.update( 
+        errors.update(
             password_too_short = "Password needs to be 6 characters")
 
     # if errors go back to form and try again
     if len(errors) > 0:
         # flash("Unable to add Safety Officer", "danger")
-        return render_template("create_officers.template.html",
+        return render_template("login.template.html",
                                 errors=errors,
                                 previous_values=request.form)
 

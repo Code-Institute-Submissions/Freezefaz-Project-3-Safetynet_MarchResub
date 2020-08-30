@@ -5,15 +5,30 @@
 <h1>Login</h1>
 
 <form method="POST">
+
+    {%with%}
+        {%if not previous_values%}
+            {%set previous_values = {}%}
+        {%endif%}
+
     <div>
         <label>Email</label>
-        <input type="text" class="form-control" name="email"/>
-    </div>
-    <div>
+        <input type="text" name="email" class="form-control {%if 'email_empty' in errors or 'proper_email' in errors %} is-invalid {%endif%}" value="{{previous_values.email}}">
+        {%if 'email_empty' in errors or 'proper_email' in errors%}
+        <div class="invalid-feedback">
+            {{errors.email_empty or errors.proper_email}}
+        </div>
+        {%endif%}
         <label>Password</label>
-        <input type="password" class="form-control" name="password"/>
+        <input type="password" name="password" class="form-control {%if 'password_empty' in errors or 'password_too_short' in errors %} is-invalid {%endif%}" value="{{previous_values.password}}">
+        {%if 'password_empty' in errors or 'password_too_short' in errors%}
+        <div class="invalid-feedback">
+            {{errors.password_empty or errors.password_too_short}}
+        </div>
+        {%endif%}
     </div>
-    <input type="submit" value="Register" class="btn btn-primary mt-3"/>
+    <input type="submit" value="Login" class="btn btn-primary mt-3"/>
+    {%endwith%}
 </form>
 
 {%endblock%}
