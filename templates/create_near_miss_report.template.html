@@ -3,7 +3,13 @@
 {%block content%}
 <h1>Near Miss Report</h1>
     <form method="POST">
+    {%with%}
+        {%if not previous_values%}
+            {%set previous_values = {}%}
+        {%endif%}
+
         {%include 'form_near_miss_report.template.html'%}
         <input type="submit" value="Create" class="btn btn-primary">
+     {%endwith%}
     </form>
 {%endblock%}

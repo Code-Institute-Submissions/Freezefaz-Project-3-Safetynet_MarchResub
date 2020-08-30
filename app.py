@@ -20,13 +20,16 @@ DB_NAME = 'safetynet'
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
+
 class User(flask_login.UserMixin):
     pass
+
 
 # init the flask-login for app
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 login_manager.init_view = 'login'
+
 
 @login_manager.user_loader
 def user_loader(email):
@@ -42,7 +45,7 @@ def user_loader(email):
         # return user_object
         return user_object
     else:
-    # if the email does not exist in the database. report an error
+        # if the email does not exist in the database. report an error
         return None
 
 
@@ -50,15 +53,18 @@ def user_loader(email):
 def index():
     return render_template("index.template.html")
 
+
 @app.route("/officers")
 def show_officers():
     all_officers = db.safety_officers.find()
-    return render_template("show_officers.template.html", 
-                            officers=all_officers)
+    return render_template("show_officers.template.html",
+                           officers=all_officers)
+
 
 @app.route("/officers/create")
 def create_officers():
     return render_template("create_officers.template.html", errors={})
+
 
 @app.route("/officers/create", methods=["POST"])
 def process_create_officers():
@@ -77,64 +83,64 @@ def process_create_officers():
 
     if first_name == "" or first_name == " ":
         errors.update(
-            first_name_empty= "Please enter a name")
+            first_name_empty="Please enter a name")
 
     # Check if the name is made up of alphabets
     if not first_name.isalpha():
         errors.update(
-            first_name_not_letter = "Please enter a letter")
+            first_name_not_letter="Please enter a letter")
 
     # check if the first_name is longer 3 characters
     if len(first_name) < 3:
         errors.update(
-            first_name_too_short = "Must be at least 2 letters")
+            first_name_too_short="Must be at least 2 letters")
 
     if last_name == "" or last_name == " ":
         errors.update(
-            last_name_empty = "Please enter a name")
+            last_name_empty="Please enter a name")
 
     # Check if the name is made up of alphabets
     if not last_name.isalpha():
         errors.update(
-            last_name_not_letter = "Please enter a letter")
+            last_name_not_letter="Please enter a letter")
 
     # check if the last_name is longer 2 characters
     if len(last_name) < 3:
         errors.update(
-            last_name_too_short = "Must be at least 2 letters")
-    
+            last_name_too_short="Must be at least 2 letters")
+
     if contact_number == "" or contact_number == " ":
         errors.update(
-            contact_number_empty = "Please enter a contact_number")
+            contact_number_empty="Please enter a contact_number")
 
     # contact number must be number
     if not contact_number.isnumeric():
         errors.update(
-            contact_number_not_a_number = "Please enter a number")
+            contact_number_not_a_number="Please enter a number")
 
      # check if the contact_number is 8 characters
     if not len(contact_number) == 8:
         errors.update(
-            contact_number_must_be_8 = "Must be 8 numbers long")
-    
+            contact_number_must_be_8="Must be 8 numbers long")
+
     if email == "" or email == " ":
         errors.update(
-            email_empty = "Please enter an email")
+            email_empty="Please enter an email")
 
     if "@" not in email or "." not in email:
         errors.update(
-            proper_email = "Please enter a valid email")
-    
+            proper_email="Please enter a valid email")
+
     if not len(password) == 6:
-        errors.update( 
-            password_too_short = "Password needs to be 6 characters")
+        errors.update(
+            password_too_short="Password needs to be 6 characters")
 
     # if errors go back to form and try again
     if len(errors) > 0:
         # flash("Unable to add Safety Officer", "danger")
         return render_template("create_officers.template.html",
-                                errors=errors,
-                                previous_values=request.form)
+                               errors=errors,
+                               previous_values=request.form)
 
     # create the query
     new_officer = {
@@ -150,9 +156,11 @@ def process_create_officers():
     # flash("New Safety Officer Added", "success")
     return redirect(url_for("show_officers"))
 
+
 @app.route('/officers/login')
 def login():
     return render_template("login.template.html")
+
 
 @app.route('/officers/login', methods=["POST"])
 def process_login():
@@ -166,26 +174,26 @@ def process_login():
 
     if email == "" or email == " ":
         errors.update(
-            email_empty = "Please enter an email")
+            email_empty="Please enter an email")
 
     if "@" not in email or "." not in email:
         errors.update(
-            proper_email = "Please enter a valid email")
+            proper_email="Please enter a valid email")
 
     if password == "" or password == " ":
         errors.update(
-            password_empty = "Please enter an email")
+            password_empty="Please enter an email")
 
     if not len(password) == 6:
         errors.update(
-            password_too_short = "Password needs to be 6 characters")
+            password_too_short="Password needs to be 6 characters")
 
     # if errors go back to form and try again
     if len(errors) > 0:
         # flash("Unable to add Safety Officer", "danger")
         return render_template("login.template.html",
-                                errors=errors,
-                                previous_values=request.form)
+                               errors=errors,
+                               previous_values=request.form)
 
     # check if the user's email exist in the database
     user = db.safety_officers.find_one({
@@ -205,10 +213,12 @@ def process_login():
     else:
         return redirect(url_for("login"))
 
+
 @app.route("/officers/logout")
 def logout():
     flask_login.logout_user()
     return redirect(url_for("index"))
+
 
 @app.route("/officers/update/<officer_id>")
 def show_update_officer(officer_id):
@@ -216,7 +226,8 @@ def show_update_officer(officer_id):
         "_id": ObjectId(officer_id)
     })
     return render_template("update_officers.template.html",
-                            safety_officer=safety_officer)
+                           safety_officer=safety_officer)
+
 
 @app.route("/officers/update/<officer_id>", methods=["POST"])
 def process_update_officer(officer_id):
@@ -232,7 +243,7 @@ def process_update_officer(officer_id):
     })
 
     # Validation
-        # Accumulator to capture errors
+    # Accumulator to capture errors
     errors = {}
 
     # check if information is valid
@@ -240,60 +251,60 @@ def process_update_officer(officer_id):
 
     if first_name == "" or first_name == " ":
         errors.update(
-            first_name_empty= "Please enter a name")
+            first_name_empty="Please enter a name")
 
     # Check if the name is made up of alphabets
     if not first_name.isalpha():
         errors.update(
-            first_name_not_letter = "Please enter a letter")
+            first_name_not_letter="Please enter a letter")
 
     # check if the first_name is longer 3 characters
     if len(first_name) < 3:
         errors.update(
-            first_name_too_short = "Must be at least 2 letters")
+            first_name_too_short="Must be at least 2 letters")
 
     if last_name == "" or last_name == " ":
         errors.update(
-            last_name_empty = "Please enter a name")
+            last_name_empty="Please enter a name")
 
     # Check if the name is made up of alphabets
     if not last_name.isalpha():
         errors.update(
-            last_name_not_letter = "Please enter a letter")
+            last_name_not_letter="Please enter a letter")
 
     # check if the last_name is longer 2 characters
     if len(last_name) < 3:
         errors.update(
-            last_name_too_short = "Must be at least 2 letters")
+            last_name_too_short="Must be at least 2 letters")
 
     if contact_number == "" or contact_number == " ":
         errors.update(
-            contact_number_empty = "Please enter a contact_number")
+            contact_number_empty="Please enter a contact_number")
 
     # contact number must be number
     if not contact_number.isnumeric():
         errors.update(
-            contact_number_not_a_number = "Please enter a number")
+            contact_number_not_a_number="Please enter a number")
 
      # check if the contact_number is 8 characters
     if not len(contact_number) == 8:
         errors.update(
-            contact_number_must_be_8 = "Must be 8 numbers long")
+            contact_number_must_be_8="Must be 8 numbers long")
 
     if email == "" or email == " ":
         errors.update(
-            email_empty = "Please enter an email")
+            email_empty="Please enter an email")
 
     if "@" not in email or "." not in email:
         errors.update(
-            proper_email = "Please enter a valid email")
+            proper_email="Please enter a valid email")
 
     # if errors go back to form and try again
     if len(errors) > 0:
         return render_template("update_officers.template.html",
-                                errors=errors,
-                                previous_values=request.form,
-                                safety_officer=safety_officer)
+                               errors=errors,
+                               previous_values=request.form,
+                               safety_officer=safety_officer)
 
     # update safety officer
     db.safety_officers.update_one({
@@ -309,13 +320,15 @@ def process_update_officer(officer_id):
 
     return redirect(url_for('show_officers'))
 
+
 @app.route("/officers/delete/<officer_id>")
 def show_delete_officer(officer_id):
     safety_officer = db.safety_officers.find_one({
         "_id": ObjectId(officer_id)
     })
     return render_template("delete_officers.template.html",
-                            safety_officer=safety_officer)
+                           safety_officer=safety_officer)
+
 
 @app.route("/officers/delete/<officer_id>", methods=["POST"])
 def process_delete_officer(officer_id):
@@ -326,11 +339,13 @@ def process_delete_officer(officer_id):
 
    # Create accident report
 
+
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
     return render_template("show_accident_reports.template.html",
-                            accident_reports=all_accident_reports)
+                           accident_reports=all_accident_reports)
+
 
 @app.route("/accident_reports/create")
 @flask_login.login_required
@@ -351,6 +366,7 @@ def show_create_accident_report():
     return render_template("create_accident_reports.template.html", errors={},
                            accident_types=accident_types,
                            safety_officers=safety_officers)
+
 
 @app.route("/accident_reports/create", methods=["Post"])
 # @flask_login.login_required
@@ -381,7 +397,7 @@ def process_create_accident_report():
     # Check if the date in numbers
     if date == "" or date == " ":
         errors.update(
-            date_empty= "Please enter a date")
+            date_empty="Please enter a date")
 
     # check if the date in correct format
     # if not date.isnumeric():
@@ -390,42 +406,42 @@ def process_create_accident_report():
 
     if location == "" or location == " ":
         errors.update(
-            location_empty= "Please enter a location")
+            location_empty="Please enter a location")
 
     if len(location) < 3:
         errors.update(
-            location_too_short = "Please enter at least 3 characters")
+            location_too_short="Please enter at least 3 characters")
 
     # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
-            location_too_long = "Please keep to 50 characters")
-    
+            location_too_long="Please keep to 50 characters")
+
     if description == "" or description == " ":
         errors.update(
-            description_empty= "Please enter a description")
+            description_empty="Please enter a description")
 
     if len(description) < 3:
         errors.update(
-            description_too_short = "Please enter at least 3 characters")
+            description_too_short="Please enter at least 3 characters")
 
     # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
-            description_too_long = "Please keep to 255 characters")
+            description_too_long="Please keep to 255 characters")
 
     if injuries == "" or injuries == " ":
         errors.update(
-            injuries_empty= "Please enter an injury")
+            injuries_empty="Please enter an injury")
 
     if len(injuries) < 3:
         errors.update(
-            injuries_too_short = "Please enter at least 3 characters")
+            injuries_too_short="Please enter at least 3 characters")
 
     # Check if injuries no more than 50 characters
     if not len(injuries) <= 50:
         errors.update(
-            injuries_too_long = "Please keep to 50 characters")
+            injuries_too_long="Please keep to 50 characters")
 
     # if errors go back to form and try again
     if len(errors) > 0:
@@ -433,10 +449,10 @@ def process_create_accident_report():
         accident_types = db.accident_types.find()
         safety_officers = db.safety_officers.find()
         return render_template("create_accident_reports.template.html",
-                                errors=errors,
-                                previous_values=request.form,
-                                accident_types=accident_types,
-                                safety_officers=safety_officers)
+                               errors=errors,
+                               previous_values=request.form,
+                               accident_types=accident_types,
+                               safety_officers=safety_officers)
 
     # get existing collection info
     accident_type = db.accident_types.find_one({
@@ -467,11 +483,13 @@ def process_create_accident_report():
     return redirect(url_for("show_accident_reports"))
 
 # Update accident report
+
+
 @app.route("/accident_reports/update/<accident_report_id>")
 # @flask_login.login_required
 def show_update_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
-       "_id": ObjectId(accident_report_id)
+        "_id": ObjectId(accident_report_id)
     })
     accident_types = db.accident_types.find()
     safety_officers = db.safety_officers.find()
@@ -479,6 +497,7 @@ def show_update_accident_report(accident_report_id):
                            accident_report=accident_report,
                            accident_types=accident_types,
                            safety_officers=safety_officers)
+
 
 @app.route("/accident_reports/update/<accident_report_id>", methods=["POST"])
 def process_update_accident_report(accident_report_id):
@@ -493,53 +512,53 @@ def process_update_accident_report(accident_report_id):
 
     if location == "" or location == " ":
         errors.update(
-            location_empty= "Please enter a location")
+            location_empty="Please enter a location")
 
     if len(location) < 3:
         errors.update(
-            location_too_short = "Please enter at least 3 characters")
+            location_too_short="Please enter at least 3 characters")
 
     # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
-            location_too_long = "Please keep to 50 characters")
-    
+            location_too_long="Please keep to 50 characters")
+
     if description == "" or description == " ":
         errors.update(
-            description_empty= "Please enter a description")
+            description_empty="Please enter a description")
 
     if len(description) < 3:
         errors.update(
-            description_too_short = "Please enter at least 3 characters")
+            description_too_short="Please enter at least 3 characters")
 
     # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
-            description_too_long = "Please keep to 255 characters")
+            description_too_long="Please keep to 255 characters")
 
     if injuries == "" or injuries == " ":
         errors.update(
-            injuries_empty= "Please enter an injury")
+            injuries_empty="Please enter an injury")
 
     if len(injuries) < 3:
         errors.update(
-            injuries_too_short = "Please enter at least 3 characters")
+            injuries_too_short="Please enter at least 3 characters")
 
     # Check if injuries no more than 50 characters
     if not len(injuries) <= 50:
         errors.update(
-            injuries_too_long = "Please keep to 50 characters")
-    
+            injuries_too_long="Please keep to 50 characters")
+
     # if errors go back to form and try again
     if len(errors) > 0:
         # Do this so that when the select will repopulate
         accident_types = db.accident_types.find()
         safety_officers = db.safety_officers.find()
         return render_template("create_accident_reports.template.html",
-                                errors=errors,
-                                previous_values=request.form,
-                                accident_types=accident_types,
-                                safety_officers=safety_officers)
+                               errors=errors,
+                               previous_values=request.form,
+                               accident_types=accident_types,
+                               safety_officers=safety_officers)
 
     # get existing collection info and change cursor to dict
     accident_reports = db.accident_reports.find_one({
@@ -579,6 +598,8 @@ def process_update_accident_report(accident_report_id):
                             accident_report_id=accident_report_id))
 
 # Deleting accident report
+
+
 @app.route("/accident_reports/delete/<accident_report_id>")
 # @flask_login.login_required
 def show_delete_accident_report(accident_report_id):
@@ -587,7 +608,8 @@ def show_delete_accident_report(accident_report_id):
     })
 
     return render_template("delete_accident_report.template.html",
-                            accident_report=accident_report)
+                           accident_report=accident_report)
+
 
 @app.route("/accident_reports/delete/<accident_report_id>", methods=["POST"])
 def process_delete_accident_report(accident_report_id):
@@ -596,19 +618,23 @@ def process_delete_accident_report(accident_report_id):
     })
     return redirect(url_for("show_accident_reports"))
 
+# NEAR MISS
+
+
 @app.route("/near_miss_reports")
 def show_near_miss_reports():
     all_near_miss_reports = db.near_miss_reports.find()
     return render_template("show_near_miss_reports.template.html",
-                            near_miss_reports=all_near_miss_reports)
+                           near_miss_reports=all_near_miss_reports)
+
 
 @app.route("/near_miss_reports/create")
 # @flask_login.login_required
 def show_create_near_miss_report():
     safety_officers = db.safety_officers.find()
-
-    return render_template("create_near_miss_report.template.html",
+    return render_template("create_near_miss_report.template.html", errors={},
                            safety_officers=safety_officers)
+
 
 @app.route("/near_miss_reports/create", methods=["Post"])
 # @flask_login.login_required
@@ -627,57 +653,56 @@ def process_create_near_miss_accident_report():
     # the order of conditions matter in app and html as well
 
     # Check if the date in numbers
-    # if date == "" or date == " ":
-    #     errors.update(
-    #         date_empty= "Please enter a date")
+    if date == "" or date == " ":
+        errors.update(
+            date_empty="Please enter a date")
 
     # check if the date in correct format
-    # if not date.isnumeric():
-    #     errors.update(
-    #         date_wrong_format = "Please enter Date in YYYY-MM-DD")
+    if not date.isnumeric():
+        errors.update(
+            date_wrong_format="Please enter Date in YYYY-MM-DD")
 
-    # if location == "" or location == " ":
-    #     errors.update(
-    #         location_empty= "Please enter a location")
+    if location == "" or location == " ":
+        errors.update(
+            location_empty="Please enter a location")
 
-    # if len(location) < 3:
-    #     errors.update(
-    #         location_too_short = "Please enter at least 3 characters")
+    if len(location) < 3:
+        errors.update(
+            location_too_short="Please enter at least 3 characters")
 
     # # Check if location no more than 50 characters
-    # if not len(location) <= 50:
-    #     errors.update(
-    #         location_too_long = "Please keep to 50 characters")
+    if not len(location) <= 50:
+        errors.update(
+            location_too_long="Please keep to 50 characters")
 
-    # if description == "" or description == " ":
-    #     errors.update(
-    #         description_empty= "Please enter a description")
+    if description == "" or description == " ":
+        errors.update(
+            description_empty="Please enter a description")
 
-    # if len(description) < 3:
-    #     errors.update(
-    #         description_too_short = "Please enter at least 3 characters")
+    if len(description) < 3:
+        errors.update(
+            description_too_short="Please enter at least 3 characters")
 
     # # Check if description no more than 255 characters
-    # if not len(description) <= 255:
-    #     errors.update(
-    #         description_too_long = "Please keep to 255 characters")
+    if not len(description) <= 255:
+        errors.update(
+            description_too_long="Please keep to 255 characters")
 
     # if errors go back to form and try again
-    # if len(errors) > 0:
-    #     # Do this so that when the select will repopulate
-    #     safety_officers = db.safety_officers.find()
-    #     return render_template("create_near_miss_reports.template.html",
-    #                             errors=errors,
-    #                             previous_values=request.form,
-    #                             accident_types=accident_types,
-    #                             safety_officers=safety_officers)
+    if len(errors) > 0:
+        # Do this so that when the select will repopulate
+        safety_officers = db.safety_officers.find()
+        return render_template("create_near_miss_report.template.html",
+                               errors=errors,
+                               previous_values=request.form,
+                               safety_officers=safety_officers)
 
     # get existing collection info
     safety_officer = db.safety_officers.find_one({
         "_id": ObjectId(safety_officer_id)
     })
 
-    # Create accident report
+    # Create near miss report
     new_near_miss_report = {
         "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "location": location,
@@ -690,6 +715,7 @@ def process_create_near_miss_accident_report():
     # Add the query to the database and the front page
     db.near_miss_reports.insert_one(new_near_miss_report)
     return redirect(url_for("show_near_miss_reports"))
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
