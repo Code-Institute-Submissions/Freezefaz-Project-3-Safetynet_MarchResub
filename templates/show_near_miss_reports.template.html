@@ -5,13 +5,13 @@
 <h1>Near Miss Reports</h1>
 
 <ul>
-{% for each_nearmiss_report in accident_reports %}
+{% for each_nearmiss_report in near_miss_reports %}
     <li>
     {{each_nearmiss_report.date}}
     </li>
     <li>{{each_nearmiss_report.location}}</li>
     <li>{{each_nearmiss_report.description}}</li>
-    <li>{{each_accident_report.safety_officer}}</li>
+    <li>{{each_nearmiss_report.safety_officer}}</li>
 {%endfor%}
 </ul>
 

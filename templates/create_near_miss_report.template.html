@@ -1,0 +1,9 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+<h1>Near Miss Report</h1>
+    <form method="POST">
+        {%include 'form_near_miss_report.template.html'%}
+        <input type="submit" value="Create" class="btn btn-primary">
+    </form>
+{%endblock%}

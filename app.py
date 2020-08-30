@@ -602,6 +602,95 @@ def show_near_miss_reports():
     return render_template("show_near_miss_reports.template.html",
                             near_miss_reports=all_near_miss_reports)
 
+@app.route("/near_miss_reports/create")
+# @flask_login.login_required
+def show_create_near_miss_report():
+    safety_officers = db.safety_officers.find()
+
+    return render_template("create_near_miss_report.template.html",
+                           safety_officers=safety_officers)
+
+@app.route("/near_miss_reports/create", methods=["Post"])
+# @flask_login.login_required
+def process_create_near_miss_accident_report():
+    # extract info from forms
+    date = request.form.get("date")
+    location = request.form.get("location")
+    description = request.form.get("description")
+    safety_officer_id = request.form.get("safety_officer")
+
+    # Validation
+    # Accumulator to capture errors
+    errors = {}
+
+    # check if information is valid
+    # the order of conditions matter in app and html as well
+
+    # Check if the date in numbers
+    # if date == "" or date == " ":
+    #     errors.update(
+    #         date_empty= "Please enter a date")
+
+    # check if the date in correct format
+    # if not date.isnumeric():
+    #     errors.update(
+    #         date_wrong_format = "Please enter Date in YYYY-MM-DD")
+
+    # if location == "" or location == " ":
+    #     errors.update(
+    #         location_empty= "Please enter a location")
+
+    # if len(location) < 3:
+    #     errors.update(
+    #         location_too_short = "Please enter at least 3 characters")
+
+    # # Check if location no more than 50 characters
+    # if not len(location) <= 50:
+    #     errors.update(
+    #         location_too_long = "Please keep to 50 characters")
+
+    # if description == "" or description == " ":
+    #     errors.update(
+    #         description_empty= "Please enter a description")
+
+    # if len(description) < 3:
+    #     errors.update(
+    #         description_too_short = "Please enter at least 3 characters")
+
+    # # Check if description no more than 255 characters
+    # if not len(description) <= 255:
+    #     errors.update(
+    #         description_too_long = "Please keep to 255 characters")
+
+    # if errors go back to form and try again
+    # if len(errors) > 0:
+    #     # Do this so that when the select will repopulate
+    #     safety_officers = db.safety_officers.find()
+    #     return render_template("create_near_miss_reports.template.html",
+    #                             errors=errors,
+    #                             previous_values=request.form,
+    #                             accident_types=accident_types,
+    #                             safety_officers=safety_officers)
+
+    # get existing collection info
+    safety_officer = db.safety_officers.find_one({
+        "_id": ObjectId(safety_officer_id)
+    })
+
+    # Create accident report
+    new_near_miss_report = {
+        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "location": location,
+        "description": description,
+        "safety_officer": safety_officer["first_name"] + " "
+        + safety_officer["last_name"],
+        "safety_officer_id": ObjectId(safety_officer_id)
+    }
+
+    # Add the query to the database and the front page
+    db.near_miss_reports.insert_one(new_near_miss_report)
+    return redirect(url_for("show_near_miss_reports"))
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
