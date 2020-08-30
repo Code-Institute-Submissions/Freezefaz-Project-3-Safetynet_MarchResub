@@ -839,52 +839,52 @@ def process_create_violation_report():
 
     # Validation
     # Accumulator to capture errors
-    # errors = {}
+    errors = {}
 
-    # # check if information is valid
-    # # the order of conditions matter in app and html as well
+    # check if information is valid
+    # the order of conditions matter in app and html as well
 
-    # # Check if the date in numbers
-    # if date == "" or date == " ":
-    #     errors.update(
-    #         date_empty="Please enter a date")
+    # Check if the date in numbers
+    if date == "" or date == " ":
+        errors.update(
+            date_empty="Please enter a date")
 
-    # if location == "" or location == " ":
-    #     errors.update(
-    #         location_empty="Please enter a location")
+    if location == "" or location == " ":
+        errors.update(
+            location_empty="Please enter a location")
 
-    # if len(location) < 3:
-    #     errors.update(
-    #         location_too_short="Please enter at least 3 characters")
+    if len(location) < 3:
+        errors.update(
+            location_too_short="Please enter at least 3 characters")
 
-    # # Check if location no more than 50 characters
-    # if not len(location) <= 50:
-    #     errors.update(
-    #         location_too_long="Please keep to 50 characters")
+    # Check if location no more than 50 characters
+    if not len(location) <= 50:
+        errors.update(
+            location_too_long="Please keep to 50 characters")
 
-    # if description == "" or description == " ":
-    #     errors.update(
-    #         description_empty="Please enter a description")
+    if description == "" or description == " ":
+        errors.update(
+            description_empty="Please enter a description")
 
-    # if len(description) < 3:
-    #     errors.update(
-    #         description_too_short="Please enter at least 3 characters")
+    if len(description) < 3:
+        errors.update(
+            description_too_short="Please enter at least 3 characters")
 
-    # # Check if description no more than 255 characters
-    # if not len(description) <= 255:
-    #     errors.update(
-    #         description_too_long="Please keep to 255 characters")
+    # Check if description no more than 255 characters
+    if not len(description) <= 255:
+        errors.update(
+            description_too_long="Please keep to 255 characters")
 
-    # # if errors go back to form and try again
-    # if len(errors) > 0:
-    #     # Do this so that when the select will repopulate
-    #     violation_types = db.violation_types.find()
-    #     safety_officers = db.safety_officers.find()
-    #     return render_template("create_accident_reports.template.html",
-    #                            errors=errors,
-    #                            previous_values=request.form,
-    #                            violation_types=violation_types,
-    #                            safety_officers=safety_officers)
+    # if errors go back to form and try again
+    if len(errors) > 0:
+        # Do this so that when the select will repopulate
+        violation_types = db.violation_types.find()
+        safety_officers = db.safety_officers.find()
+        return render_template("create_violation_report.template.html",
+                               errors=errors,
+                               previous_values=request.form,
+                               violation_types=violation_types,
+                               safety_officers=safety_officers)
 
     # get existing collection info
     violation_type = db.violation_types.find_one({

@@ -1,22 +1,37 @@
 <div>
     <label>Date</label>
-    <input type="text" name="date" class="form-control">
+    <input type="text" name="date" class="form-control {%if 'date_empty' in errors %} is-invalid {%endif%}" value="{{previous_values.date}}">
+    {%if 'date_empty' in errors%}
+    <div class="invalid-feedback">
+        {{errors.date_empty}} 
+    </div>
+    {%endif%} 
 </div>
 <div>
     <label>Location</label>
-    <input type="text" name="location" class="form-control">
+    <input type="text" name="location" class="form-control {%if 'location_empty' in errors or 'location_too_short' in errors or 'location_too_long' in errors%} is-invalid {%endif%}" value="{{previous_values.location}}">
+    {%if 'location_empty' in errors or 'location_too_short' in errors or 'location_too_long' in errors%}
+    <div class="invalid-feedback">
+        {{errors.location_empty or errors.location_too_short or errors.location_too_long}} 
+    </div>
+    {%endif%}  
 </div>
 <div>
     <label>Violation Type</label>
     <select name="violation_type" class="form-control">
         {%for each_violation_type in violation_types%}
-            <option value="{{each_violation_type._id}}">{{each_violation_type.violation_type}}</option>
+            <option value="{{each_violation_type._id}}" {%if previous_values and each_violation_type._id==previous_values.violation_type._id%} selected {%endif%}>{{each_violation_type.violation_type}}</option>
         {%endfor%}
     </select>
 </div>
 <div>
     <label>Description</label>
-    <input type="text" name="description" class="form-control">
+    <input type="text" name="description" class="form-control {%if 'description_empty' in errors or 'description_too_short' in errors or 'description_too_long' in errors %} is-invalid {%endif%}" value="{{previous_values.description}}">
+    {%if 'description_empty' in errors or 'description_too_short' in errors or 'description_too_long' in errors%}
+    <div class="invalid-feedback">
+          {{errors.description_empty or errors.description_too_short or errors.description_too_long}} 
+    </div>
+    {%endif%} 
 </div>
 <div>
     <label>Reported by</label>
