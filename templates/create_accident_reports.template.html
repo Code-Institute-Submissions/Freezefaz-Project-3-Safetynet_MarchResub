@@ -1,6 +1,9 @@
 {%extends 'base.template.html'%}
 
 {%block content%}
+
+<h1>Create Accident Report</h1>
+
     <form method="POST">
     {%with%}
         {%if not previous_values%}
@@ -8,7 +11,7 @@
         {%endif%}
 
         {%include 'form_accident_report.template.html'%}
-        <input type="submit" value="Create" class="btn btn-primary">
+        <input type="submit" value="Create" class="btn btn-primary mt-3">
     {%endwith%}
     </form>
 {%endblock%}
