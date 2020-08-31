@@ -7,11 +7,11 @@
         {%set previous_values = {}%}
     {%endif%}
 
-<h2>Updating Violation Report by {{violation_report.safety_officer}} on {{violation_report.date}}</h2>
+<h2>Update Violation Report by {{violation_report.safety_officer}} on {{violation_report.date}}</h2>
 <form method="POST">
         {%include 'form_violation_report.template.html'%}
     {%endwith%}
-    <input type="submit" value="Update" class="btn btn-primary">
+    <input type="submit" value="Update" class="btn btn-primary mt-3">
 </form>
 
 {%endblock%}
