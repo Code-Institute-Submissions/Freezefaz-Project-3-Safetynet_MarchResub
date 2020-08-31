@@ -2,13 +2,15 @@
 
 {%block content%}
 
-    <form method="POST">
+<h1>Safety Officer Registration</h1>
+
+<form method="POST">
     {%with%}
         {%if not previous_values%}
             {%set previous_values = {}%}
         {%endif%}
         {%include 'form_officer.template.html'%}
-        <input type="submit" value="Register" class="btn btn-primary">
+        <input type="submit" value="Register" class="btn btn-primary mt-3">
     {%endwith%}
     </form>
 {%endblock%}
