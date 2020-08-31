@@ -4,18 +4,19 @@
 
 <h1>Safety Officers</h1>
 
-<ul>
 {% for each_officer in officers %}
-    <li>
-    {{each_officer.first_name}} {{each_officer.last_name}}
+<div class="card">
+    <div class="card-body">
+    
+    <h5 class="card-title"> {{each_officer.first_name}} {{each_officer.last_name}}
     {%if current_user.is_authenticated %}
-    <a href="{{url_for('show_update_officer', officer_id=each_officer._id)}}" class="btn btn-primary">Edit</a>
+    <a href="{{url_for('show_update_officer', officer_id=each_officer._id)}}" class="btn btn-primary btn-sm">Edit</a>
     <a href="{{url_for('show_delete_officer', officer_id=each_officer._id)}}" class="btn btn-danger btn-sm">Delete</a>
-    {%endif%}
-    </li>
-    <li>{{each_officer.contact_number}}</li>
-    <li>{{each_officer.email}}</li>
+    {%endif%}</h5>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Contact Number: {{each_officer.contact_number}}</li>
+        <li class="list-group-item">Email: {{each_officer.email}}</li>
+  </ul>
+</div>
 {%endfor%}
-</ul>
-
 {%endblock%}
