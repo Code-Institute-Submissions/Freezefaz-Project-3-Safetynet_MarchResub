@@ -1,11 +1,32 @@
 /* Index page */
-
 body {
     background-color: red;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    border: 0;
 }
 container {
     display: flex;
     justify-content: center;
 }
+#logo {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+h1 {
+    /* display: flex; */
+    padding: 10px;
+    text-align: center;
+}
+.row {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+h2 {
+    padding: 10px;
+    text-align:center;
+}
+
+

@@ -12,15 +12,12 @@
 </head>
 <body>
     <div class="container">
-        <img src="static/safetynet-logo.png">
+        <div id="logo">
+            <img src="static/safetynet-logo.png">
+        </div>
         <h1>SafetyNet</h1>
-        <div class="row">
-            <div>
-                <a href="{{url_for('show_officers')}}" class="btn btn-primary">Safety Officers</a>
-            </div>
-            <div>
-                <a href="{{url_for('create_officers')}}" class="btn btn-primary">Register</a>
-            </div>
+
+        <div class="row" id="log">
             <div>
                 <a href="{{url_for('login')}}" class="btn btn-primary">Login</a>
             </div>
@@ -28,25 +25,35 @@
                 <a href="{{url_for('logout')}}" class="btn btn-primary">Logout</a>
             </div>
         </div>
+
+        <h2>Safety Officers</h2>
+        <div class="row">
+            <div>
+                <a href="{{url_for('show_officers')}}" class="btn btn-primary">Safety Officers</a>
+
+                <a href="{{url_for('create_officers')}}" class="btn btn-primary">Register</a>
+            </div>
+        </div>
         <h2>Choose Report Type</h2>
-        <div>
-            <p>
-            <a href="{{url_for('show_accident_reports')}}" class="btn btn-success">Read Accident Reports</a>
-            <a href="{{url_for('show_create_accident_report')}}" class="btn btn-success">Create Accident Reports</a>
-            </p>
-        </div>
-        <div>
-            <p>
-            <a href="{{url_for('show_near_miss_reports')}}" class="btn btn-success">Read Near Miss Reports</a>
-            <a href="{{url_for('show_create_near_miss_report')}}" class="btn btn-success">Create Near Miss Reports</a>
-            </p>
-        </div>
-        <div>
-            <p>
-            <a href="{{url_for('show_violation_reports')}}" class="btn btn-success">Read Violation Reports</a>
-            <a href="{{url_for('show_create_violation_report')}}" class="btn btn-success">Create Violation Reports</a>
-            </p>
-        </div>
+        <div class="row" id="reports">
+            <div>
+                <p>
+                <a href="{{url_for('show_accident_reports')}}" class="btn btn-success">Read Accident Reports</a>
+                <a href="{{url_for('show_create_accident_report')}}" class="btn btn-success">Create Accident Reports</a>
+                </p>
+            </div>
+            <div>
+                <p>
+                <a href="{{url_for('show_near_miss_reports')}}" class="btn btn-success">Read Near Miss Reports</a>
+                <a href="{{url_for('show_create_near_miss_report')}}" class="btn btn-success">Create Near Miss Reports</a>
+                </p>
+            </div>
+            <div>
+                <p>
+                <a href="{{url_for('show_violation_reports')}}" class="btn btn-success">Read Violation Reports</a>
+                <a href="{{url_for('show_create_violation_report')}}" class="btn btn-success">Create Violation Reports</a>
+                </p>
+            </div>
     </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
