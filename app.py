@@ -60,6 +60,23 @@ def show_officers():
     return render_template("show_officers.template.html",
                            officers=all_officers)
 
+@app.route("/search")
+def search():
+    required_safety_officer_name = request.args.get("first_name") or ''
+
+    criteria = {}
+
+    if required_safety_officer_name:
+        criteria["first_name"] = {
+            "$regex": required_safety_officer_name,
+            "$options": "i"
+        }
+    
+    all_officers = db.safety_officers.find(criteria)
+
+    return render_template("search.template.html",
+                            officers=all_officers,
+                            required_safety_officer_name=required_safety_officer_name)
 
 @app.route("/officers/create")
 def create_officers():

@@ -1,0 +1,18 @@
+{%extends 'base.template.html'%}
+
+{%block content%}
+
+<h1>Search</h1>
+
+<form method="GET" class="form-inline">
+    <label>Search Safety Officer:</label>
+    <input type="text" name="first_name" class="form-control" value="{{required_safety_officer_name}}" placeholder="Enter name">
+</form>
+
+<ul>
+    {%for each_safety_officer in officers%}
+        <li>{{each_safety_officer.first_name}}</li>
+    {%endfor%}
+</ul>
+
+{%endblock%}
