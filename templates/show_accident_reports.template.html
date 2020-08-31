@@ -7,8 +7,8 @@
 {% for each_accident_report in accident_reports %}
 <div class="card">
     <div class="card-body">
-    <h5 class="card-title">Date: {{each_accident_report.date}}
-    {%if current_user.is_authenticated %} by {{each_accident_report.safety_officer}}
+    <h5 class="card-title">Date: {{each_accident_report.date}} by {{each_accident_report.safety_officer}}
+    {%if current_user.is_authenticated %}
     <a href="{{url_for('show_update_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-primary btn-sm">Update</a>
     <a href="{{url_for('show_delete_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-danger btn-sm">Delete</a>
     {%endif%}</h5>
