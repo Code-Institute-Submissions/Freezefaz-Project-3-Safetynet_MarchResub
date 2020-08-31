@@ -39,11 +39,22 @@ h2 {
     width: 6rem;
     margin: 5px;
 }
+#definition {
+    display: flex;
+    justify-content: center;
+}
+#definition img {
+    /* background-color: white; */
+    padding: 10px;
+    width: 80%;
+}
 #reports {
     display: flex;
     /* justify-content: center; */
     align-items: center;
     flex-direction: column;
+    padding: 10px;
+    margin: 10px;
 }
 .report {
     display: flex;
