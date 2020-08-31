@@ -28,5 +28,18 @@ h2 {
     padding: 10px;
     text-align:center;
 }
-
-
+#log a {
+    width: 5rem;
+    margin: 5px;
+    flex-direction: column;
+}
+#officers a {
+    width: 8rem;
+    margin: 5px;
+}
+#reports a {
+    width: 10 rem;
+    margin: 5px;
+    /* display: flex;
+    flex-direction: column; */
+}
