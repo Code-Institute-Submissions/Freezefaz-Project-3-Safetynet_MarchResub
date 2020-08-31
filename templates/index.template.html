@@ -27,20 +27,20 @@
         </div>
         <h2>Safety Officers</h2>
         <div class="row" id="officers">
-                <a href="{{url_for('show_officers')}}" class="btn btn-primary">Safety Officers</a>
+                <a href="{{url_for('show_officers')}}" class="btn btn-primary">View All</a>
                 <a href="{{url_for('create_officers')}}" class="btn btn-primary">Register</a>
         </div>
         <h2>Choose Report Type</h2>
         <div class="row" id="reports">
-            <div id="accident">
+            <div class="report" id="accident">
                 <a href="{{url_for('show_accident_reports')}}" class="btn btn-success">Read Accident Reports</a>
                 <a href="{{url_for('show_create_accident_report')}}" class="btn btn-success">Create Accident Reports</a>
             </div>
-            <div id="near-miss">
+            <div class="report" id="near-miss">
                 <a href="{{url_for('show_near_miss_reports')}}" class="btn btn-success">Read Near Miss Reports</a>
                 <a href="{{url_for('show_create_near_miss_report')}}" class="btn btn-success">Create Near Miss Reports</a>
             </div>
-            <div id="violation">
+            <div class="report" id="violation">
                 <a href="{{url_for('show_violation_reports')}}" class="btn btn-success">Read Violation Reports</a>
                 <a href="{{url_for('show_create_violation_report')}}" class="btn btn-success">Create Violation Reports</a>
             </div>
