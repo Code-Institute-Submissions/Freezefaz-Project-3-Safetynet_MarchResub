@@ -1,3 +1,18 @@
+nav {
+    background: #d92027;
+    margin-bottom: 15px;
+}
 nav img {
     width: 20vh;
+}
+#safety-oficers-DropdownMenuLink, #accident-reports-DropdownMenuLink,
+#nearmiss-reports-DropdownMenuLink, #violations-reports-DropdownMenuLink  {
+    color: white;
+}
+.dropdown-menu a {
+    color: #d92027;
+}
+
+.nav-item {
+    color: white;
 }
