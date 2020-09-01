@@ -60,37 +60,63 @@ def show_officers():
     return render_template("show_officers.template.html",
                            officers=all_officers)
 
+
 @app.route("/search")
+# @app.route("/officers")
 def search():
-    
+
     # required_safety_officer_fname = request.args.get("first_name") or ''
     # required_safety_officer_lname = request.args.get("last_name") or ''
-    criteria = {}
     required_safety_officer_name = request.args.get("name") or ''
+    # results = search_results(required_safety_officer_name)
+    criteria = {}
 
     if required_safety_officer_name:
-        criteria["first_name"] = {
-            "$regex": required_safety_officer_name,
-            "$options": "i"
-        }
-    else:
-        # required_safety_officer_name
-        criteria["last_name"] = {
-            "$regex": required_safety_officer_name,
-            "$options": "i"
-        }
+        criteria["$or"] = [
+            {
+                "first_name": {
+                    "$regex": required_safety_officer_name,
+                    "$options": "i"
+                }
+            },
+            {
+                "last_name": {
+                    "$regex": required_safety_officer_name,
+                    "$options": "i"
+                }}
+        ]
 
-    all_officers = db.safety_officers.find(criteria)
-    # results = db.safety_officers.find({
-    #     "first_name": {
-    #         "regex": required_safety_officer_name,
+    # elif required_safety_officer_name:
+    #     criteria["last_name"] = {
+    #         "$regex": required_safety_officer_name,
     #         "$options": "i"
     #     }
-    # })
+
+    officers = db.safety_officers.find(criteria)
 
     return render_template("search.template.html",
-                            officers=all_officers,
-                            required_safety_officer_name=required_safety_officer_name)
+                           officers=officers,
+                           required_safety_officer_name=required_safety_officer_name)
+    # return render_template("show_officers.template.html",
+    #                            officers=officers,
+    #                            required_safety_officer_name=required_safety_officer_name)
+
+# def search_results(required_safety_officer_name):
+#     results = []
+#     results = db.safety_officers.find({
+#         "first_name": {
+#             "regex": required_safety_officer_name,
+#             "$options": "i"
+#         }
+#     })
+#     results = db.safety_officers.find({
+#         "last_name": {
+#             "regex": required_safety_officer_name,
+#             "$options": "i"
+#         }
+#     })
+#     return results
+
 
 @app.route("/officers/create")
 def create_officers():
@@ -369,11 +395,14 @@ def process_delete_officer(officer_id):
     return redirect(url_for("show_officers"))
 
 # ACCIDENT REPORT
+
+
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
     return render_template("show_accident_reports.template.html",
                            accident_reports=all_accident_reports)
+
 
 @app.route("/accident_reports/create")
 @flask_login.login_required
@@ -647,6 +676,8 @@ def process_delete_accident_report(accident_report_id):
     return redirect(url_for("show_accident_reports"))
 
 # NEAR MISS
+
+
 @app.route("/near_miss_reports")
 def show_near_miss_reports():
     all_near_miss_reports = db.near_miss_reports.find()
@@ -741,6 +772,7 @@ def process_create_near_miss_accident_report():
     db.near_miss_reports.insert_one(new_near_miss_report)
     return redirect(url_for("show_near_miss_reports"))
 
+
 @app.route("/near_miss_reports/update/<near_miss_report_id>")
 def show_update_near_miss_report(near_miss_report_id):
     near_miss_report = db.near_miss_reports.find_one({
@@ -750,6 +782,7 @@ def show_update_near_miss_report(near_miss_report_id):
     return render_template("update_near_miss_report.template.html",
                            near_miss_report=near_miss_report,
                            safety_officers=safety_officers)
+
 
 @app.route("/near_miss_reports/update/<near_miss_report_id>", methods=["POST"])
 def process_update_near_miss_report(near_miss_report_id):
@@ -829,6 +862,7 @@ def process_update_near_miss_report(near_miss_report_id):
     return redirect(url_for("show_near_miss_reports",
                             near_miss_report_id=near_miss_report_id))
 
+
 @app.route("/near_miss_reports/delete/<near_miss_report_id>")
 def show_delete_near_miss_report(near_miss_report_id):
     near_miss_report = db.near_miss_reports.find_one({
@@ -838,6 +872,7 @@ def show_delete_near_miss_report(near_miss_report_id):
     return render_template("delete_near_miss_report.template.html",
                            near_miss_report=near_miss_report)
 
+
 @app.route("/near_miss_reports/delete/<near_miss_report_id>", methods=["POST"])
 def process_delete_near_miss_report(near_miss_report_id):
     db.near_miss_reports.remove({
@@ -846,6 +881,8 @@ def process_delete_near_miss_report(near_miss_report_id):
     return redirect(url_for("show_near_miss_reports"))
 
 # VIOLATIONS
+
+
 @app.route("/violation_reports")
 def show_violation_reports():
     all_violation_reports = db.violation_reports.find()
@@ -862,6 +899,7 @@ def show_create_violation_report():
     return render_template("create_violation_report.template.html", errors={},
                            violation_types=violation_types,
                            safety_officers=safety_officers)
+
 
 @app.route("/violation_reports/create", methods=["Post"])
 def process_create_violation_report():
@@ -944,6 +982,7 @@ def process_create_violation_report():
     db.violation_reports.insert_one(new_violation_report)
     return redirect(url_for("show_violation_reports"))
 
+
 @app.route("/violation_reports/update/<violation_report_id>")
 def show_update_violation_report(violation_report_id):
     violation_report = db.violation_reports.find_one({
@@ -955,6 +994,7 @@ def show_update_violation_report(violation_report_id):
                            violation_report=violation_report,
                            violation_types=violation_types,
                            safety_officers=safety_officers)
+
 
 @app.route("/violation_reports/update/<violation_report_id>", methods=["POST"])
 def process_update_violation_report(violation_report_id):
@@ -1042,6 +1082,7 @@ def process_update_violation_report(violation_report_id):
     return redirect(url_for("show_violation_reports",
                             violation_report_id=violation_report_id))
 
+
 @app.route("/violation_reports/delete/<violation_report_id>")
 def show_delete_violation_report(violation_report_id):
     violation_report = db.violation_reports.find_one({
@@ -1050,6 +1091,7 @@ def show_delete_violation_report(violation_report_id):
 
     return render_template("delete_violation_report.template.html",
                            violation_report=violation_report)
+
 
 @app.route("/violation_reports/delete/<violation_report_id>", methods=["POST"])
 def process_delete_violation_report(violation_report_id):
