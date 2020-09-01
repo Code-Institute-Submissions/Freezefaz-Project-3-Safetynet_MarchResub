@@ -721,7 +721,7 @@ def show_near_miss_reports():
     return render_template("show_near_miss_reports.template.html",
                            near_miss_reports=all_near_miss_reports)
 
-### SEARCH ACCIDENT REPORT ###
+### SEARCH NEAR MISS REPORT ###
 @app.route("/near_miss_reports/search")
 def near_miss_search():
 
@@ -957,14 +957,57 @@ def process_delete_near_miss_report(near_miss_report_id):
     return redirect(url_for("show_near_miss_reports"))
 
 # VIOLATIONS
-
-
 @app.route("/violation_reports")
 def show_violation_reports():
     all_violation_reports = db.violation_reports.find()
     return render_template("show_violation_reports.template.html",
                            violation_reports=all_violation_reports)
 
+### SEARCH VIOLATION REPORT ###
+@app.route("/violation_reports/search")
+def violation_search():
+
+    required_violation = request.args.get("violation") or ''
+    criteria = {}
+
+    if required_violation:
+        criteria["$or"] = [
+            {
+                "date": {
+                    "$regex": required_violation,
+                    "$options": "i"
+                }
+            },
+            {
+                "location": {
+                    "$regex": required_violation,
+                    "$options": "i"
+                }
+            },
+            {
+                "violation_type": {
+                    "$regex": required_violation,
+                    "$options": "i"
+                }
+            },
+            {
+                "description": {
+                    "$regex": required_violation,
+                    "$options": "i"
+                }
+            },
+            {
+                "safety_officer": {
+                    "$regex": required_violation,
+                    "$options": "i"
+                }
+            },
+        ]
+
+    violation_reports = db.violation_reports.find(criteria)
+    return render_template("search_violations.template.html",
+                           violation_reports=violation_reports,
+                           required_violation=required_violation)
 
 @app.route("/violation_reports/create")
 @flask_login.login_required
