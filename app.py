@@ -379,14 +379,66 @@ def process_delete_officer(officer_id):
     })
     return redirect(url_for("show_officers"))
 
-# ACCIDENT REPORT
 
+
+### ACCIDENT REPORT ###
 
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
     return render_template("show_accident_reports.template.html",
                            accident_reports=all_accident_reports)
+
+@app.route("/accident_reports/search")
+def accidents_search():
+
+    required_accident = request.args.get("accident") or ''
+    criteria = {}
+
+    if required_accident:
+        criteria["$or"] = [
+            {
+                "date": {
+                    "$regex": required_accident,
+                    "$options": "i"
+                }
+            },
+            {
+                "location": {
+                    "$regex": required_accident,
+                    "$options": "i"
+                }
+            },
+            {
+                "accident_type": {
+                    "$regex": required_accident,
+                    "$options": "i"
+                }
+            },
+            {
+                "description": {
+                    "$regex": required_accident,
+                    "$options": "i"
+                }
+            },
+            {
+                "injuries": {
+                    "$regex": required_accident,
+                    "$options": "i"
+                }
+            },
+            {
+                "safety_officer": {
+                    "$regex": required_accident,
+                    "$options": "i"
+                }
+            },
+        ]
+
+    accident_reports = db.accident_reports.find(criteria)
+    return render_template("search_accidents.template.html",
+                           accident_reports=accident_reports,
+                           required_accident=required_accident)
 
 
 @app.route("/accident_reports/create")

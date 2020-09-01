@@ -1,14 +1,11 @@
 {%extends 'base.template.html'%}
 
 {%block input%}
-<!-- <input class="form-control mr-sm-2" type="search" name="name"  placeholder="Name" aria-label="Search"> -->
-<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a class="form-control" href="{{url_for('accidents_search')}}">Search</a></button>
+<input class="form-control mr-sm-2" type="search" name="accident"  placeholder="Name" aria-label="Search">
+<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 {%endblock%}
 
-
 {%block content%}
-
 <h1>Accident Reports</h1>
 
 {% for each_accident_report in accident_reports %}
