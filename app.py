@@ -62,30 +62,35 @@ def show_officers():
 
 @app.route("/search")
 def search():
-    # required_safety_officer_lname = ""
-    required_safety_officer_fname = request.args.get("first_name") or ''
-    required_safety_officer_lname = request.args.get("last_name") or ''
-    criteria = {}
-
-    if required_safety_officer_fname:
-        criteria["first_name"] = {
-            "$regex": required_safety_officer_fname,
-            "$options": "i"
-        }
-    if required_safety_officer_lname:
-        criteria["last_name"] = {
-            "$regex": required_safety_officer_lname,
-            "$options": "i"
-        }
     
-    # required_safety_officer_name = required_safety_officer_fname + " " + required_safety_officer_lname
+    # required_safety_officer_fname = request.args.get("first_name") or ''
+    # required_safety_officer_lname = request.args.get("last_name") or ''
+    criteria = {}
+    required_safety_officer_name = request.args.get("name") or ''
+
+    if required_safety_officer_name:
+        criteria["first_name"] = {
+            "$regex": required_safety_officer_name,
+            "$options": "i"
+        }
+    else:
+        # required_safety_officer_name
+        criteria["last_name"] = {
+            "$regex": required_safety_officer_name,
+            "$options": "i"
+        }
 
     all_officers = db.safety_officers.find(criteria)
+    # results = db.safety_officers.find({
+    #     "first_name": {
+    #         "regex": required_safety_officer_name,
+    #         "$options": "i"
+    #     }
+    # })
 
     return render_template("search.template.html",
                             officers=all_officers,
-                            required_safety_officer_fname=required_safety_officer_fname,
-                            required_safety_officer_lname=required_safety_officer_lname)
+                            required_safety_officer_name=required_safety_officer_name)
 
 @app.route("/officers/create")
 def create_officers():
