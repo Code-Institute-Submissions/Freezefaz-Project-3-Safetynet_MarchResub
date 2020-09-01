@@ -389,6 +389,7 @@ def show_accident_reports():
     return render_template("show_accident_reports.template.html",
                            accident_reports=all_accident_reports)
 
+### SEARCH ACCIDENT REPORT ###
 @app.route("/accident_reports/search")
 def accidents_search():
 
@@ -714,13 +715,51 @@ def process_delete_accident_report(accident_report_id):
 
 # NEAR MISS
 
-
 @app.route("/near_miss_reports")
 def show_near_miss_reports():
     all_near_miss_reports = db.near_miss_reports.find()
     return render_template("show_near_miss_reports.template.html",
                            near_miss_reports=all_near_miss_reports)
 
+### SEARCH ACCIDENT REPORT ###
+@app.route("/near_miss_reports/search")
+def near_miss_search():
+
+    required_near_miss = request.args.get("near_miss") or ''
+    criteria = {}
+
+    if required_near_miss:
+        criteria["$or"] = [
+            {
+                "date": {
+                    "$regex": required_near_miss,
+                    "$options": "i"
+                }
+            },
+            {
+                "location": {
+                    "$regex": required_near_miss,
+                    "$options": "i"
+                }
+            },
+            {
+                "description": {
+                    "$regex": required_near_miss,
+                    "$options": "i"
+                }
+            },
+            {
+                "safety_officer": {
+                    "$regex": required_near_miss,
+                    "$options": "i"
+                }
+            },
+        ]
+
+    near_miss_reports = db.near_miss_reports.find(criteria)
+    return render_template("search_near_miss.template.html",
+                           near_miss_reports=near_miss_reports,
+                           required_near_miss=required_near_miss)
 
 @app.route("/near_miss_reports/create")
 @flask_login.login_required
