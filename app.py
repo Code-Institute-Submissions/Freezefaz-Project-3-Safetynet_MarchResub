@@ -1043,7 +1043,9 @@ def show_create_violation_report():
 
     return render_template("create_violation_report.template.html", errors={},
                            violation_types=violation_types,
-                           safety_officers=safety_officers)
+                           safety_officers=safety_officers,
+                           cloud_name=CLOUD_NAME,
+                           upload_preset=UPLOAD_PRESET)
 
 
 @app.route("/violation_reports/create", methods=["Post"])
@@ -1054,6 +1056,8 @@ def process_create_violation_report():
     violation_type_id = request.form.get("violation_type")
     description = request.form.get("description")
     safety_officer_id = request.form.get("safety_officer")
+    image_url = request.form.get("uploaded-file-url")
+    asset_id = request.form.get("asset-id")
 
     # Validation
     # Accumulator to capture errors
@@ -1121,7 +1125,9 @@ def process_create_violation_report():
         "description": description,
         "safety_officer": safety_officer["first_name"] + " "
         + safety_officer["last_name"],
-        "safety_officer_id": ObjectId(safety_officer_id)
+        "safety_officer_id": ObjectId(safety_officer_id),
+        'image_url': image_url,
+        'asset_id': asset_id
     }
     # Add the query to the database and the front page
     db.violation_reports.insert_one(new_violation_report)
