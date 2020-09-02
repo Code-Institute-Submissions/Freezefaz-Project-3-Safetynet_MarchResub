@@ -780,7 +780,9 @@ def near_miss_search():
 def show_create_near_miss_report():
     safety_officers = db.safety_officers.find()
     return render_template("create_near_miss_report.template.html", errors={},
-                           safety_officers=safety_officers)
+                           safety_officers=safety_officers,
+                           cloud_name=CLOUD_NAME,
+                           upload_preset=UPLOAD_PRESET)
 
 
 @app.route("/near_miss_reports/create", methods=["Post"])
@@ -790,6 +792,8 @@ def process_create_near_miss_accident_report():
     location = request.form.get("location")
     description = request.form.get("description")
     safety_officer_id = request.form.get("safety_officer")
+    image_url = request.form.get("uploaded-file-url")
+    asset_id = request.form.get("asset-id")
 
     # Validation
     # Accumulator to capture errors
@@ -855,7 +859,9 @@ def process_create_near_miss_accident_report():
         "description": description,
         "safety_officer": safety_officer["first_name"] + " "
         + safety_officer["last_name"],
-        "safety_officer_id": ObjectId(safety_officer_id)
+        "safety_officer_id": ObjectId(safety_officer_id),
+        'image_url': image_url,
+        'asset_id': asset_id
     }
 
     # Add the query to the database and the front page
