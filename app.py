@@ -13,6 +13,8 @@ app = Flask(__name__)
 
 MONGO_URI = os.environ.get('MONGO_URI')
 SECRET_KEY = os.environ.get('SECRET_KEY')
+CLOUD_NAME = os.environ.get('CLOUD_NAME')
+UPLOAD_PRESET = os.environ.get('UPLOAD_PRESET')
 # set up the secret key to flask app
 app.secret_key = SECRET_KEY
 
@@ -460,7 +462,8 @@ def show_create_accident_report():
 
     return render_template("create_accident_reports.template.html", errors={},
                            accident_types=accident_types,
-                           safety_officers=safety_officers)
+                           safety_officers=safety_officers,
+                           cloud_name=CLOUD_NAME,upload_preset=UPLOAD_PRESET)
 
 
 @app.route("/accident_reports/create", methods=["Post"])
@@ -473,6 +476,8 @@ def process_create_accident_report():
     description = request.form.get("description")
     injuries = request.form.get("injuries")
     safety_officer_id = request.form.get("safety_officer")
+    url_image= request.form.get("uploaded_file_url")
+    asset_id=request.form.get("asset_id")
 
     # # get existing collection info
     # accident_type = db.accident_types.find_one({
@@ -568,7 +573,9 @@ def process_create_accident_report():
         "injuries": injuries,
         "safety_officer": safety_officer["first_name"] + " "
         + safety_officer["last_name"],
-        "safety_officer_id": ObjectId(safety_officer_id)
+        "safety_officer_id": ObjectId(safety_officer_id),
+        'image_url': url_image,
+        'asset_id':asset_id
         # "safety_officer": safety_officer
 
     }
