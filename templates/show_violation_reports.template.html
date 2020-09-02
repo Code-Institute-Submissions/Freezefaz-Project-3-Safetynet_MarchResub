@@ -14,7 +14,7 @@
     {%if current_user.is_authenticated %} 
     <a href="{{url_for('show_update_violation_report', violation_report_id=each_violation_report._id)}}" class="btn btn-primary">Update</a>
     <a href="{{url_for('show_delete_violation_report', violation_report_id=each_violation_report._id)}}" class="btn btn-danger">Delete</a>
-    {%endif%}
+    {%endif%}</h5>
     <div>
         <img src="{{each_violation_report.image_url}}" width="400" height="300">
     </div>
