@@ -20,7 +20,7 @@
     <a href="{{url_for('show_delete_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-danger btn-sm">Delete</a>
     {%endif%}</h5>
     <div>
-        <img src="{{each_accident_report.image_url}}"/>
+        <img src="{{each_accident_report.image_url}}" width="400" height="300">
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Location:</strong> {{each_accident_report.location}}</li>
