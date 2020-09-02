@@ -1144,7 +1144,9 @@ def show_update_violation_report(violation_report_id):
     return render_template("update_violation_report.template.html",
                            violation_report=violation_report,
                            violation_types=violation_types,
-                           safety_officers=safety_officers)
+                           safety_officers=safety_officers,
+                           cloud_name=CLOUD_NAME,
+                           upload_preset=UPLOAD_PRESET)
 
 
 @app.route("/violation_reports/update/<violation_report_id>", methods=["POST"])
@@ -1154,6 +1156,8 @@ def process_update_violation_report(violation_report_id):
     violation_type_id = request.form.get("violation_type")
     description = request.form.get("description")
     safety_officer_id = request.form.get("safety_officer")
+    image_url = request.form.get("uploaded-file-url")
+    asset_id = request.form.get("asset-id")
 
     errors = {}
 
@@ -1226,7 +1230,9 @@ def process_update_violation_report(violation_report_id):
             "description": description,
             "safety_officer": safety_officers["first_name"] + " "
             + safety_officers["last_name"],
-            "safety_officer_id": ObjectId(safety_officer_id)
+            "safety_officer_id": ObjectId(safety_officer_id),
+            'image_url': image_url,
+            'asset_id': asset_id
         }
     })
 
