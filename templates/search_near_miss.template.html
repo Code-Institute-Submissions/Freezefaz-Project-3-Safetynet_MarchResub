@@ -17,6 +17,9 @@
     <a href="{{url_for('show_update_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-primary btn-sm">Update</a>
     <a href="{{url_for('show_delete_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-danger btn-sm">Delete</a>
     {%endif%}</h5>
+    <div>
+        <img src="{{each_near_miss_report.image_url}}" width="400" height="300">
+    </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Location:</strong> {{each_near_miss_report.location}}</li>
         <li class="list-group-item"><strong>Description:</strong> {{each_near_miss_report.description}}</li>
