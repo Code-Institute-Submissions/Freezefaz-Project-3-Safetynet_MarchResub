@@ -15,3 +15,27 @@
 </form>
 
 {%endblock%}
+
+{%block script%}
+<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>  
+	<script type="text/javascript">
+		var myWidget = cloudinary.createUploadWidget({
+  cloudName: '{{cloud_name}}', 
+  uploadPreset: '{{upload_preset}}'}, (error, result) => { 
+    if (!error && result && result.event === "success") { 
+     console.log(result);
+                    // extract info from inspector of html  
+                    let assetId = result.info.asset_id;
+                    let fileURL = result.info.url;
+                    // assign the inspector info to the javascript value
+                    document.querySelector("#uploaded-file-url").value = fileURL;
+                    document.querySelector("#asset-id").value = assetId;
+    }
+  }
+)
+
+document.getElementById("upload_widget").addEventListener("click", function(){
+    myWidget.open();
+  }, false);
+	</script>
+{%endblock%}

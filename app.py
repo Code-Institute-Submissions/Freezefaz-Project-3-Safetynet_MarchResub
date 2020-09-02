@@ -877,7 +877,9 @@ def show_update_near_miss_report(near_miss_report_id):
     safety_officers = db.safety_officers.find()
     return render_template("update_near_miss_report.template.html",
                            near_miss_report=near_miss_report,
-                           safety_officers=safety_officers)
+                           safety_officers=safety_officers,
+                           cloud_name=CLOUD_NAME,
+                           upload_preset=UPLOAD_PRESET)
 
 
 @app.route("/near_miss_reports/update/<near_miss_report_id>", methods=["POST"])
@@ -886,6 +888,8 @@ def process_update_near_miss_report(near_miss_report_id):
     location = request.form.get("location")
     description = request.form.get("description")
     safety_officer_id = request.form.get("safety_officer")
+    image_url = request.form.get("uploaded-file-url")
+    asset_id = request.form.get("asset-id")
 
     errors = {}
 
@@ -951,7 +955,9 @@ def process_update_near_miss_report(near_miss_report_id):
             "description": description,
             "safety_officer": safety_officers["first_name"] + " "
             + safety_officers["last_name"],
-            "safety_officer_id": ObjectId(safety_officer_id)
+            "safety_officer_id": ObjectId(safety_officer_id),
+            'image_url': image_url,
+            'asset_id': asset_id
         }
     })
 
