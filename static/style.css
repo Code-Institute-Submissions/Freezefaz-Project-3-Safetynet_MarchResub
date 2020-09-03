@@ -1,12 +1,13 @@
 /* Index page */
 body {
-    background-color: #d92027;
-    /* background-color: white; */
+    /* background-color: #d92027; */
+    background-color: white;
     padding: 0;
     margin: 0;
     border: 0;
 }
-container {
+#top {
+    background-color: #d92027;
     display: flex;
     justify-content: center;
 }
@@ -17,9 +18,36 @@ container {
 }
 #logo img {
     max-width: 1400px;
-    height: auto;
+    /* height: 80%; */
     width: 80%;
 }
+
+nav {
+    background: #d92027;
+    margin-bottom: 15px;
+}
+nav img {
+    width: 20vh;
+}
+
+#safety-oficers-DropdownMenuLink, #accident-reports-DropdownMenuLink,
+#nearmiss-reports-DropdownMenuLink, #violations-reports-DropdownMenuLink  {
+    color: white;
+}
+.dropdown-menu a {
+    color: #d92027;
+}
+/* .nav-item a{
+    color: white;
+} */
+
+#link1, #link2 {
+    color: #ffcd3c;
+}
+/* #link2 {
+    color: #ffcd3c;
+} */
+
 h1 {
     /* display: flex; */
     padding: 10px;
@@ -32,9 +60,11 @@ h1 {
     /* align-items: center; */
 }
 h2 {
+   /* background: #d92027; */
     padding: 10px;
     text-align:center;
-    color: #ffcd3c;
+    color: black;
+    /* color: #ffcd3c; */
 }
 #log a {
     width: 5rem;
@@ -53,7 +83,7 @@ h2 {
 #definition img {
     /* background-color: white; */
     padding: 10px;
-    width: 80vw;
+    width: 90vw;
     max-width: 800px;
 }
 #reports {
