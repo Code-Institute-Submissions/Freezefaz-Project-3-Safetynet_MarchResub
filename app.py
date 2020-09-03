@@ -255,7 +255,7 @@ def process_login():
 
     # if login failed, return back to login page
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
 
 
 @app.route("/officers/logout")
