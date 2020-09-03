@@ -15,10 +15,11 @@ container {
     display: flex;
     justify-content: center;
 }
-/* #logo img {
-    width: auto;
+#logo img {
+    max-width: 1400px;
     height: auto;
-} */
+    width: 80%;
+}
 h1 {
     /* display: flex; */
     padding: 10px;

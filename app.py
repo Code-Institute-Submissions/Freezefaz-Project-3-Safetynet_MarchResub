@@ -198,7 +198,7 @@ def process_create_officers():
     # Add the query to the database and the front page
     db.safety_officers.insert_one(new_officer)
     # flash("New Safety Officer Added", "success")
-    return redirect(url_for("show_officers"))
+    return redirect(url_for("login"))
 
 
 @app.route('/officers/login')
@@ -388,8 +388,9 @@ def process_delete_officer(officer_id):
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
-    return render_template("show_accident_reports.template.html",
-                           accident_reports=all_accident_reports)
+    # return render_template("show_accident_reports.template.html",
+    #                        accident_reports=all_accident_reports)
+    return redirect(url_for("accidents_search"))
 
 ### SEARCH ACCIDENT REPORT ###
 @app.route("/accident_reports/search")

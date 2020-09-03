@@ -9,22 +9,24 @@
 <h1>Accident Reports</h1>
 
 {% for each_accident_report in accident_reports %}
-<div class="card">
-    <div class="card-body">
-    <h5 class="card-title"><strong>Date:</strong> {{each_accident_report.date}} by {{each_accident_report.safety_officer}}
+<div class="card border-dark mb-3">
+    <h5 class="card-header"><strong>Date:</strong> {{each_accident_report.date}} by {{each_accident_report.safety_officer}}
     {%if current_user.is_authenticated %}
     <a href="{{url_for('show_update_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-primary btn-sm">Update</a>
     <a href="{{url_for('show_delete_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-danger btn-sm">Delete</a>
     {%endif%}</h5>
-    <div>
-        <img src="{{each_accident_report.image_url}}" width="400" height="300">
+    <div class="card-body">
+    <div class="card-img-left">
+    <!-- <img src="{{each_accident_report.image_url}}" width="400" height="300"> -->
+        <img src="{{each_accident_report.image_url}}" max-width="400" max-height="300">
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Location:</strong> {{each_accident_report.location}}</li>
         <li class="list-group-item"><strong>Accident Type:</strong> {{each_accident_report.accident_type}}</li>
         <li class="list-group-item"><strong>Description:</strong> {{each_accident_report.description}}</li>
         <li class="list-group-item"><strong>Injuries:</strong> {{each_accident_report.injuries}}</li>
-  </ul>
+    </ul>
+    </div>
 </div>
 {%endfor%}
 {%endblock%}
