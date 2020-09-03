@@ -9,13 +9,13 @@
         <p>By: {{accident_report.safety_officer}}</p>
         <ul>
             <li>Location: {{accident_report.location}}</li>
-            <li>Location: {{accident_report.accident_type}}</li>
-            <li>Location: {{accident_report.description}}</li>            
-            <li>Location: {{accident_report.injuries}}</li>
+            <li>Accident Type: {{accident_report.accident_type}}</li>
+            <li>Description: {{accident_report.description}}</li>            
+            <li>Injuries: {{accident_report.injuries}}</li>
         </ul>
     </div>
     <input type="submit" value="Yes" class="btn btn-danger">
-    <a href="{{url_for('show_accident_reports')}}" class="btn btn-success">No</a>
+    <a href="{{url_for('accidents_search')}}" class="btn btn-success">No</a>
 
 </form>
 

@@ -584,7 +584,7 @@ def process_create_accident_report():
 
     # Add the query to the database and the front page
     db.accident_reports.insert_one(new_accident_report)
-    return redirect(url_for("show_accident_reports"))
+    return redirect(url_for("accidents_search"))
 
 # Update accident report
 
@@ -704,12 +704,9 @@ def process_update_accident_report(accident_report_id):
         }
     })
 
-    return redirect(url_for("show_accident_reports",
-                            accident_report_id=accident_report_id))
+    return redirect(url_for("accidents_search"))
 
 # Deleting accident report
-
-
 @app.route("/accident_reports/delete/<accident_report_id>")
 # @flask_login.login_required
 def show_delete_accident_report(accident_report_id):
@@ -726,7 +723,7 @@ def process_delete_accident_report(accident_report_id):
     db.accident_reports.remove({
         "_id": ObjectId(accident_report_id)
     })
-    return redirect(url_for("show_accident_reports"))
+    return redirect(url_for("accidents_search"))
 
 # NEAR MISS
 

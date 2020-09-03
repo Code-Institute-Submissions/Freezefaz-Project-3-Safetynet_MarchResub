@@ -16,10 +16,15 @@ nav img {
 .nav-item {
     color: white;
 }
-
+.card-img-left {
+    display: flex;
+    justify-content: center;
+    max-width: 300px;
+    max-height: 250px;
+ } 
 .card-img-left img {
-    width: 300px;
-    height: 250px;
+    width: 90%;
+    height: 90%;
 }
 
  @media only screen and (min-width: 768px) {
