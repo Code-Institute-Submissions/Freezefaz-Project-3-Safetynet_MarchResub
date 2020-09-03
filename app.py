@@ -400,8 +400,49 @@ def show_accident_reports():
 @app.route("/accident_reports/search")
 def accidents_search():
 
+    required_search_by = request.args.get("accident_search_by") or ''
+    required_specific = request.args.get("accident_specific") or ''
     required_accident = request.args.get("accident") or ''
+    previous_values = required_accident
     criteria = {}
+
+    if required_search_by == "1":
+        # results = db.accident_reports.find({
+        # # accident_reports = db.accident_reports.find({
+        #     "location":{
+        #         '$regex': required_specific,
+        #         '$options': 'i'
+        #     }
+        # })
+        criteria["location"] = {
+            '$regex': required_specific,
+            '$options': 'i'
+        }
+    elif required_search_by == "2":
+        # results = db.accident_reports.find({
+        # # accident_reports = db.accident_reports.find({
+        #     "accident_type":{
+        #         '$regex': required_specific,
+        #         '$options': 'i'
+        #     }
+        # })
+        criteria["accident_type"] = {
+            '$regex': required_specific,
+            '$options': 'i'
+        }
+    else:
+        # results = db.accident_reports.find({
+        # # accident_reports = db.accident_reports.find({
+        #     "injuries":{
+        #         '$regex': required_specific,
+        #         '$options': 'i'
+        #     }
+        # })
+        # specific_criteria["injuries"]
+        criteria["injuries"] = {
+            '$regex': required_specific,
+            '$options': 'i'
+        }
 
     if required_accident:
         criteria["$or"] = [
@@ -442,11 +483,15 @@ def accidents_search():
                 }
             },
         ]
-
+    # specific_accident_reports = db.accident_reports.find(specific_criteria)
     accident_reports = db.accident_reports.find(criteria)
     return render_template("search_accidents.template.html",
+                           required_search_by=required_search_by,
+                           required_specific=required_specific,
+                           required_accident=required_accident,
                            accident_reports=accident_reports,
-                           required_accident=required_accident)
+                           previous_values=previous_values)
+                        #    results=results)
 
 
 @app.route("/accident_reports/create")
