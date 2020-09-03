@@ -198,7 +198,7 @@ def process_create_officers():
     # Add the query to the database and the front page
     db.safety_officers.insert_one(new_officer)
     # flash("New Safety Officer Added", "success")
-    return redirect(url_for("show_officers"))
+    return redirect(url_for("login"))
 
 
 @app.route('/officers/login')
