@@ -18,14 +18,13 @@
     {%endif%}</h5>
     <div class="card-body">
     <div class="card-img-left">
-    <div>
-        <img src="{{each_near_miss_report.image_url}}" width="400" height="300">
+        <img src="{{each_near_miss_report.image_url}}">
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Location:</strong> {{each_near_miss_report.location}}</li>
         <li class="list-group-item"><strong>Description:</strong> {{each_near_miss_report.description}}</li>
   </ul>
-</div>
+    </div>
 </div>
 {%endfor%}
 {%endblock%}
