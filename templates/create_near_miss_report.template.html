@@ -9,7 +9,8 @@
         {%endif%}
 
         {%include 'form_near_miss_report.template.html'%}
-        <input type="submit" value="Create" class="btn btn-primary mt-3">
+        <input type="submit" value="Create" class="btn btn-success mt-3">
+        <a href="{{url_for('near_miss_search')}}" class="btn btn-danger mt-3">Cancel</a>
      {%endwith%}
     </form>
 {%endblock%}
