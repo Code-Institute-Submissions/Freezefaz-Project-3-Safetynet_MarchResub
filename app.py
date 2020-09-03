@@ -703,7 +703,7 @@ def process_update_accident_report(accident_report_id):
         }
     })
 
-    return redirect(url_for("accidents_search"))
+    return redirect(url_for("accidents_search", accident_report_id=accident_report_id))
 
 # Deleting accident report
 @app.route("/accident_reports/delete/<accident_report_id>")
@@ -957,7 +957,7 @@ def process_update_near_miss_report(near_miss_report_id):
         }
     })
 
-    return redirect(url_for("near_miss_search"))
+    return redirect(url_for("near_miss_search", near_miss_report_id=near_miss_report_id))
 
 
 @app.route("/near_miss_reports/delete/<near_miss_report_id>")
@@ -981,8 +981,7 @@ def process_delete_near_miss_report(near_miss_report_id):
 @app.route("/violation_reports")
 def show_violation_reports():
     all_violation_reports = db.violation_reports.find()
-    return render_template("show_violation_reports.template.html",
-                           violation_reports=all_violation_reports)
+    return redirect(url_for("violation_search"))
 
 ### SEARCH VIOLATION REPORT ###
 @app.route("/violation_reports/search")
@@ -1126,7 +1125,7 @@ def process_create_violation_report():
     }
     # Add the query to the database and the front page
     db.violation_reports.insert_one(new_violation_report)
-    return redirect(url_for("show_violation_reports"))
+    return redirect(url_for("violation_search"))
 
 
 @app.route("/violation_reports/update/<violation_report_id>")
@@ -1230,9 +1229,9 @@ def process_update_violation_report(violation_report_id):
             'asset_id': asset_id
         }
     })
-
-    return redirect(url_for("show_violation_reports",
-                            violation_report_id=violation_report_id))
+    #  return redirect(url_for("show_violation_reports",
+    #                         violation_report_id=violation_report_id))
+    return redirect(url_for("violation_search", violation_report_id=violation_report_id))
 
 
 @app.route("/violation_reports/delete/<violation_report_id>")
@@ -1250,11 +1249,11 @@ def process_delete_violation_report(violation_report_id):
     db.violation_reports.remove({
         "_id": ObjectId(violation_report_id)
     })
-    return redirect(url_for("show_violation_reports"))
+    return redirect(url_for("violation_search"))
 
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')),
-            debug=True)
+            debug=False)
