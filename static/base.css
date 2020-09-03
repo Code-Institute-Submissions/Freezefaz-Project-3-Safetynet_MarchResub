@@ -12,9 +12,8 @@ nav img {
 .dropdown-menu a {
     color: #d92027;
 }
-
-.nav-item {
-    color: white;
+#link1, #link2 {
+    color: #ffcd3c;
 }
 .card-img-left {
     display: flex;
