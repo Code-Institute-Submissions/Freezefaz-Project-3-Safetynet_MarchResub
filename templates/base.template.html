@@ -81,7 +81,7 @@
         <div class="alert alert-{{category}}">
             {{message}}
         </div>
-		{%block content%} {%endblock%}
+		{%endfor%} {%endif%} {%endwith%} {%block content%} {%endblock%}
 	</div>
 
     {%block script%} {%endblock%}
@@ -94,14 +94,14 @@
 
     <script>
     {%with messages = get_flashed_messages(with_categories=true)%}
-    {%if messages %}
-    {%for category, message in messages%}
-    {%if category=="success"%}
-        toastr.success("{{message}}");
-    {%endif%}
-    {%if category=="danger"%}
-        toastr.warning("{{message}}");
-    {%endif%}
+        {%if messages %}
+            {%for category, message in messages%}
+            {%if category=="success"%}
+                toastr.success("{{message}}");
+        {%endif%}
+        {%if category=="danger"%}
+            toastr.warning("{{message}}");
+        {%endif%}
     {%endfor%}
     {%endif%}
     {%endwith%}    

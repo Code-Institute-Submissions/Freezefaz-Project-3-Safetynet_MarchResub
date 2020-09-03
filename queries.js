@@ -1,7 +1,8 @@
 // To test queries before inserting to mongo
 mongo "mongodb+srv://cluster0.uaguy.mongodb.net/" --username root
 
-
+		<!-- <a class="navbar-brand"
+			href="{{url_for ('index')}}"><img src="{{url_for('static', filename='image/logo.jpg')}}"></a> -->
 // To populate safety officers
 
 db.safety_officers.insert({
@@ -240,3 +241,34 @@ db.violation_types.insertMany([
           {{errors.date_not_number or errors.date_wrong_format}} 
     </div>
     {%endif%} 
+
+
+
+            <!-- <div class="row" id="log">
+                <a href="{{url_for('login')}}" class="btn btn-primary">Login</a>
+                <a href="{{url_for('logout')}}" class="btn btn-secondary">Logout</a>
+
+        </div>
+        <h2>Safety Officers</h2>
+        <div class="row" id="officers">
+                <a href="{{url_for('show_officers')}}" class="btn btn-primary">View All</a>
+                <a href="{{url_for('create_officers')}}" class="btn btn-secondary">Register</a>
+        </div>
+        <h2>Choose Report Type</h2>
+        <div id="definition">
+            <img src="static/image/definition.png">
+        </div>
+        <div class="row" id="reports">
+            <div class="report" id="accident">
+                <a href="{{url_for('show_accident_reports')}}" class="btn btn-primary">Read Accident Reports</a>
+                <a href="{{url_for('show_create_accident_report')}}" class="btn btn-secondary">Create Accident Reports</a>
+            </div>
+            <div class="report" id="near-miss">
+                <a href="{{url_for('show_near_miss_reports')}}" class="btn btn-primary">Read Near Miss Reports</a>
+                <a href="{{url_for('show_create_near_miss_report')}}" class="btn btn-secondary">Create Near Miss Reports</a>
+            </div>
+            <div class="report" id="violation">
+                <a href="{{url_for('show_violation_reports')}}" class="btn btn-primary">Read Violation Reports</a>
+                <a href="{{url_for('show_create_violation_report')}}" class="btn btn-secondary">Create Violation Reports</a>
+            </div>
+    </div> -->
