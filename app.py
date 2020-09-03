@@ -233,7 +233,7 @@ def process_login():
 
     # if errors go back to form and try again
     if len(errors) > 0:
-        # flash("Unable to add Safety Officer", "danger")
+        flash("Log in failed", "danger")
         return render_template("login.template.html",
                                errors=errors,
                                previous_values=request.form)
@@ -250,16 +250,19 @@ def process_login():
         # user_object.email = user["email"]
         flask_login.login_user(user_object)
         # redirect to the successful login page
+        flash("Welcome!", "success")
         return redirect(url_for("officers_search"))
-
+        
     # if login failed, return back to login page
     else:
+        flash("Log in failed", "danger")
         return redirect(url_for("login"))
 
 
 @app.route("/officers/logout")
 def logout():
     flask_login.logout_user()
+    flash("Thank You!", "success")
     return redirect(url_for("index"))
 
 
@@ -344,6 +347,7 @@ def process_update_officer(officer_id):
 
     # if errors go back to form and try again
     if len(errors) > 0:
+        flash("Update failed", "danger")
         return render_template("update_officers.template.html",
                                errors=errors,
                                previous_values=request.form,
@@ -360,8 +364,8 @@ def process_update_officer(officer_id):
             "email": email
         }
     })
-
-    return redirect(url_for("officers_search"))
+    flash("Update successful", "success")
+    return redirect(url_for("officers_search",officer_id=officer_id))
 
 
 @app.route("/officers/delete/<officer_id>")
@@ -378,11 +382,12 @@ def process_delete_officer(officer_id):
     db.safety_officers.remove({
         "_id": ObjectId(officer_id)
     })
+    flash("Delete successful", "success")
     return redirect(url_for("officers_search"))
 
 
 
-### ACCIDENT REPORT ###
+# ACCIDENT REPORT
 
 @app.route("/accident_reports")
 def show_accident_reports():
@@ -549,6 +554,7 @@ def process_create_accident_report():
         # Do this so that when the select will repopulate
         accident_types = db.accident_types.find()
         safety_officers = db.safety_officers.find()
+        flash("Failed to create accident report", "danger")
         return render_template("create_accident_reports.template.html",
                                errors=errors,
                                previous_values=request.form,
@@ -583,11 +589,10 @@ def process_create_accident_report():
 
     # Add the query to the database and the front page
     db.accident_reports.insert_one(new_accident_report)
+    flash("Accident report created", "success")
     return redirect(url_for("accidents_search"))
 
 # Update accident report
-
-
 @app.route("/accident_reports/update/<accident_report_id>")
 # @flask_login.login_required
 def show_update_accident_report(accident_report_id):
@@ -661,7 +666,12 @@ def process_update_accident_report(accident_report_id):
         # Do this so that when the select will repopulate
         accident_types = db.accident_types.find()
         safety_officers = db.safety_officers.find()
-        return render_template("create_accident_reports.template.html",
+        accident_report = db.accident_reports.find_one({
+        "_id": ObjectId(accident_report_id)
+    })
+        flash("Failed to update accident report", "danger")
+        return render_template("update_accident_report.template.html",
+                               accident_report=accident_report,
                                errors=errors,
                                previous_values=request.form,
                                accident_types=accident_types,
@@ -702,8 +712,9 @@ def process_update_accident_report(accident_report_id):
             'asset_id': asset_id
         }
     })
-
-    return redirect(url_for("accidents_search", accident_report_id=accident_report_id))
+    flash("Accident report updated", "success")
+    return redirect(url_for("accidents_search",
+                            accident_report_id=accident_report_id))
 
 # Deleting accident report
 @app.route("/accident_reports/delete/<accident_report_id>")
@@ -722,6 +733,7 @@ def process_delete_accident_report(accident_report_id):
     db.accident_reports.remove({
         "_id": ObjectId(accident_report_id)
     })
+    flash("Accident report deleted", "success")
     return redirect(url_for("accidents_search"))
 
 # NEAR MISS
@@ -838,6 +850,7 @@ def process_create_near_miss_accident_report():
     if len(errors) > 0:
         # Do this so that when the select will repopulate
         safety_officers = db.safety_officers.find()
+        flash("Failed to create near miss report", "danger")
         return render_template("create_near_miss_report.template.html",
                                errors=errors,
                                previous_values=request.form,
@@ -862,6 +875,7 @@ def process_create_near_miss_accident_report():
 
     # Add the query to the database and the front page
     db.near_miss_reports.insert_one(new_near_miss_report)
+    flash("Near miss report created", "success")
     return redirect(url_for("near_miss_search"))
 
 
@@ -924,7 +938,12 @@ def process_update_near_miss_report(near_miss_report_id):
     if len(errors) > 0:
         # Do this so that when the select will repopulate
         safety_officers = db.safety_officers.find()
-        return render_template("create_near_miss_report.template.html",
+        near_miss_report = db.near_miss_reports.find_one({
+            "_id": ObjectId(near_miss_report_id)
+    })
+        flash("Failed to update near miss report", "danger")
+        return render_template("update_near_miss_report.template.html",
+                               near_miss_report=near_miss_report,
                                errors=errors,
                                previous_values=request.form,
                                safety_officers=safety_officers)
@@ -956,7 +975,7 @@ def process_update_near_miss_report(near_miss_report_id):
             'asset_id': asset_id
         }
     })
-
+    flash("Near miss report updated", "success")
     return redirect(url_for("near_miss_search", near_miss_report_id=near_miss_report_id))
 
 
@@ -975,6 +994,7 @@ def process_delete_near_miss_report(near_miss_report_id):
     db.near_miss_reports.remove({
         "_id": ObjectId(near_miss_report_id)
     })
+    flash("Near miss report deleted", "success")
     return redirect(url_for("near_miss_search"))
 
 # VIOLATIONS
