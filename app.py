@@ -388,8 +388,9 @@ def process_delete_officer(officer_id):
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
-    return render_template("show_accident_reports.template.html",
-                           accident_reports=all_accident_reports)
+    # return render_template("show_accident_reports.template.html",
+    #                        accident_reports=all_accident_reports)
+    return redirect(url_for("accidents_search"))
 
 ### SEARCH ACCIDENT REPORT ###
 @app.route("/accident_reports/search")
