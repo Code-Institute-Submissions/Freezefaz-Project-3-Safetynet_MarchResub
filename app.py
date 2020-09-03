@@ -59,8 +59,7 @@ def index():
 @app.route("/officers")
 def show_officers():
     all_officers = db.safety_officers.find()
-    return render_template("show_officers.template.html",
-                           officers=all_officers)
+    return redirect(url_for("officers_search"))
 
 
 @app.route("/officers/search")
@@ -255,7 +254,7 @@ def process_login():
 
     # if login failed, return back to login page
     else:
-        return redirect(url_for("index"))
+        return redirect(url_for("officers_search"))
 
 
 @app.route("/officers/logout")
@@ -362,7 +361,7 @@ def process_update_officer(officer_id):
         }
     })
 
-    return redirect(url_for('show_officers'))
+    return redirect(url_for("officers_search"))
 
 
 @app.route("/officers/delete/<officer_id>")
@@ -379,7 +378,7 @@ def process_delete_officer(officer_id):
     db.safety_officers.remove({
         "_id": ObjectId(officer_id)
     })
-    return redirect(url_for("show_officers"))
+    return redirect(url_for("officers_search"))
 
 
 
