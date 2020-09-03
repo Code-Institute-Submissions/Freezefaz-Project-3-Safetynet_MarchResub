@@ -5,37 +5,23 @@
 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 {%endblock%}
 
-
-<!-- {%block navbar%}
-   <form method="GET" class="form-inline">
-        <input class="form-control mr-sm-2" type="search" name="name" value="{{required_safety_officer_name}}" placeholder="Enter name" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-{%endblock%} -->
-
 {%block content%}
 
 <h1>Safety Officers</h1>
-<!-- 
-<form method="GET" class="form-inline">
-    <label>Search Safety Officer:</label>
-    <input type="text" name="first_name" class="form-control" value="{{required_safety_officer_name}}" placeholder="Enter first name">
-    <input type="text" name="last_name" class="form-control" value="{{required_safety_officer_name}}" placeholder="Enter last name">
-    <input type="submit" value="Search"/>
-</form> -->
 
 {% for each_officer in officers %}
-<div class="card">
-    <div class="card-body">
-    <h5 class="card-title"><strong>Name:</strong> {{each_officer.first_name}} {{each_officer.last_name}}
+<div class="card border-dark mb-3">
+    <h5 class="card-header"><strong>Name:</strong> {{each_officer.first_name}} {{each_officer.last_name}}
     {%if current_user.is_authenticated %}
     <a href="{{url_for('show_update_officer', officer_id=each_officer._id)}}" class="btn btn-primary btn-sm">Update</a>
     <a href="{{url_for('show_delete_officer', officer_id=each_officer._id)}}" class="btn btn-danger btn-sm">Delete</a>
     {%endif%}</h5>
+    <div class="card-body">
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Contact Number:</strong> {{each_officer.contact_number}}</li>
         <li class="list-group-item"><strong>Email:</strong> {{each_officer.email}}</li>
-  </ul>
+    </ul>
+    </div>
 </div>
 {%endfor%}
 
