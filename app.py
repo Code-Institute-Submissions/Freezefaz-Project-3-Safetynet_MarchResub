@@ -1116,6 +1116,7 @@ def process_create_violation_report():
         # Do this so that when the select will repopulate
         violation_types = db.violation_types.find()
         safety_officers = db.safety_officers.find()
+        flash("Failed to create violation report", "danger")
         return render_template("create_violation_report.template.html",
                                errors=errors,
                                previous_values=request.form,
@@ -1145,6 +1146,7 @@ def process_create_violation_report():
     }
     # Add the query to the database and the front page
     db.violation_reports.insert_one(new_violation_report)
+    flash("Violation report created", "success")
     return redirect(url_for("violation_search"))
 
 
@@ -1210,7 +1212,12 @@ def process_update_violation_report(violation_report_id):
         # Do this so that when the select will repopulate
         violation_types = db.violation_types.find()
         safety_officers = db.safety_officers.find()
-        return render_template("create_violation_report.template.html",
+        violation_report = db.violation_reports.find_one({
+            "_id": ObjectId(violation_report_id)
+    })
+        flash("Failed to update violation report", "danger")
+        return render_template("update_violation_report.template.html",
+                               violation_report=violation_report,
                                errors=errors,
                                previous_values=request.form,
                                violation_types=violation_types,
@@ -1249,8 +1256,7 @@ def process_update_violation_report(violation_report_id):
             'asset_id': asset_id
         }
     })
-    #  return redirect(url_for("show_violation_reports",
-    #                         violation_report_id=violation_report_id))
+    flash("Violation report updated", "success")
     return redirect(url_for("violation_search", violation_report_id=violation_report_id))
 
 
@@ -1269,6 +1275,7 @@ def process_delete_violation_report(violation_report_id):
     db.violation_reports.remove({
         "_id": ObjectId(violation_report_id)
     })
+    flash("Violation report deleted", "success")
     return redirect(url_for("violation_search"))
 
 
