@@ -250,11 +250,11 @@ def process_login():
         # user_object.email = user["email"]
         flask_login.login_user(user_object)
         # redirect to the successful login page
-        return redirect(url_for("index"))
+        return redirect(url_for("officers_search"))
 
     # if login failed, return back to login page
     else:
-        return redirect(url_for("officers_search"))
+        return redirect(url_for("login"))
 
 
 @app.route("/officers/logout")
@@ -729,8 +729,7 @@ def process_delete_accident_report(accident_report_id):
 @app.route("/near_miss_reports")
 def show_near_miss_reports():
     all_near_miss_reports = db.near_miss_reports.find()
-    return render_template("show_near_miss_reports.template.html",
-                           near_miss_reports=all_near_miss_reports)
+    return redirect(url_for("near_miss_search"))
 
 ### SEARCH NEAR MISS REPORT ###
 @app.route("/near_miss_reports/search")
@@ -863,7 +862,7 @@ def process_create_near_miss_accident_report():
 
     # Add the query to the database and the front page
     db.near_miss_reports.insert_one(new_near_miss_report)
-    return redirect(url_for("show_near_miss_reports"))
+    return redirect(url_for("near_miss_search"))
 
 
 @app.route("/near_miss_reports/update/<near_miss_report_id>")
@@ -958,8 +957,7 @@ def process_update_near_miss_report(near_miss_report_id):
         }
     })
 
-    return redirect(url_for("show_near_miss_reports",
-                            near_miss_report_id=near_miss_report_id))
+    return redirect(url_for("near_miss_search"))
 
 
 @app.route("/near_miss_reports/delete/<near_miss_report_id>")
@@ -977,7 +975,7 @@ def process_delete_near_miss_report(near_miss_report_id):
     db.near_miss_reports.remove({
         "_id": ObjectId(near_miss_report_id)
     })
-    return redirect(url_for("show_near_miss_reports"))
+    return redirect(url_for("near_miss_search"))
 
 # VIOLATIONS
 @app.route("/violation_reports")
