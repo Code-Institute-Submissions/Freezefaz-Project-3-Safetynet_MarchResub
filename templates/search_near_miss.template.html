@@ -10,13 +10,14 @@
 <h1>Near Miss Reports</h1>
 
 {% for each_near_miss_report in near_miss_reports %}
-<div class="card">
-    <div class="card-body">
-    <h5 class="card-title"><strong>Date:</strong> {{each_near_miss_report.date}} by {{each_near_miss_report.safety_officer}}
+<div class="card border-dark mb-3">
+    <h5 class="card-header"><strong>Date:</strong> {{each_near_miss_report.date}} by {{each_near_miss_report.safety_officer}}
     {%if current_user.is_authenticated %} 
     <a href="{{url_for('show_update_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-primary btn-sm">Update</a>
     <a href="{{url_for('show_delete_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-danger btn-sm">Delete</a>
     {%endif%}</h5>
+    <div class="card-body">
+    <div class="card-img-left">
     <div>
         <img src="{{each_near_miss_report.image_url}}" width="400" height="300">
     </div>
@@ -24,6 +25,7 @@
         <li class="list-group-item"><strong>Location:</strong> {{each_near_miss_report.location}}</li>
         <li class="list-group-item"><strong>Description:</strong> {{each_near_miss_report.description}}</li>
   </ul>
+</div>
 </div>
 {%endfor%}
 {%endblock%}
