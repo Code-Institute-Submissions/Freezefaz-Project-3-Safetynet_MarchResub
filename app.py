@@ -1057,9 +1057,21 @@ def show_violation_reports():
 ### SEARCH VIOLATION REPORT ###
 @app.route("/violation_reports/search")
 def violation_search():
-
+    required_search_by = request.args.get("violation_search_by") or ''
+    required_specific = request.args.get("violation_specific") or ''
     required_violation = request.args.get("violation") or ''
     criteria = {}
+
+    if required_search_by == "1":
+        criteria["location"] = {
+            '$regex': required_specific,
+            '$options': 'i'
+        }
+    else:
+        criteria["violation_type"] = {
+            '$regex': required_specific,
+            '$options': 'i'
+        }
 
     if required_violation:
         criteria["$or"] = [
@@ -1097,8 +1109,11 @@ def violation_search():
 
     violation_reports = db.violation_reports.find(criteria)
     return render_template("search_violations.template.html",
+                           required_search_by=required_search_by,
+                           required_specific=required_specific,
                            violation_reports=violation_reports,
-                           required_violation=required_violation)
+                           required_violation=required_violation,
+                           previous_values=required_search_by)
 
 @app.route("/violation_reports/create")
 @flask_login.login_required

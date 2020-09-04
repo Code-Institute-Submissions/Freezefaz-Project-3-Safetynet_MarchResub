@@ -6,9 +6,20 @@
 {%endblock%}
 
 {%block content%}
-
+{%with%}
+    {%if not previous_values%}
+        {%set previous_values = {}%}
+    {%endif%}
 <h1>Violation Reports</h1>
-
+<form class="form-inline mt-3 mb-3" id="violation_search" method="GET"> 
+    <select class="form-control" name="violation_search_by" >
+        <option value="1" {%if previous_values == "1"%} selected {%endif%}>Location</option>
+        <option value="2" {%if previous_values == "2"%} selected {%endif%}>Violation Type</option>
+    </select>
+    <input class="form-control mr-sm-2" type="search" name="violation_specific"  placeholder="Category Search" aria-label="Search">
+    <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+{%endwith%}
+</form>
 {% for each_violation_report in violation_reports %}
 <div class="card border-dark mb-3">
     
