@@ -591,6 +591,10 @@ def process_update_accident_report(accident_report_id):
 
     errors = {}
 
+    if date == "" or date == " ":
+        errors.update(
+            date_empty="Please enter a date")
+
     if location == "" or location == " ":
         errors.update(
             location_empty="Please enter a location")
