@@ -213,7 +213,7 @@ def process_login():
 
     if password == "" or password == " ":
         errors.update(
-            password_empty="Please enter an email")
+            password_empty="Please enter a password")
 
     if not len(password) == 6:
         errors.update(
