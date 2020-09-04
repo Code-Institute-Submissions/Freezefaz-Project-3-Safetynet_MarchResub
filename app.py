@@ -158,6 +158,7 @@ def process_create_officers():
         errors.update(
             email_empty="Please enter an email")
 
+    # Check for email format
     if "@" not in email or "." not in email:
         errors.update(
             proper_email="Please enter a valid email")
@@ -184,7 +185,7 @@ def process_create_officers():
 
     # Add the query to the database and the front page
     db.safety_officers.insert_one(new_officer)
-    flash("New Safety Officer Added", "success")
+    flash("New Safety Officer added", "success")
     return redirect(url_for("login"))
 
 # officer to login
