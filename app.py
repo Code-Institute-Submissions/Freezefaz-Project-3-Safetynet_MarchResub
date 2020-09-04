@@ -792,9 +792,14 @@ def show_near_miss_reports():
 ### SEARCH NEAR MISS REPORT ###
 @app.route("/near_miss_reports/search")
 def near_miss_search():
-
+    required_location = request.args.get("location") or ''
     required_near_miss = request.args.get("near_miss") or ''
     criteria = {}
+
+    criteria["location"] = {
+            '$regex': required_location,
+            '$options': 'i'
+        }
 
     if required_near_miss:
         criteria["$or"] = [

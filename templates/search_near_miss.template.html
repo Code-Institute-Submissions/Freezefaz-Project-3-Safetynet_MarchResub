@@ -5,9 +5,18 @@
 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 {%endblock%}
 
-{%block content%}
-
 <h1>Near Miss Reports</h1>
+{%block content%}
+{%with%}
+    {%if not previous_values%}
+        {%set previous_values = {}%}
+    {%endif%}
+<h1>Near Miss Reports</h1>
+<form class="form-inline mt-3 mb-3" id="near_miss_search" method="GET"> 
+    <input class="form-control mr-sm-2" type="search" name="location"  placeholder="Location" aria-label="Search">
+    <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+{%endwith%}
+</form>
 
 {% for each_near_miss_report in near_miss_reports %}
 <div class="card border-dark mb-3">
