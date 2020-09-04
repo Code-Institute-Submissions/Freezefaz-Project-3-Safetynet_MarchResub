@@ -5,22 +5,26 @@
     {%if not previous_values%}
         {%set previous_values = {}%}
     {%endif%}
-<input class="form-control mr-sm-2" type="search" name="accident"  placeholder="Search" aria-label="Search" value="{{previous_values.required_accident}}">
+<input class="form-control mr-sm-2" type="search" name="accident"  placeholder="Search" aria-label="Search">
 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 {%endwith%}
 {%endblock%}
 
 {%block content%}
+{%with%}
+    {%if not previous_values%}
+        {%set previous_values = {}%}
+    {%endif%}
 <h1>Accident Reports</h1>
-<form class="form-inline m-3" id="accident_search" method="GET"> 
+<form class="form-inline mt-3 mb-3" id="accident_search" method="GET"> 
     <select class="form-control" name="accident_search_by" >
-        <option value="1">Location</option>
-        <option value="2">Accident Type</option>
-        <option value="3">Injuries</option>
+        <option value="1" {%if previous_values == "1"%} selected {%endif%}>Location</option>
+        <option value="2" {%if previous_values == "2"%} selected {%endif%}>Accident Type</option>
+        <option value="3" {%if previous_values == "3"%} selected {%endif%}>Injuries</option>
     </select>
     <input class="form-control mr-sm-2" type="search" name="accident_specific"  placeholder="Category Search" aria-label="Search">
     <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
-
+{%endwith%}
 </form>
 
 

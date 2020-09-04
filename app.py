@@ -403,7 +403,7 @@ def accidents_search():
     required_search_by = request.args.get("accident_search_by") or ''
     required_specific = request.args.get("accident_specific") or ''
     required_accident = request.args.get("accident") or ''
-    previous_values = required_accident
+    # previous_values = required_accident
     criteria = {}
 
     if required_search_by == "1":
@@ -490,7 +490,8 @@ def accidents_search():
                            required_specific=required_specific,
                            required_accident=required_accident,
                            accident_reports=accident_reports,
-                           previous_values=previous_values)
+                           previous_values=required_search_by,
+                           previous_search=required_specific)
                         #    results=results)
 
 
