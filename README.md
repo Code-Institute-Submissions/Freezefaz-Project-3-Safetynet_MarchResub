@@ -1,41 +1,20 @@
-<img src="https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png" style="margin: 0;">
+# SafetyNet
 
-Welcome Freezefaz,
+## Project 3: Python and Data Centric Development
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. You can safely delete this README.md file, or change it for your own project.
+### Context
+In the all industries, safety is paramount in making sure that the employees can work with a peace of mind and operations can run smoothly. This is especially crucial in heavy industries where the nature of the jobs are dangerous and no safety plan can completely eliminates all risk. Hence, having a strong reporting culture will educate and inform employees to do their work in a safe manner. 
 
-## Gitpod Reminders
+This reports are not only meant for accidents which is defined as unexpected and undesirable event, especially one resulting in damage or harm. Near miss, defined as an unplanned event that has the potential to cause, but does not actually result in injuryn or damage, and violation, defined as an action that breaks or acts against something, especially a law.
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+However, most reports are done via Microsoft word or excel document and this makes it inefficient to extract and retrieve data.
 
-`python3 -m http.server`
+SafetyNet is meant for employees working in a company to upload safety reports that they see in their workplace. With SafetyNet, these reports can be directly be uploaded direct to the company database. All personnel can read the reports on the various safety issues and but only those registered can edit or delete their reports. This will empower employees to take action in reporting and be responisble for their own safety.
 
-mongo "mongodb+srv://cluster0.uaguy.mongodb.net/" --username root
+Website can be accessed via this link: https://fa-safetynet.herokuapp.com
 
-A blue button should appear to click: *Make Public*,
+Demo account:
 
-Another blue button should appear to click: *Open Browser*.
+Login: demo@safety.net
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
-
-A blue button should appear to click: *Make Public*,
-
-Another blue button should appear to click: *Open Browser*.
-
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the backend lessons.
-
-## Updates Since The Instructional Video
-
-We continually tweak and adjust this template to help give you the best experience. Here are the updates since the original video was made:
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
---------
-
-Happy coding!
+Password: demo123
