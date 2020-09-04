@@ -11,13 +11,14 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# variables from .env
 MONGO_URI = os.environ.get('MONGO_URI')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 CLOUD_NAME = os.environ.get('CLOUD_NAME')
 UPLOAD_PRESET = os.environ.get('UPLOAD_PRESET')
+
 # set up the secret key to flask app
 app.secret_key = SECRET_KEY
-
 DB_NAME = 'safetynet'
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
@@ -38,7 +39,6 @@ def user_loader(email):
     user = db.safety_officers.find_one({
         'email': email
     })
-
     # if the email exists
     if user:
         # create a user object that represents user
@@ -50,26 +50,23 @@ def user_loader(email):
         # if the email does not exist in the database. report an error
         return None
 
-
+# Home Page
 @app.route("/")
 def index():
     return render_template("index.template.html")
 
+# Start of officers
 
+# show all officers
 @app.route("/officers")
 def show_officers():
     all_officers = db.safety_officers.find()
     return redirect(url_for("officers_search"))
 
-
+#search officer by name
 @app.route("/officers/search")
-# @app.route("/officers")
 def officers_search():
-
-    # required_safety_officer_fname = request.args.get("first_name") or ''
-    # required_safety_officer_lname = request.args.get("last_name") or ''
     required_safety_officer_name = request.args.get("name") or ''
-    # results = search_results(required_safety_officer_name)
     criteria = {}
 
     if required_safety_officer_name:
@@ -86,28 +83,15 @@ def officers_search():
                     "$options": "i"
                 }}
         ]
-
-    # elif required_safety_officer_name:
-    #     criteria["last_name"] = {
-    #         "$regex": required_safety_officer_name,
-    #         "$options": "i"
-    #     }
-
     officers = db.safety_officers.find(criteria)
-
     return render_template("search_officers.template.html",
                            officers=officers,
                            required_safety_officer_name=required_safety_officer_name)
-    # return render_template("show_officers.template.html",
-    #                            officers=officers,
-    #                            required_safety_officer_name=required_safety_officer_name)
 
-
-
+# register as an officer
 @app.route("/officers/create")
 def create_officers():
     return render_template("create_officers.template.html", errors={})
-
 
 @app.route("/officers/create", methods=["POST"])
 def process_create_officers():
@@ -124,6 +108,7 @@ def process_create_officers():
     # check if information is valid
     # the order of conditions matter in app and html as well
 
+    # Check if blank
     if first_name == "" or first_name == " ":
         errors.update(
             first_name_empty="Please enter a name")
@@ -133,11 +118,12 @@ def process_create_officers():
         errors.update(
             first_name_not_letter="Please enter a letter")
 
-    # check if the first_name is longer 3 characters
+    # Check if the first_name is longer 3 characters
     if len(first_name) < 3:
         errors.update(
             first_name_too_short="Must be at least 2 letters")
 
+    # Check if blank
     if last_name == "" or last_name == " ":
         errors.update(
             last_name_empty="Please enter a name")
@@ -147,25 +133,27 @@ def process_create_officers():
         errors.update(
             last_name_not_letter="Please enter a letter")
 
-    # check if the last_name is longer 2 characters
+    # Check if the last_name is longer 2 characters
     if len(last_name) < 3:
         errors.update(
             last_name_too_short="Must be at least 2 letters")
 
+    # Check if blank
     if contact_number == "" or contact_number == " ":
         errors.update(
             contact_number_empty="Please enter a contact_number")
 
-    # contact number must be number
+    # Contact number must be number
     if not contact_number.isnumeric():
         errors.update(
             contact_number_not_a_number="Please enter a number")
 
-     # check if the contact_number is 8 characters
+     # Check if the contact_number is 8 characters
     if not len(contact_number) == 8:
         errors.update(
             contact_number_must_be_8="Must be 8 numbers long")
 
+    # Check if blank
     if email == "" or email == " ":
         errors.update(
             email_empty="Please enter an email")
@@ -199,11 +187,10 @@ def process_create_officers():
     flash("New Safety Officer Added", "success")
     return redirect(url_for("login"))
 
-
+# officer to login
 @app.route('/officers/login')
 def login():
     return render_template("login.template.html")
-
 
 @app.route('/officers/login', methods=["POST"])
 def process_login():
@@ -258,14 +245,14 @@ def process_login():
         flash("Log in failed", "danger")
         return redirect(url_for("login"))
 
-
+# logout from program
 @app.route("/officers/logout")
 def logout():
     flask_login.logout_user()
     flash("Thank You!", "success")
     return redirect(url_for("index"))
 
-
+# update officer
 @app.route("/officers/update/<officer_id>")
 def show_update_officer(officer_id):
     safety_officer = db.safety_officers.find_one({
@@ -273,7 +260,6 @@ def show_update_officer(officer_id):
     })
     return render_template("update_officers.template.html",
                            safety_officer=safety_officer)
-
 
 @app.route("/officers/update/<officer_id>", methods=["POST"])
 def process_update_officer(officer_id):
@@ -299,12 +285,10 @@ def process_update_officer(officer_id):
         errors.update(
             first_name_empty="Please enter a name")
 
-    # Check if the name is made up of alphabets
     if not first_name.isalpha():
         errors.update(
             first_name_not_letter="Please enter a letter")
 
-    # check if the first_name is longer 3 characters
     if len(first_name) < 3:
         errors.update(
             first_name_too_short="Must be at least 2 letters")
@@ -313,12 +297,10 @@ def process_update_officer(officer_id):
         errors.update(
             last_name_empty="Please enter a name")
 
-    # Check if the name is made up of alphabets
     if not last_name.isalpha():
         errors.update(
             last_name_not_letter="Please enter a letter")
 
-    # check if the last_name is longer 2 characters
     if len(last_name) < 3:
         errors.update(
             last_name_too_short="Must be at least 2 letters")
@@ -327,12 +309,10 @@ def process_update_officer(officer_id):
         errors.update(
             contact_number_empty="Please enter a contact_number")
 
-    # contact number must be number
     if not contact_number.isnumeric():
         errors.update(
             contact_number_not_a_number="Please enter a number")
 
-     # check if the contact_number is 8 characters
     if not len(contact_number) == 8:
         errors.update(
             contact_number_must_be_8="Must be 8 numbers long")
@@ -367,7 +347,7 @@ def process_update_officer(officer_id):
     flash("Update successful", "success")
     return redirect(url_for("officers_search",officer_id=officer_id))
 
-
+# delete officer
 @app.route("/officers/delete/<officer_id>")
 def show_delete_officer(officer_id):
     safety_officer = db.safety_officers.find_one({
@@ -376,7 +356,6 @@ def show_delete_officer(officer_id):
     return render_template("delete_officers.template.html",
                            safety_officer=safety_officer)
 
-
 @app.route("/officers/delete/<officer_id>", methods=["POST"])
 def process_delete_officer(officer_id):
     db.safety_officers.remove({
@@ -384,11 +363,11 @@ def process_delete_officer(officer_id):
     })
     flash("Delete successful", "success")
     return redirect(url_for("officers_search"))
+# end of officers
 
 
-
-# ACCIDENT REPORT
-
+# Start of accident reports
+# show all officers
 @app.route("/accident_reports")
 def show_accident_reports():
     all_accident_reports = db.accident_reports.find()
@@ -396,54 +375,32 @@ def show_accident_reports():
     #                        accident_reports=all_accident_reports)
     return redirect(url_for("accidents_search"))
 
-### SEARCH ACCIDENT REPORT ###
+# search accident report by category and global search
 @app.route("/accident_reports/search")
 def accidents_search():
-
     required_search_by = request.args.get("accident_search_by") or ''
     required_specific = request.args.get("accident_specific") or ''
     required_accident = request.args.get("accident") or ''
-    # previous_values = required_accident
     criteria = {}
 
+    # category search
     if required_search_by == "1":
-        # results = db.accident_reports.find({
-        # # accident_reports = db.accident_reports.find({
-        #     "location":{
-        #         '$regex': required_specific,
-        #         '$options': 'i'
-        #     }
-        # })
         criteria["location"] = {
             '$regex': required_specific,
             '$options': 'i'
         }
     elif required_search_by == "2":
-        # results = db.accident_reports.find({
-        # # accident_reports = db.accident_reports.find({
-        #     "accident_type":{
-        #         '$regex': required_specific,
-        #         '$options': 'i'
-        #     }
-        # })
         criteria["accident_type"] = {
             '$regex': required_specific,
             '$options': 'i'
         }
     else:
-        # results = db.accident_reports.find({
-        # # accident_reports = db.accident_reports.find({
-        #     "injuries":{
-        #         '$regex': required_specific,
-        #         '$options': 'i'
-        #     }
-        # })
-        # specific_criteria["injuries"]
         criteria["injuries"] = {
             '$regex': required_specific,
             '$options': 'i'
         }
 
+    # global search
     if required_accident:
         criteria["$or"] = [
             {
@@ -483,7 +440,7 @@ def accidents_search():
                 }
             },
         ]
-    # specific_accident_reports = db.accident_reports.find(specific_criteria)
+    # find the base on criteria of search
     accident_reports = db.accident_reports.find(criteria)
     return render_template("search_accidents.template.html",
                            required_search_by=required_search_by,
@@ -492,24 +449,13 @@ def accidents_search():
                            accident_reports=accident_reports,
                            previous_values=required_search_by,
                            previous_search=required_specific)
-                        #    results=results)
 
-
+# create new accident report
 @app.route("/accident_reports/create")
 @flask_login.login_required
 def show_create_accident_report():
     accident_types = db.accident_types.find()
     safety_officers = db.safety_officers.find()
-
-    # if flask_login.current_user.is_authenticated:
-    #     current_user = flask_login.current_user
-
-    #     if current_user:
-    #         user = db.safety_officers.find_one({'email': email})
-    #     else:
-    #         user = none
-    # else:
-    #     return redirect(url_for('index'))
 
     return render_template("create_accident_reports.template.html", errors={},
                            accident_types=accident_types,
@@ -519,7 +465,6 @@ def show_create_accident_report():
 
 
 @app.route("/accident_reports/create", methods=["Post"])
-# @flask_login.login_required
 def process_create_accident_report():
     # extract info from forms
     date = request.form.get("date")
@@ -531,14 +476,6 @@ def process_create_accident_report():
     image_url = request.form.get("uploaded-file-url")
     asset_id = request.form.get("asset-id")
 
-    # # get existing collection info
-    # accident_type = db.accident_types.find_one({
-    #     "_id": ObjectId(accident_type_id)
-    # })
-    # safety_officer = db.safety_officers.find_one({
-    #     "_id": ObjectId(safety_officer_id)
-    # })
-
     # Validation
     # Accumulator to capture errors
     errors = {}
@@ -546,15 +483,9 @@ def process_create_accident_report():
     # check if information is valid
     # the order of conditions matter in app and html as well
 
-    # Check if the date in numbers
     if date == "" or date == " ":
         errors.update(
             date_empty="Please enter a date")
-
-    # check if the date in correct format
-    # if not date.isnumeric():
-    #     errors.update(
-    #         date_wrong_format = "Please enter Date in YYYY-MM-DD")
 
     if location == "" or location == " ":
         errors.update(
@@ -564,7 +495,6 @@ def process_create_accident_report():
         errors.update(
             location_too_short="Please enter at least 3 characters")
 
-    # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
             location_too_long="Please keep to 50 characters")
@@ -577,7 +507,6 @@ def process_create_accident_report():
         errors.update(
             description_too_short="Please enter at least 3 characters")
 
-    # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
             description_too_long="Please keep to 255 characters")
@@ -590,7 +519,6 @@ def process_create_accident_report():
         errors.update(
             injuries_too_short="Please enter at least 3 characters")
 
-    # Check if injuries no more than 50 characters
     if not len(injuries) <= 50:
         errors.update(
             injuries_too_long="Please keep to 50 characters")
@@ -619,7 +547,6 @@ def process_create_accident_report():
     new_accident_report = {
         "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "location": location,
-        # "accident_type": accident_type,
         "accident_type": accident_type["accident_type"],
         "accident_type_id": ObjectId(accident_type_id),
         "description": description,
@@ -629,10 +556,7 @@ def process_create_accident_report():
         "safety_officer_id": ObjectId(safety_officer_id),
         'image_url': image_url,
         'asset_id': asset_id
-        # "safety_officer": safety_officer
-
     }
-
     # Add the query to the database and the front page
     db.accident_reports.insert_one(new_accident_report)
     flash("Accident report created", "success")
@@ -640,7 +564,6 @@ def process_create_accident_report():
 
 # Update accident report
 @app.route("/accident_reports/update/<accident_report_id>")
-# @flask_login.login_required
 def show_update_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
         "_id": ObjectId(accident_report_id)
@@ -653,7 +576,6 @@ def show_update_accident_report(accident_report_id):
                            safety_officers=safety_officers,
                            cloud_name=CLOUD_NAME,
                            upload_preset=UPLOAD_PRESET)
-
 
 @app.route("/accident_reports/update/<accident_report_id>", methods=["POST"])
 def process_update_accident_report(accident_report_id):
@@ -676,7 +598,6 @@ def process_update_accident_report(accident_report_id):
         errors.update(
             location_too_short="Please enter at least 3 characters")
 
-    # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
             location_too_long="Please keep to 50 characters")
@@ -689,7 +610,6 @@ def process_update_accident_report(accident_report_id):
         errors.update(
             description_too_short="Please enter at least 3 characters")
 
-    # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
             description_too_long="Please keep to 255 characters")
@@ -702,7 +622,6 @@ def process_update_accident_report(accident_report_id):
         errors.update(
             injuries_too_short="Please enter at least 3 characters")
 
-    # Check if injuries no more than 50 characters
     if not len(injuries) <= 50:
         errors.update(
             injuries_too_long="Please keep to 50 characters")
@@ -762,9 +681,8 @@ def process_update_accident_report(accident_report_id):
     return redirect(url_for("accidents_search",
                             accident_report_id=accident_report_id))
 
-# Deleting accident report
+# deleting accident report
 @app.route("/accident_reports/delete/<accident_report_id>")
-# @flask_login.login_required
 def show_delete_accident_report(accident_report_id):
     accident_report = db.accident_reports.find_one({
         "_id": ObjectId(accident_report_id)
@@ -781,26 +699,27 @@ def process_delete_accident_report(accident_report_id):
     })
     flash("Accident report deleted", "success")
     return redirect(url_for("accidents_search"))
+# End of accident report
 
-# NEAR MISS
-
+# Start of near miss
+# show all near miss report
 @app.route("/near_miss_reports")
 def show_near_miss_reports():
     all_near_miss_reports = db.near_miss_reports.find()
     return redirect(url_for("near_miss_search"))
 
-### SEARCH NEAR MISS REPORT ###
+# Search by global and location
 @app.route("/near_miss_reports/search")
 def near_miss_search():
     required_location = request.args.get("location") or ''
     required_near_miss = request.args.get("near_miss") or ''
     criteria = {}
-
+    # search by location
     criteria["location"] = {
             '$regex': required_location,
             '$options': 'i'
         }
-
+    # global search
     if required_near_miss:
         criteria["$or"] = [
             {
@@ -828,12 +747,13 @@ def near_miss_search():
                 }
             },
         ]
-
+    # find by criteria
     near_miss_reports = db.near_miss_reports.find(criteria)
     return render_template("search_near_miss.template.html",
                            near_miss_reports=near_miss_reports,
                            required_near_miss=required_near_miss)
 
+# create near miss report
 @app.route("/near_miss_reports/create")
 @flask_login.login_required
 def show_create_near_miss_report():
@@ -842,7 +762,6 @@ def show_create_near_miss_report():
                            safety_officers=safety_officers,
                            cloud_name=CLOUD_NAME,
                            upload_preset=UPLOAD_PRESET)
-
 
 @app.route("/near_miss_reports/create", methods=["Post"])
 def process_create_near_miss_accident_report():
@@ -861,12 +780,10 @@ def process_create_near_miss_accident_report():
     # check if information is valid
     # the order of conditions matter in app and html as well
 
-    # Check if the date in numbers
     if date == "" or date == " ":
         errors.update(
             date_empty="Please enter a date")
 
-    # check if the date in correct format
     if not date.isnumeric():
         errors.update(
             date_wrong_format="Please enter Date in YYYY-MM-DD")
@@ -879,7 +796,6 @@ def process_create_near_miss_accident_report():
         errors.update(
             location_too_short="Please enter at least 3 characters")
 
-    # # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
             location_too_long="Please keep to 50 characters")
@@ -892,7 +808,6 @@ def process_create_near_miss_accident_report():
         errors.update(
             description_too_short="Please enter at least 3 characters")
 
-    # # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
             description_too_long="Please keep to 255 characters")
@@ -929,7 +844,7 @@ def process_create_near_miss_accident_report():
     flash("Near miss report created", "success")
     return redirect(url_for("near_miss_search"))
 
-
+# update near miss report
 @app.route("/near_miss_reports/update/<near_miss_report_id>")
 def show_update_near_miss_report(near_miss_report_id):
     near_miss_report = db.near_miss_reports.find_one({
@@ -954,7 +869,6 @@ def process_update_near_miss_report(near_miss_report_id):
 
     errors = {}
 
-    # Check if the date in numbers
     if date == "" or date == " ":
         errors.update(
             date_empty="Please enter a date")
@@ -967,7 +881,6 @@ def process_update_near_miss_report(near_miss_report_id):
         errors.update(
             location_too_short="Please enter at least 3 characters")
 
-    # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
             location_too_long="Please keep to 50 characters")
@@ -980,7 +893,6 @@ def process_update_near_miss_report(near_miss_report_id):
         errors.update(
             description_too_short="Please enter at least 3 characters")
 
-    # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
             description_too_long="Please keep to 255 characters")
@@ -1029,7 +941,7 @@ def process_update_near_miss_report(near_miss_report_id):
     flash("Near miss report updated", "success")
     return redirect(url_for("near_miss_search", near_miss_report_id=near_miss_report_id))
 
-
+# delete near miss report
 @app.route("/near_miss_reports/delete/<near_miss_report_id>")
 def show_delete_near_miss_report(near_miss_report_id):
     near_miss_report = db.near_miss_reports.find_one({
@@ -1039,7 +951,6 @@ def show_delete_near_miss_report(near_miss_report_id):
     return render_template("delete_near_miss_report.template.html",
                            near_miss_report=near_miss_report)
 
-
 @app.route("/near_miss_reports/delete/<near_miss_report_id>", methods=["POST"])
 def process_delete_near_miss_report(near_miss_report_id):
     db.near_miss_reports.remove({
@@ -1047,21 +958,23 @@ def process_delete_near_miss_report(near_miss_report_id):
     })
     flash("Near miss report deleted", "success")
     return redirect(url_for("near_miss_search"))
+# End of near miss report
 
-# VIOLATIONS
+# Start of violation report
+#show all violation report
 @app.route("/violation_reports")
 def show_violation_reports():
     all_violation_reports = db.violation_reports.find()
     return redirect(url_for("violation_search"))
 
-### SEARCH VIOLATION REPORT ###
+# search violation by category and global
 @app.route("/violation_reports/search")
 def violation_search():
     required_search_by = request.args.get("violation_search_by") or ''
     required_specific = request.args.get("violation_specific") or ''
     required_violation = request.args.get("violation") or ''
     criteria = {}
-
+    # category search
     if required_search_by == "1":
         criteria["location"] = {
             '$regex': required_specific,
@@ -1072,7 +985,7 @@ def violation_search():
             '$regex': required_specific,
             '$options': 'i'
         }
-
+    # global search
     if required_violation:
         criteria["$or"] = [
             {
@@ -1106,7 +1019,7 @@ def violation_search():
                 }
             },
         ]
-
+    # find by criteria
     violation_reports = db.violation_reports.find(criteria)
     return render_template("search_violations.template.html",
                            required_search_by=required_search_by,
@@ -1115,6 +1028,7 @@ def violation_search():
                            required_violation=required_violation,
                            previous_values=required_search_by)
 
+# create violation report
 @app.route("/violation_reports/create")
 @flask_login.login_required
 def show_create_violation_report():
@@ -1145,8 +1059,6 @@ def process_create_violation_report():
 
     # check if information is valid
     # the order of conditions matter in app and html as well
-
-    # Check if the date in numbers
     if date == "" or date == " ":
         errors.update(
             date_empty="Please enter a date")
@@ -1159,7 +1071,6 @@ def process_create_violation_report():
         errors.update(
             location_too_short="Please enter at least 3 characters")
 
-    # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
             location_too_long="Please keep to 50 characters")
@@ -1172,7 +1083,6 @@ def process_create_violation_report():
         errors.update(
             description_too_short="Please enter at least 3 characters")
 
-    # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
             description_too_long="Please keep to 255 characters")
@@ -1215,7 +1125,7 @@ def process_create_violation_report():
     flash("Violation report created", "success")
     return redirect(url_for("violation_search"))
 
-
+# update violation report
 @app.route("/violation_reports/update/<violation_report_id>")
 def show_update_violation_report(violation_report_id):
     violation_report = db.violation_reports.find_one({
@@ -1229,7 +1139,6 @@ def show_update_violation_report(violation_report_id):
                            safety_officers=safety_officers,
                            cloud_name=CLOUD_NAME,
                            upload_preset=UPLOAD_PRESET)
-
 
 @app.route("/violation_reports/update/<violation_report_id>", methods=["POST"])
 def process_update_violation_report(violation_report_id):
@@ -1255,7 +1164,6 @@ def process_update_violation_report(violation_report_id):
         errors.update(
             location_too_short="Please enter at least 3 characters")
 
-    # Check if location no more than 50 characters
     if not len(location) <= 50:
         errors.update(
             location_too_long="Please keep to 50 characters")
@@ -1268,7 +1176,6 @@ def process_update_violation_report(violation_report_id):
         errors.update(
             description_too_short="Please enter at least 3 characters")
 
-    # Check if description no more than 255 characters
     if not len(description) <= 255:
         errors.update(
             description_too_long="Please keep to 255 characters")
@@ -1325,7 +1232,7 @@ def process_update_violation_report(violation_report_id):
     flash("Violation report updated", "success")
     return redirect(url_for("violation_search", violation_report_id=violation_report_id))
 
-
+# delete violation report
 @app.route("/violation_reports/delete/<violation_report_id>")
 def show_delete_violation_report(violation_report_id):
     violation_report = db.violation_reports.find_one({
@@ -1335,7 +1242,6 @@ def show_delete_violation_report(violation_report_id):
     return render_template("delete_violation_report.template.html",
                            violation_report=violation_report)
 
-
 @app.route("/violation_reports/delete/<violation_report_id>", methods=["POST"])
 def process_delete_violation_report(violation_report_id):
     db.violation_reports.remove({
@@ -1343,7 +1249,7 @@ def process_delete_violation_report(violation_report_id):
     })
     flash("Violation report deleted", "success")
     return redirect(url_for("violation_search"))
-
+# End of violation report
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
