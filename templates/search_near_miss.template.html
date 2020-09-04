@@ -20,11 +20,13 @@
 
 {% for each_near_miss_report in near_miss_reports %}
 <div class="card border-dark mb-3">
-    <h5 class="card-header"><strong>Date:</strong> {{each_near_miss_report.date}} by {{each_near_miss_report.safety_officer}}
-    {%if current_user.is_authenticated %} 
-    <a href="{{url_for('show_update_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-primary btn-sm">Update</a>
-    <a href="{{url_for('show_delete_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-danger btn-sm">Delete</a>
-    {%endif%}</h5>
+    <div class="card-header">
+        <h5><strong>Date:</strong> {{each_near_miss_report.date}} by {{each_near_miss_report.safety_officer}}</h5>
+        {%if current_user.is_authenticated %} 
+        <a href="{{url_for('show_update_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-primary btn-sm">Update</a>
+        <a href="{{url_for('show_delete_near_miss_report', near_miss_report_id=each_near_miss_report._id)}}" class="btn btn-danger btn-sm">Delete</a>
+        {%endif%}
+    </div>
     <div class="card-body">
     <div class="card-img-left">
         <img src="{{each_near_miss_report.image_url}}">

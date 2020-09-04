@@ -29,7 +29,7 @@
 
 {% for each_accident_report in accident_reports%}
 <div class="card border-dark mb-3">
-    <div class="card-header" id="top">
+    <div class="card-header">
         <h5><strong>Date:</strong> {{each_accident_report.date}} by {{each_accident_report.safety_officer}}</h5>
            {%if current_user.is_authenticated %}
             <a href="{{url_for('show_update_accident_report', accident_report_id=each_accident_report._id)}}" class="btn btn-primary btn-sm">Update</a>
