@@ -63,9 +63,10 @@ def index():
 def show_officers():
     return redirect(url_for("officers_search"))
 
+# search officer by name
+
 
 @app.route("/officers/search")
-# search officer by name
 def officers_search():
     required_safety_officer_name = request.args.get("name") or ''
     criteria = {}
@@ -253,17 +254,20 @@ def process_login():
         flash("Log in failed", "danger")
         return redirect(url_for("login"))
 
+# logout from program
+
 
 @app.route("/officers/logout")
-# logout from program
 def logout():
     flask_login.logout_user()
     flash("Thank You!", "success")
     return redirect(url_for("index"))
 
 
-@app.route("/officers/update/<officer_id>")
 # update officer
+
+
+@app.route("/officers/update/<officer_id>")
 def show_update_officer(officer_id):
     safety_officer = db.safety_officers.find_one({
         "_id": ObjectId(officer_id)
@@ -359,8 +363,10 @@ def process_update_officer(officer_id):
     return redirect(url_for("officers_search", officer_id=officer_id))
 
 
-@app.route("/officers/delete/<officer_id>")
 # delete officer
+
+
+@app.route("/officers/delete/<officer_id>")
 def show_delete_officer(officer_id):
     safety_officer = db.safety_officers.find_one({
         "_id": ObjectId(officer_id)
