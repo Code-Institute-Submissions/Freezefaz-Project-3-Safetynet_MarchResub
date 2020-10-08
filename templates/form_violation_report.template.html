@@ -36,7 +36,7 @@
 <div>
     <label>Reported by</label>
     <select name="safety_officer" class="form-control">
-        {% for each_safety_officer in safety_officers%}
+        {%for each_safety_officer in safety_officers%}
             <option value="{{each_safety_officer._id}}">{{each_safety_officer.first_name}} {{each_safety_officer.last_name}}</option>
         {%endfor%}
     </select>

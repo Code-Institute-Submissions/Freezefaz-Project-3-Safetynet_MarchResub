@@ -1,6 +1,5 @@
 /* Index page */
 body {
-    /* background-color: #d92027; */
     background-color: white;
     padding: 0;
     margin: 0;
@@ -18,10 +17,8 @@ body {
 }
 #logo img {
     max-width: 1400px;
-    /* height: 80%; */
     width: 80%;
 }
-
 nav {
     background: #d92027;
     margin-bottom: 15px;
@@ -37,19 +34,12 @@ nav img {
 .dropdown-menu a {
     color: #d92027;
 }
-/* .nav-item a{
-    color: white;
-} */
 
 #link1, #link2 {
     color: #ffcd3c;
 }
-/* #link2 {
-    color: #ffcd3c;
-} */
 
 h1 {
-    /* display: flex; */
     padding: 10px;
     text-align: center;
     color: #ffcd3c;
@@ -57,14 +47,11 @@ h1 {
 .row {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
 }
 h2 {
-   /* background: #d92027; */
     padding: 10px;
     text-align:center;
     color: black;
-    /* color: #ffcd3c; */
 }
 #log a {
     width: 5rem;
@@ -78,17 +65,14 @@ h2 {
 #definition {
     display: flex;
     justify-content: center;
-    /* width: 80%; */
 }
 #definition img {
-    /* background-color: white; */
     padding: 10px;
     width: 90vw;
     max-width: 800px;
 }
 #reports {
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     flex-direction: column;
     padding: 10px;
@@ -96,20 +80,14 @@ h2 {
 }
 .report {
     display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
     flex-direction: column;
 }
 #reports a {
-    width: 20 rem;
+    width: 20rem;
     margin: 5px;
 }
-
 @media only screen and (min-width: 768px) {
     .report {
-        /* display: none; */
-        /* display: flex; */
-        /* align-items: center; */
         flex-direction: row;
     }
 }
