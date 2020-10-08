@@ -49,15 +49,13 @@ def user_loader(email):
         # if the email does not exist in the database. report an error
         return None
 
-# Home Page
-
 
 @app.route("/")
+# Home Page
 def index():
     return render_template("index.template.html")
 
 # Start of officers
-
 # show all officers
 
 
@@ -65,10 +63,9 @@ def index():
 def show_officers():
     return redirect(url_for("officers_search"))
 
-# search officer by name
-
 
 @app.route("/officers/search")
+# search officer by name
 def officers_search():
     required_safety_officer_name = request.args.get("name") or ''
     criteria = {}
@@ -256,19 +253,17 @@ def process_login():
         flash("Log in failed", "danger")
         return redirect(url_for("login"))
 
-# logout from program
-
 
 @app.route("/officers/logout")
+# logout from program
 def logout():
     flask_login.logout_user()
     flash("Thank You!", "success")
     return redirect(url_for("index"))
 
-# update officer
-
 
 @app.route("/officers/update/<officer_id>")
+# update officer
 def show_update_officer(officer_id):
     safety_officer = db.safety_officers.find_one({
         "_id": ObjectId(officer_id)
@@ -363,10 +358,9 @@ def process_update_officer(officer_id):
     flash("Update successful", "success")
     return redirect(url_for("officers_search", officer_id=officer_id))
 
-# delete officer
-
 
 @app.route("/officers/delete/<officer_id>")
+# delete officer
 def show_delete_officer(officer_id):
     safety_officer = db.safety_officers.find_one({
         "_id": ObjectId(officer_id)
@@ -389,15 +383,11 @@ def process_delete_officer(officer_id):
 # show all officers
 @app.route("/accident_reports")
 def show_accident_reports():
-    all_accident_reports = db.accident_reports.find()
-    # return render_template("show_accident_reports.template.html",
-    #                        accident_reports=all_accident_reports)
     return redirect(url_for("accidents_search"))
-
-# search accident report by category and global search
 
 
 @app.route("/accident_reports/search")
+# search accident report by category and global search
 def accidents_search():
     required_search_by = request.args.get("accident_search_by") or ''
     required_specific = request.args.get("accident_specific") or ''
@@ -709,7 +699,8 @@ def process_update_accident_report(accident_report_id):
     })
     flash("Accident report updated", "success")
     return redirect(url_for("accidents_search",
-                            accident_report_id=accident_report_id))
+                            accident_report_id=accident_report_id,
+                            accident_reports=accident_reports))
 
 # deleting accident report
 
@@ -739,7 +730,6 @@ def process_delete_accident_report(accident_report_id):
 
 @app.route("/near_miss_reports")
 def show_near_miss_reports():
-    all_near_miss_reports = db.near_miss_reports.find()
     return redirect(url_for("near_miss_search"))
 
 # Search by global and location
@@ -981,7 +971,8 @@ def process_update_near_miss_report(near_miss_report_id):
     })
     flash("Near miss report updated", "success")
     return redirect(url_for("near_miss_search",
-                            near_miss_report_id=near_miss_report_id))
+                            near_miss_report_id=near_miss_report_id,
+                            near_miss_reports=near_miss_reports))
 
 # delete near miss report
 
@@ -1011,7 +1002,6 @@ def process_delete_near_miss_report(near_miss_report_id):
 
 @app.route("/violation_reports")
 def show_violation_reports():
-    all_violation_reports = db.violation_reports.find()
     return redirect(url_for("violation_search"))
 
 # search violation by category and global
@@ -1285,7 +1275,8 @@ def process_update_violation_report(violation_report_id):
     })
     flash("Violation report updated", "success")
     return redirect(url_for("violation_search",
-                            violation_report_id=violation_report_id))
+                            violation_report_id=violation_report_id,
+                            violation_reports=violation_reports))
 
 # delete violation report
 
