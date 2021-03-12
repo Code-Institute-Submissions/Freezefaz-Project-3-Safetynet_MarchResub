@@ -107,6 +107,10 @@ No automated testing was done.
 - The search boxes do not retain the characters after the search has been done
 - Update function does not retain the values of the original report
 
+### Code validation 
+- Code validation fails as there are jinja elements in the HTML
+- When using https://validator.w3.org errors will be highlighted that shows the jinja style
+
 ## Deployment
 This website is deployed on Heroku. The URL for the deployed website is https://fa-safetynet.herokuapp.com/
 
